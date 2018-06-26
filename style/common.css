@@ -303,56 +303,11 @@ body {
 /* ----  焦点区  ---- */
 #cursor {
     position: absolute;
-    z-index: 999;
+    z-index: 9999;
     opacity: 1;
+    margin: -3px;
+    border: 3px solid yellow;
     visibility: hidden;
-}
-
-#cursor table {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    border-collapse: collapse;
-}
-
-.lt {
-    width: 10px;
-    height: 10px;
-    background: url(../images/focus/focus_lt.png) no-repeat;
-}
-
-.t {
-    background: url(../images/focus/focus_t.png) repeat-x;
-}
-
-.rt {
-    width: 10px;
-    height: 10px;
-    background: url(../images/focus/focus_rt.png) no-repeat;
-}
-
-.l {
-    background: url(../images/focus/focus_l.png) repeat-y;
-}
-
-.r {
-    background: url(../images/focus/focus_r.png) repeat-y;
-}
-
-.lb {
-    width: 10px;
-    height: 10px;
-    background: url(../images/focus/focus_lb.png) no-repeat;
-}
-
-.b {
-    background: url(../images/focus/focus_b.png) repeat-x;
-}
-
-.rb {
-    width: 10px;
-    height: 10px;
-    background: url(../images/focus/focus_rb.png) no-repeat;
 }
 
 /* ----  调试区  ---- */

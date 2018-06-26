@@ -41,7 +41,7 @@ function BarModule() {
     };
 
     this.focusOn = function () {
-        console.info('bar.module.js ==> focusOn | focusPos: ' + this.focusPos);
+        //console.info('bar.module.js ==> focusOn | focusPos: ' + this.focusPos);
         document.getElementById('bar-item-wrapper-' + this.focusPos).style.background =
             'url(../images/bar/highlight.png) center no-repeat';
         document.getElementById('bar-item-' + this.focusPos).style.color = '#FFF';

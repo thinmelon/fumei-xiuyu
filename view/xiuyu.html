@@ -9,7 +9,7 @@
 <div id="bar" class="bar"></div>
 <div id="menu"></div>
 <div id="swiper" class="swiper"></div>
-<table id="cursor" cellpadding="0" cellspacing="0"></table>
+<div id="cursor"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
@@ -19,7 +19,6 @@
 <script type="application/javascript" src="../module/swiper.module.js"></script>
 <script type="application/javascript" src="../module/cursor.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
-<script type="application/javascript" src="../wrapper/transfer.wrapper.js"></script>
 <div id="debug-message"></div>
 <script type="application/javascript">
     function MenuComponent() {
@@ -52,14 +51,6 @@
                     bgImageSrc: 'url(../images/xiuyu/3.jpg) no-repeat',
                     resourceId: cmsConfig.buildingResourceIdArray[7].resourceId
                 },
-//                {
-//                    left: 925,
-//                    top: 164,
-//                    width: 304,
-//                    height: 147,
-//                    bgImageSrc: 'url(../images/xiuyu/4.jpg) no-repeat',
-//                    resourceId: cmsConfig.buildingResourceIdArray[8].resourceId
-//                },
                 {
                     left: 56,
                     top: 318,
@@ -84,14 +75,6 @@
                     bgImageSrc: 'url(../images/xiuyu/7.jpg) no-repeat',
                     resourceId: cmsConfig.buildingResourceIdArray[9].resourceId
                 },
-//                {
-//                    left: 925,
-//                    top: 318,
-//                    width: 304,
-//                    height: 147,
-//                    bgImageSrc: 'url(../images/xiuyu/8.jpg) no-repeat',
-//                    resourceId: cmsConfig.buildingResourceIdArray[10].resourceId
-//                },
                 {
                     left: 56,
                     top: 470,
@@ -146,15 +129,142 @@
         ];
     }
 
-    function CursorComponent(bar, swiper, menu) {
+    function CursorComponent(bar, menu, swiper) {
         CursorModule.call(this);
 
         // 属性
         this.focusArea = 5;
         this.bar = bar;
+        this.bar.focusPos = 2;
         this.swiper = swiper;
         this.menu = menu;
         this.fileName = 'PG-ONE';
+    }
+
+    function TransferComponent(cursor) {
+        var that = this,
+            postfix = '',
+            params = [];
+
+        TransferModule.call(this);
+        // 属性
+        this.cursor = cursor;
+
+        // 方法
+        this.moveX = function (direction) {
+            this.cursor.focusOut();
+            switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    if (-1 === this.cursor.menu.moveX(direction)) {
+                        this.cursor.focusArea = 6;
+                    }
+                    break;
+                case 5:         // 栏目
+                    this.cursor.bar.moveX(direction);
+                    this.remove('PG-ONE');              // 清除同一级的路径记录
+                    params = {
+                        'PG-ONE': {
+                            focusArea: this.cursor.focusArea,
+                            focusPos: this.cursor.bar.focusPos
+                        }
+                    };
+                    postfix = this.package(params);     //  跳转
+                    window.location.href = this.cursor.bar.barItemArray[this.cursor.bar.focusPos].url + postfix;
+                    break;
+                case 6:         //  滚动图片
+                    if (-1 === this.cursor.swiper.moveX(direction)) {
+                        this.cursor.swiper.triggerTimer();
+                        this.cursor.focusArea = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            this.cursor.focusOn();
+        };
+
+        this.moveY = function (direction) {
+            this.cursor.focusOut();
+            switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    if (-1 === this.cursor.menu.moveY(direction)) {
+                        this.cursor.focusArea = 5;
+                    }
+                    break;
+                case 5:         // 栏目
+                    this.cursor.focusArea = 0;
+                    this.cursor.menu.focusPosX = 0;
+                    this.cursor.menu.focusPosY = 0;
+                    break;
+                case 6:         //  滚动图片
+                    this.cursor.swiper.triggerTimer();
+                    if (direction < 0) {
+                        this.cursor.focusArea = 5;
+                    } else {
+                        this.cursor.focusArea = 0;
+                        this.cursor.menu.focusPosX = 2;
+                        this.cursor.menu.focusPosY = 2;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            this.cursor.focusOn();
+        };
+
+        this.doBack = function () {
+            this.remove(this.cursor.fileName);
+            this.package([]);
+//            window.location.href = 'index.html' + this.package([]);
+        };
+
+        this.doSelect = function () {
+            this.remove(this.cursor.fileName);
+        };
+
+        this.turnPage = function (_direction) {
+            if (0 === this.cursor.menu.turnPage(_direction)) {
+                this.cursor.menu.destroy();
+                this.cursor.menu.init();
+            }
+        };
+
+        this.onKeyDown = function (event) {
+            var code = getKeyCode(event);
+
+            switch (code) {
+                case 'KEY_NUMBER1':
+                    that.toggle();
+                    return false;
+                case 'KEY_UP':
+                    that.moveY(-1);
+                    return false;
+                case 'KEY_DOWN':
+                    that.moveY(1);
+                    return false;
+                case 'KEY_LEFT':
+                    that.moveX(-1);
+                    return false;
+                case 'KEY_RIGHT':
+                    that.moveX(1);
+                    return false;
+                case 'KEY_SELECT':
+                    that.doSelect();
+                    return false;
+                case 'KEY_EXIT':
+                case 'KEY_BACK':
+                    that.doBack();
+                    return false;
+                case 'KEY_PAGE_UP':
+                    that.turnPage(-1);
+                    break;
+                case 'KEY_PAGE_DOWN':
+                    that.turnPage(1);
+                    break;
+                default:
+                    break;
+            }
+        };
     }
 
     window.onload = function () {
@@ -169,8 +279,6 @@
         barComponent.init();
         menuComponent.init();
         swiperComponent.init();
-        cursorComponent.init();
-
         cursorComponent.focusOn();
         document.onkeydown = transferComponent.onKeyDown;
     };

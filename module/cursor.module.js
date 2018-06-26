@@ -20,64 +20,11 @@ function CursorModule() {
     this.more = null;           //  列表页
     this.monitor = null;        //  视频监控
 
-    // 方法
-    this.init = function () {
-        var
-            table,
-            firstTR,
-            lt, t, rt,
-            secondTR,
-            l, r,
-            thirdTR,
-            lb, b, rb;
-
-        table = document.getElementById('cursor');
-
-        firstTR = document.createElement('tr');
-        lt = document.createElement('td');
-        t = document.createElement('td');
-        rt = document.createElement('td');
-        lt.className = 'lt';
-        t.className = 't';
-        rt.className = 'rt';
-        firstTR.appendChild(lt);
-        firstTR.appendChild(t);
-        firstTR.appendChild(rt);
-
-        secondTR = document.createElement('tr');
-        l = document.createElement('td');
-        r = document.createElement('td');
-        l.className = 'l';
-        r.className = 'r';
-        secondTR.appendChild(l);
-        secondTR.appendChild(document.createElement('td'));
-        secondTR.appendChild(r);
-
-        thirdTR = document.createElement('tr');
-        lb = document.createElement('td');
-        b = document.createElement('td');
-        rb = document.createElement('td');
-        lb.className = 'lb';
-        b.className = 'b';
-        rb.className = 'rb';
-        thirdTR.appendChild(lb);
-        thirdTR.appendChild(b);
-        thirdTR.appendChild(rb);
-
-        table.appendChild(firstTR);
-        table.appendChild(secondTR);
-        table.appendChild(thirdTR);
-    };
-
     /**
      *  聚焦
      */
     this.focusOn = function () {
         var cursor = document.getElementById("cursor");
-        var cursorTop = document.getElementsByClassName('t')[0];
-        var cursorBottom = document.getElementsByClassName('b')[0];
-        document.getElementById("debug-message").innerHTML += "<br/>" + "cursor.module.js ==> focusOn | focusArea: " + this.focusArea;
-        document.getElementById("debug-message").innerHTML += "<br/>" + "[Cursor] ScrollWidth: " + cursor.scrollWidth + " - ScrollHeight: " + cursor.scrollHeight;
         switch (this.focusArea) {
             case 0:
                 this.menu.focusOn(cursor);

@@ -14,7 +14,7 @@
     <div class="list-item-more"></div>
 </div>
 <div class="button-intro"></div>
-<table id="cursor" cellpadding="0" cellspacing="0"></table>
+<div id="cursor"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
@@ -25,7 +25,6 @@
 <script type="application/javascript" src="../module/list.module.js"></script>
 <script type="application/javascript" src="../module/cursor.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
-<script type="application/javascript" src="../wrapper/transfer.wrapper.js"></script>
 <div id="debug-message"></div>
 <script type="application/javascript">
     function MenuComponent() {
@@ -83,11 +82,14 @@
         this.boardHeight = 400;
         this.noticesBoardBarWidth = 792;
         this.noticesBoardBarHeight = 47;
-        this.itemLeft = 950;
-        this.itemMoreLeft = 1088;
-        this.itemMoreTop = 570;
-        this.itemMoreWidth = 121;
-        this.itemMoreHeight = 24;
+        this.itemLeft = 66;
+        this.itemTop = 212;
+        this.itemWidth = 782;
+        this.itemHeight = 42;
+        this.itemMoreLeft = 678;
+        this.itemMoreTop = 520;
+        this.itemMoreWidth = 142;
+        this.itemMoreHeight = 42;
         this.listItemNum = 5;
         this.resourceId = cmsConfig.indexResourceIdArray[3].resourceId;
 
@@ -100,10 +102,142 @@
         // 属性
         this.focusArea = 5;
         this.bar = bar;
+        this.bar.focusPos = 3;
         this.swiper = swiper;
         this.menu = menu;
         this.list = list;
         this.fileName = 'PG-ONE';
+    }
+
+    function TransferComponent(cursor) {
+        var that = this,
+            postfix = '',
+            params = [];
+
+        TransferModule.call(this);
+        // 属性
+        this.cursor = cursor;
+
+        // 方法
+        this.moveX = function (direction) {
+            this.cursor.focusOut();
+            switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    this.cursor.focusArea = 2;
+                    break;
+                case 2:         // 列表
+                    this.cursor.focusArea = 6;
+                    break;
+                case 5:         // 栏目
+                    this.cursor.bar.moveX(direction);
+                    this.remove('PG-ONE');              // 清除同一级的路径记录
+                    params = {
+                        'PG-ONE': {
+                            focusArea: this.cursor.focusArea,
+                            focusPos: this.cursor.bar.focusPos
+                        }
+                    };
+                    postfix = this.package(params);     //  跳转
+                    window.location.href = this.cursor.bar.barItemArray[this.cursor.bar.focusPos].url + postfix;
+                    break;
+                case 6:         //  滚动图片
+                    if (-1 === this.cursor.swiper.moveX(direction)) {
+                        this.cursor.swiper.triggerTimer();
+                        this.cursor.focusArea = 2;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            this.cursor.focusOn();
+        };
+
+        this.moveY = function (direction) {
+            this.cursor.focusOut();
+            switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    if (direction < 0) {
+                        this.cursor.focusArea = 6;
+                    } else {
+                        this.cursor.focusArea = 5;
+                    }
+                    break;
+                case 2:         //  列表
+                    if (-1 === this.cursor.list.moveY(direction)) {
+                        this.cursor.focusArea = 5;
+                    }
+                    break;
+                case 5:         // 栏目
+                    this.cursor.focusArea = 2;
+                    this.cursor.list.focusPos = 0;
+                    break;
+                case 6:         //  滚动图片
+                    this.cursor.swiper.triggerTimer();
+                    if (direction < 0) {
+                        this.cursor.focusArea = 5;
+                    } else {
+                        this.cursor.focusArea = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            this.cursor.focusOn();
+        };
+
+        this.doBack = function () {
+            this.remove(this.cursor.fileName);
+            this.package([]);
+//            window.location.href = 'index.html' + this.package([]);
+        };
+
+        this.doSelect = function () {
+            this.remove(this.cursor.fileName);
+        };
+
+        this.turnPage = function (_direction) {
+            if (0 === this.cursor.menu.turnPage(_direction)) {
+                this.cursor.menu.destroy();
+                this.cursor.menu.init();
+            }
+        };
+
+        this.onKeyDown = function (event) {
+            var code = getKeyCode(event);
+
+            switch (code) {
+                case 'KEY_NUMBER1':
+                    that.toggle();
+                    return false;
+                case 'KEY_UP':
+                    that.moveY(-1);
+                    return false;
+                case 'KEY_DOWN':
+                    that.moveY(1);
+                    return false;
+                case 'KEY_LEFT':
+                    that.moveX(-1);
+                    return false;
+                case 'KEY_RIGHT':
+                    that.moveX(1);
+                    return false;
+                case 'KEY_SELECT':
+                    that.doSelect();
+                    return false;
+                case 'KEY_EXIT':
+                case 'KEY_BACK':
+                    that.doBack();
+                    return false;
+                case 'KEY_PAGE_UP':
+                    that.turnPage(-1);
+                    break;
+                case 'KEY_PAGE_DOWN':
+                    that.turnPage(1);
+                    break;
+                default:
+                    break;
+            }
+        };
     }
 
     window.onload = function () {
@@ -112,15 +246,13 @@
             menuComponent = new MenuComponent(),
             swiperComponent = new SwiperComponent(),
             listComponent = new ListComponent(),
-            cursorComponent = new CursorComponent(barComponent, menuComponent, swiperComponent, listComponent),
+            cursorComponent = new CursorComponent(barComponent, swiperComponent, menuComponent, listComponent),
             transferComponent = new TransferComponent(cursorComponent);
 
         transferComponent.init();
         barComponent.init();
         menuComponent.init();
         swiperComponent.init();
-        cursorComponent.init();
-
         listComponent.init(function () {
             cursorComponent.focusOn();
         });
