@@ -47,14 +47,14 @@ function BarComponent() {
         {
             title: '智慧党建',
             resourceId: 0,
-            url: 'index.html',
+            url: 'http://10.215.0.141/fujiandangjian/index2.html',
             left: 803,
             width: 120
         },
         {
             title: '美丽莆田',
             resourceId: 0,
-            url: 'index.html',
+            url: 'http://10.184.255.4:8080/portal2/cypt.html',
             left: 935,
             width: 120
         },

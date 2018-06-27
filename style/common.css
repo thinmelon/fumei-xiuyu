@@ -271,12 +271,12 @@ body {
 /* ----  底部栏  ---- */
 #weather-forecast {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    right: 0;
+    top: 0;
     /*background: url(../images/weather_forecast.png) left no-repeat;*/
     width: 400px;
     height: 16px;
-    margin: 0 0 45px 60px;
+    margin: 60px 30px 0 0;
     font: 17px "Microsoft YaHei";
     z-index: 9999;
 }
@@ -299,6 +299,26 @@ body {
 /*margin: 0;*/
 /*background: #000000;*/
 /*}*/
+
+#notification {
+    position: absolute;
+    left: 56px;
+    top: 164px;
+    width: 792px;
+    height: 32px;
+    color: #FFFFFF;
+    background-color: #888888;
+}
+
+/* ----  微信官微  ---- */
+.weixin {
+    position: absolute;
+    left: 60px;
+    bottom: 30px;
+    width: 61px;
+    height: 71px;
+    background: url(../images/news/wei.png) no-repeat;
+}
 
 /* ----  焦点区  ---- */
 #cursor {

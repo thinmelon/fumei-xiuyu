@@ -9,18 +9,21 @@
 <div id="bar" class="bar"></div>
 <div id="menu"></div>
 <div id="swiper" class="swiper"></div>
+<div id="notification"></div>
 <div class="button-intro"></div>
+<div id="weather-forecast">秀屿天气预报：今日天气 晴 32度 微风（滚动）</div>
 <div id="cursor"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
+<script type="application/javascript" src="../cms/common.js"></script>
 <script type="application/javascript" src="../module/bar.module.js"></script>
 <script type="application/javascript" src="../wrapper/bar.wrapper.js"></script>
 <script type="application/javascript" src="../module/swiper.module.js"></script>
 <script type="application/javascript" src="../module/menu.module.js"></script>
 <script type="application/javascript" src="../module/cursor.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
-<!--<script type="application/javascript" src="../wrapper/transfer.wrapper.js"></script>-->
+<script type="application/javascript" src="../module/weather.module.js"></script>
 <div id="debug-message"></div>
 <script type="application/javascript">
     function MenuComponent() {
@@ -61,16 +64,16 @@
                 img: 'url(../images/index/3.jpg)'
             },
             {
-                img: 'url(../images/index/3.jpg)'
+                img: 'url(../images/index/4.jpg)'
             },
             {
-                img: 'url(../images/index/3.jpg)'
+                img: 'url(../images/index/5.jpg)'
             },
             {
-                img: 'url(../images/index/3.jpg)'
+                img: 'url(../images/index/6.jpg)'
             },
             {
-                img: 'url(../images/index/3.jpg)'
+                img: 'url(../images/index/7.jpg)'
             }
         ];
     }
@@ -174,11 +177,55 @@
         this.doBack = function () {
             this.remove(this.cursor.fileName);
             this.package([]);
-//            window.location.href = 'index.html' + this.package([]);
+
+            var backUrl = GMObj.pathManager.getBackURL(window.location.href);
+            if ('' !== backUrl && null !== backUrl && 0 !== backUrl) {
+                window.location.href = backUrl;
+            } else {
+                //UI 2.0 portal
+                if ('undefined' !== typeof(GlobalVarManager)) {
+                    window.location.href = GlobalVarManager.getItemStr('tvPortalUrl');
+                }
+            }
         };
 
         this.doSelect = function () {
+            var
+                postfix = '',
+                params;
+
             this.remove(this.cursor.fileName);
+            switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    if (this.cursor.menu.focusPosX === 0 && this.cursor.menu.focusPosY === 0) {
+                        params =
+                            {
+                                /**
+                                 * 一级页面
+                                 */
+                                'PG-ONE': {
+                                    focusArea: this.cursor.focusArea,
+                                    focusPosX: this.cursor.menu.focusPosX,
+                                    focusPosY: this.cursor.menu.focusPosY
+                                },
+                                'VIDEO': {
+                                    backURL: this.backUrl(),
+                                    focusArea: this.cursor.focusArea,
+                                    focusPosX: this.cursor.menu.focusPosX,
+                                    focusPosY: this.cursor.menu.focusPosY,
+                                    resourceId: 0
+                                }
+                            };
+                        postfix = this.package(params);
+
+                        window.location.href = 'video.html' + postfix;
+                    } else {
+                        this.cursor.menu.doSelect(postfix);
+                    }
+                    break;
+                default:
+                    break;
+            }
         };
 
         this.turnPage = function (_direction) {
@@ -239,6 +286,11 @@
         swiperComponent.init();
         menuComponent.init();
         cursorComponent.focusOn();
+
+        showTitleForMarquee(
+            '通知：莆田秀屿区召开文明城市常态化创建工作部署会议',
+            document.getElementById('notification'),
+            5);
         document.onkeydown = transferComponent.onKeyDown;
     };
 </script>
