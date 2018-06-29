@@ -11,11 +11,14 @@
 <div id="swiper" class="swiper"></div>
 <div id="notification"></div>
 <div class="button-intro"></div>
-<div id="weather-forecast">秀屿天气预报：今日天气 晴 32度 微风（滚动）</div>
+<div id="weather-forecast"></div>
 <div id="cursor"></div>
+<div id="debug-message"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
+<script type="application/javascript" src="../utility/async.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
+<script type="application/javascript" src="../cms/cms.api.js"></script>
 <script type="application/javascript" src="../cms/common.js"></script>
 <script type="application/javascript" src="../module/bar.module.js"></script>
 <script type="application/javascript" src="../wrapper/bar.wrapper.js"></script>
@@ -24,7 +27,6 @@
 <script type="application/javascript" src="../module/cursor.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
 <script type="application/javascript" src="../module/weather.module.js"></script>
-<div id="debug-message"></div>
 <script type="application/javascript">
     function MenuComponent() {
         MenuModule.call(this);
@@ -213,7 +215,7 @@
                                     focusArea: this.cursor.focusArea,
                                     focusPosX: this.cursor.menu.focusPosX,
                                     focusPosY: this.cursor.menu.focusPosY,
-                                    resourceId: 0
+                                    resourceId: 698
                                 }
                             };
                         postfix = this.package(params);
@@ -279,7 +281,8 @@
             swiperComponent = new SwiperComponent(),
             menuComponent = new MenuComponent(),
             cursorComponent = new CursorComponent(barComponent, swiperComponent, menuComponent),
-            transferComponent = new TransferComponent(cursorComponent);
+            transferComponent = new TransferComponent(cursorComponent),
+            weatherModule = new WeatherModule();
 
         transferComponent.init();
         barComponent.init();
@@ -290,8 +293,18 @@
         showTitleForMarquee(
             '通知：莆田秀屿区召开文明城市常态化创建工作部署会议',
             document.getElementById('notification'),
-            5);
+            10);
         document.onkeydown = transferComponent.onKeyDown;
+
+        weatherModule.init(function () {
+            if (weatherModule.temperature !== '') {
+                document.getElementById('weather-forecast').innerHTML =
+                    '今日天气： ' +
+                    '&nbsp;&nbsp;&nbsp;' + weatherModule.weather +
+                    '&nbsp;&nbsp;&nbsp;' + weatherModule.temperature +
+                    '&nbsp;&nbsp;&nbsp;' + weatherModule.windScale;
+            }
+        });
     };
 </script>
 </html>

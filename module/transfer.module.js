@@ -112,12 +112,12 @@ function TransferModule() {
         var backUrl = '',
             value;
 
-        if (this.video && key === this.cursor.fileName) {
+        if (this.cursor.video && key === this.cursor.fileName) {
             value = jsonUtils.parse(rawData);
             console.dir(value);
             if (value.hasOwnProperty('resourceId')) {
-                this.video.resourceId = value.resourceId;
-                document.getElementById('debug-message').innerHTML += '<br/> ' + 'resourceId: ' + this.video.resourceId;
+                this.cursor.video.resourceId = value.resourceId;
+                document.getElementById('debug-message').innerHTML += '<br/> ' + 'resourceId: ' + this.cursor.video.resourceId;
             }
             if (value.hasOwnProperty('backURL')) {
                 backUrl = decodeURIComponent(value.backURL);
@@ -131,8 +131,8 @@ function TransferModule() {
                     && value.hasOwnProperty('focusPosY')) {
                     backUrl += '?' + value.fileName + '=' + encodeURIComponent('{focusArea:' + value.focusArea + ',focusPosX:' + value.focusPosX + ',focusPosY:' + value.focusPosY + '}');
                 }
-                this.video.backURL = encodeURIComponent(backUrl);
-                document.getElementById('debug-message').innerHTML += '<br/> ' + 'backURL: ' + decodeURIComponent(this.video.backURL);
+                this.cursor.video.backURL = encodeURIComponent(backUrl);
+                document.getElementById('debug-message').innerHTML += '<br/> ' + 'backURL: ' + decodeURIComponent(this.cursor.video.backURL);
             }
         }
     };

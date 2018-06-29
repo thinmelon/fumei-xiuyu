@@ -47,21 +47,21 @@ function BarComponent() {
         {
             title: '智慧党建',
             resourceId: 0,
-            url: 'http://10.215.0.141/fujiandangjian/index2.html',
+            url: 'http://10.215.0.39/fujiandangjianNew/index2.html',
             left: 803,
             width: 120
         },
         {
             title: '美丽莆田',
             resourceId: 0,
-            url: 'http://10.184.255.4:8080/portal2/cypt.html',
+            url: 'http://10.184.255.11/portal2/cypt.html',
             left: 935,
             width: 120
         },
         {
             title: '电视首页',
             resourceId: 0,
-            url: 'index.html',
+            url: 'http://10.215.0.10:80/ui3/ui3/loading.htm?opk=4',
             left: 1056,
             width: 120
         }
