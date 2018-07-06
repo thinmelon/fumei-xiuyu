@@ -9,7 +9,7 @@ function Postman() {
     this.createXmlHttpRequest = function (_successCallback, _failedCallback) {
         var that = this;
 
-        document.getElementById("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
+        // document.getElementById("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
         if (this.xhr !== null) {
             this.abortRequest();
         } else {

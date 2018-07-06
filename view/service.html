@@ -150,16 +150,8 @@
                     }
                     break;
                 case 5:         // 栏目
-                    this.cursor.bar.moveX(direction);
                     this.remove('PG-ONE');              // 清除同一级的路径记录
-                    params = {
-                        'PG-ONE': {
-                            focusArea: this.cursor.focusArea,
-                            focusPos: this.cursor.bar.focusPos
-                        }
-                    };
-                    postfix = this.package(params);     //  跳转
-                    window.location.href = this.cursor.bar.barItemArray[this.cursor.bar.focusPos].url + postfix;
+                    this.cursor.bar.moveX(direction);
                     break;
                 case 6:         //  滚动图片
                     if (-1 === this.cursor.swiper.moveX(direction)) {

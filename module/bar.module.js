@@ -61,6 +61,8 @@ function BarModule() {
         } else {
             this.focusPos = 0;
         }
+        console.log(this.barItemArray[this.focusPos].url);
+        window.location.href = this.barItemArray[this.focusPos].url;
     };
 
     this.moveY = function (direction) {

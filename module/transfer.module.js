@@ -119,6 +119,10 @@ function TransferModule() {
                 this.cursor.video.resourceId = value.resourceId;
                 document.getElementById('debug-message').innerHTML += '<br/> ' + 'resourceId: ' + this.cursor.video.resourceId;
             }
+            if (value.hasOwnProperty('assertId')) {
+                this.cursor.video.assertId = value.assertId;
+                document.getElementById('debug-message').innerHTML += '<br/> ' + 'assertId: ' + this.cursor.video.assertId;
+            }
             if (value.hasOwnProperty('backURL')) {
                 backUrl = decodeURIComponent(value.backURL);
                 if (value.hasOwnProperty('fileName')

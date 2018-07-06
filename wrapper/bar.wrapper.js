@@ -13,7 +13,7 @@ function BarComponent() {
             title: '秀屿新闻',
             resourceId: 0,
             url: 'news.html',
-            left: 135,
+            left: 132,
             width: 120
         },
         {
@@ -66,4 +66,6 @@ function BarComponent() {
             width: 120
         }
     ];
+
+
 }
