@@ -1,10 +1,10 @@
-(function(_win) {
+(function (_win) {
 
-    var globalPos = function() {
+    var globalPos = function () {
 
-        this.index = "";
+        this.index = '';
         var self = this;
-        
+
         /* 当前浏览器类型，外部调用checkBrowser方法 */
         this.browserType = null;
 
@@ -16,20 +16,20 @@
          * @desc 判断浏览器类型
          * @return {string} - 返回浏览器类型标识：'iPanel'、'Chrome'、'Firefox'、'Opera'、'Safari'、'IE'、'other'
          */
-        this.checkBrowser = function() {
+        this.checkBrowser = function () {
             if (this.browserType == null) {
                 var userAgent = navigator.userAgent.toLowerCase();
-                if (userAgent.indexOf('ipanel') != -1) {
+                if (userAgent.indexOf('ipanel') !== -1) {
                     this.browserType = 'iPanel';
-                } else if (userAgent.indexOf('chrome') != -1) {
+                } else if (userAgent.indexOf('chrome') !== -1) {
                     this.browserType = 'Chrome';
-                } else if (userAgent.indexOf('firefox') != -1) {
+                } else if (userAgent.indexOf('firefox') !== -1) {
                     this.browserType = 'Firefox';
-                } else if (userAgent.indexOf('opera') != -1) {
+                } else if (userAgent.indexOf('opera') !== -1) {
                     this.browserType = 'Opera';
-                } else if (userAgent.indexOf('safari') != -1) {
+                } else if (userAgent.indexOf('safari') !== -1) {
                     this.browserType = 'Safari';
-                } else if (userAgent.indexOf('msie') != -1) {
+                } else if (userAgent.indexOf('msie') !== -1) {
                     this.browserType = 'IE';
                 } else {
                     this.browserType = 'other';
@@ -43,14 +43,14 @@
          * @desc 判断iPanel浏览器版本
          * @return {string} - 3.0或advanced或webview
          */
-        this.getBrowserVersion = function() {
+        this.getBrowserVersion = function () {
             var userAgent;
             if (this.browserVersion == null) {
                 userAgent = navigator.userAgent.toLowerCase();
-                if (userAgent.indexOf('ipanel') != -1) {
-                    if (typeof(iPanelJavaInspector) != 'undefined') {
+                if (userAgent.indexOf('ipanel') !== -1) {
+                    if (typeof(iPanelJavaInspector) !== 'undefined') {
                         this.browserVersion = 'webview';
-                    } else if (userAgent.indexOf('advanced') == -1) {
+                    } else if (userAgent.indexOf('advanced') === -1) {
                         this.browserVersion = '3.0';
                     } else {
                         this.browserVersion = 'advanced';
@@ -70,9 +70,19 @@
              * @param {任意类型} _value - [必选] 键值
              * @return {object} this - 返回本身，可以连续设置多个，进行链式调用
              */
-            set: function(_key, _value) {
-                if (typeof _key != 'undefined' && typeof _value != 'undefined') {
-                    if (self.checkBrowser() == "iPanel") {
+            set: function (_key, _value) {
+                if (typeof _key !== 'undefined' && typeof _value !== 'undefined') {
+                    document.getElementById('debug-message').innerHTML += '<br/>' + ' checkBrowser ==> ' + self.checkBrowser();
+                    if (self.checkBrowser() === 'iPanel') {
+                        document.getElementById('debug-message').innerHTML += '<br/>' + ' SET ==> key: ' + _key + ' | value: ' + jsonUtils.stringify(_value);
+                        for (var item in _value) {
+                            console.log(_value[item]);
+                            if (_value[item].length && _value[item].length > 0) {
+                                for (var index = 0; index < _value[item].length; index++) {
+                                    document.getElementById('debug-message').innerHTML += '<br/>' + 'INDEX: ' + index + ' VALUE ==> ' + jsonUtils.stringify(_value[item][index]);
+                                }
+                            }
+                        }
                         iPanel.eventFrame.GMObj_globalVar[_key] = _value;
                     } else {
                         var tmpStr = JSON.stringify(_value);
@@ -88,13 +98,22 @@
              * @param {string} _key - [必选] 键名
              * @return {任意类型} - 存的键值，如果不存在则返回null
              */
-            get: function(_key) {
-                if (typeof _key != 'undefined') {
-                    if (self.checkBrowser() == "iPanel") {
-                        return (typeof iPanel.eventFrame.GMObj_globalVar[_key] != 'undefined' ? iPanel.eventFrame.GMObj_globalVar[_key] : null);
+            get: function (_key) {
+                if (typeof _key !== 'undefined') {
+                    document.getElementById('debug-message').innerHTML += '<br/>' + ' checkBrowser ==> ' + self.checkBrowser();
+                    if (self.checkBrowser() === 'iPanel') {
+                        document.getElementById('debug-message').innerHTML += '<br/>' + ' GET ==> key: ' + _key + ' | value: ' + iPanel.eventFrame.GMObj_globalVar[_key];
+                        if (iPanel.eventFrame.GMObj_globalVar[_key].length && iPanel.eventFrame.GMObj_globalVar[_key].length > 0) {
+                            for (var index = 0; index < iPanel.eventFrame.GMObj_globalVar[_key].length; index++) {
+                                document.getElementById('debug-message').innerHTML += '<br/>' + 'INDEX: ' + index + ' VALUE ==> ' + jsonUtils.stringify(iPanel.eventFrame.GMObj_globalVar[_key][index]);
+                            }
+                        } else {
+                            document.getElementById('debug-message').innerHTML += '<br/>' + ' VALUE ==> ' + jsonUtils.stringify(iPanel.eventFrame.GMObj_globalVar[_key]);
+                        }
+                        return (typeof iPanel.eventFrame.GMObj_globalVar[_key] !== 'undefined' ? iPanel.eventFrame.GMObj_globalVar[_key] : null);
                     } else {
                         var tmpStr = sessionStorage.getItem(_key);
-                        return (tmpStr != null ? JSON.parse(tmpStr) : null);
+                        return (tmpStr !== null ? JSON.parse(tmpStr) : null);
                     }
                 } else {
                     return null;
@@ -107,9 +126,9 @@
              * @param {string} _key - [必选] 键名
              * @return {object} this - 返回本身，可以连续删除多个，进行链式调用
              */
-            del: function(_key) {
-                if (typeof _key != 'undefined') {
-                    if (self.checkBrowser() == "iPanel") {
+            del: function (_key) {
+                if (typeof _key !== 'undefined') {
+                    if (self.checkBrowser() === 'iPanel') {
                         iPanel.eventFrame.GMObj_globalVar[_key] = null;
                     } else {
                         sessionStorage.removeItem(_key);
@@ -120,9 +139,9 @@
         };
 
         /*this.GlobalVar.set('_globalPathStorage', {
-            _backURLStorage: {},
-            _lastStored: {}
-        });*/
+         _backURLStorage: {},
+         _lastStored: {}
+         });*/
 
         if (!this.GlobalVar.get('_backURLStorage')) {
             this.GlobalVar.set('_backURLStorage', {});
@@ -130,21 +149,32 @@
         }
         this.pathManager = {
 
-            cacheBackURL: "",
-            setBackURL: function(_nextURL, _backURL, _paramObj) {
+            cacheBackURL: '',
+            setBackURL: function (_nextURL, _backURL, _paramObj) {
                 var backURLStorage = self.GlobalVar.get('_backURLStorage'),
                     nextURL = this.transAbsRoute(_nextURL),
                     backURL = this.transAbsRoute(_backURL),
                     paramObj = _paramObj || {};
-					
-				// 去掉端口号，防止获取backUrl时拿不到端口号,统一不保存端口号
-				if (nextURL.indexOf(':') != -1) {
-					nextURL = nextURL.replace(/:\d+/, '');
-				}
-                if (self.checkBrowser() == "iPanel") {
-                   iPanel.debug('common common.js pathManager setBackURL nextURL = ' + nextURL + ' , backURL = ' + backURL);
+
+                // 去掉端口号，防止获取backUrl时拿不到端口号,统一不保存端口号
+                if (nextURL.indexOf(':') !== -1) {
+                    nextURL = nextURL.replace(/:\d+/, '');
                 }
-				
+                if (self.checkBrowser() === 'iPanel') {
+                    iPanel.debug('common common.js pathManager setBackURL nextURL = ' + nextURL + ' , backURL = ' + backURL);
+                }
+
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' setBackURL: nextURL ==> ' + nextURL;
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' setBackURL: backURL ==> ' + backURL;
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' setBackURL: paramObj ==> ' + paramObj;
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' setBackURL: backURLStorage ==> ' + jsonUtils.stringify(backURLStorage);
+                for (var item in backURLStorage) {
+                    if (backURLStorage[item].length && backURLStorage[item].length > 0) {
+                        for (var index = 0; index < backURLStorage[item].length; index++) {
+                            document.getElementById('debug-message').innerHTML += '<br/>' + 'INDEX: ' + index + ' VALUE ==> ' + jsonUtils.stringify(backURLStorage[item][index]);
+                        }
+                    }
+                }
 
                 // 清空缓存
                 self.GlobalVar.set('_lastStored', {});
@@ -163,37 +193,53 @@
                 // 存储成功之后，返回true
                 return true;
             },
-            getBackURL: function(_indexURL) {
+
+            getBackURL: function (_indexURL) {
                 var backURLStorage = self.GlobalVar.get('_backURLStorage'),
                     indexURL = (_indexURL) ? this.transAbsRoute(_indexURL) : this.getCurrURL(),
                     backURL = '',
                     paramObj = {},
                     lastStored = {},
                     tempObj = null;
-				
-				// 兼容端口号存储不一致的问题导致获取不到返回数据
-				if (indexURL.indexOf(':') != -1) {
-					indexURL = indexURL.replace(/:\d+/, '');
-				}
-                if (self.checkBrowser() == "iPanel") {
-					iPanel.debug('common common.js pathManager getBackURL indexURL = ' + indexURL);
+
+                // 兼容端口号存储不一致的问题导致获取不到返回数据
+                if (indexURL.indexOf(':') !== -1) {
+                    indexURL = indexURL.replace(/:\d+/, '');
+                }
+                if (self.checkBrowser() === 'iPanel') {
+                    iPanel.debug('common common.js pathManager getBackURL indexURL = ' + indexURL);
+                }
+
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' getBackURL: indexURL ==> ' + indexURL;
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' getBackURL: backURLStorage ==> ' + jsonUtils.stringify(backURLStorage);
+                for (var item in backURLStorage) {
+                    if (backURLStorage[item].length && backURLStorage[item].length > 0) {
+                        for (var index = 0; index < backURLStorage[item].length; index++) {
+                            document.getElementById('debug-message').innerHTML += '<br/>' + 'INDEX: ' + index + ' VALUE ==> ' + jsonUtils.stringify(backURLStorage[item][index]);
+                        }
+                    }
                 }
 
                 // 判断当前是否有缓存返回地址，没有则取新的返回地址，有则返回缓存的
-                if (this.cacheBackURL == '') {
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' getBackURL: cacheBackURL ==> ' + this.cacheBackURL;
+                if (this.cacheBackURL === '') {
                     if (backURLStorage[indexURL]) {
                         tempObj = backURLStorage[indexURL].pop();
                         backURL = tempObj.backURL;
                         paramObj = tempObj.paramObj;
                         this.cacheBackURL = backURL; // 缓存返回地址
+
+                        document.getElementById('debug-message').innerHTML += '<br/>' + ' getBackURL: backURL ==> ' + backURL;
+                        document.getElementById('debug-message').innerHTML += '<br/>' + ' getBackURL: paramObj ==> ' + jsonUtils.stringify(paramObj);
+
                         lastStored = {};
-						// 兼容端口号存储不一致的问题导致获取不到返回数据
-						if (backURL.indexOf(':') != -1) {
-							backURL = backURL.replace(/:\d+/, '');
-						}
+                        // 兼容端口号存储不一致的问题导致获取不到返回数据
+                        if (backURL.indexOf(':') !== -1) {
+                            backURL = backURL.replace(/:\d+/, '');
+                        }
                         lastStored[backURL] = paramObj; // 把返回地址作为缓存参数的索引
                         // 当该索引的数组为空时，删除索引
-                        if (backURLStorage[indexURL].length == 0) {
+                        if (backURLStorage[indexURL].length === 0) {
                             delete backURLStorage[indexURL];
                         }
 
@@ -208,23 +254,33 @@
              * @param  {String} _indexURL 索引地址，默认为当前地址，widget必须传绝对路径
              * @return {Object}           返回参数对象
              */
-            getBackParam: function(_indexURL) {
+            getBackParam: function (_indexURL) {
                 var indexURL = (_indexURL) ? this.transAbsRoute(_indexURL) : this.getCurrURL(),
+                    backURL = '',
                     lastStored = self.GlobalVar.get('_lastStored');
 
                 // 清空缓存
                 self.GlobalVar.set('_lastStored', {});
                 this.cacheBackURL = '';
-				
-				
-				// 兼容端口号存储不一致的问题导致获取不到返回数据
-				if (indexURL.indexOf(':') != -1) {
-					indexURL = indexURL.replace(/:\d+/, '');
-				}
+
+
+                // 兼容端口号存储不一致的问题导致获取不到返回数据
+                if (indexURL.indexOf(':') !== -1) {
+                    indexURL = indexURL.replace(/:\d+/, '');
+                }
+
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' getBackParam: indexURL ==> ' + indexURL;
+                document.getElementById('debug-message').innerHTML += '<br/>' + ' getBackParam: lastStored ==> ' + jsonUtils.stringify(lastStored);
+                for (var item in lastStored) {
+                    document.getElementById('debug-message').innerHTML += '<br/>' + ' getBackParam: item in lastStored ==> ' + item;
+                    backURL = item;
+                }
 
                 // 判断是否有对应的索引参数对象，有则返回
                 if (lastStored && lastStored[indexURL]) {
                     return lastStored[indexURL];
+                } else {
+                    return backURL;
                 }
             },
 
@@ -233,7 +289,7 @@
              * @param  {String} _indexURL 索引地址，widget必须传绝对路径
              * @return {Null}             无返回值
              */
-            resetBackURL: function(_indexURL) {
+            resetBackURL: function (_indexURL) {
                 var backURLStorage = self.GlobalVar.get('_backURLStorage'),
                     indexURL = _indexURL;
 
@@ -252,7 +308,7 @@
              * @param  {String} _URL 地址字符串
              * @return {String}      转换结果的绝对路径字符串
              */
-            transAbsRoute: function(_URL) {
+            transAbsRoute: function (_URL) {
                 var resURL = '',
                     currURL = this.getCurrURL(),
                     root = '',
@@ -295,15 +351,15 @@
                 }
                 return resURL;
             },
-            getCurrURL: function() {
-                if (self.checkBrowser() == "iPanel") {
+            getCurrURL: function () {
+                if (self.checkBrowser() == 'iPanel') {
                     return iPanel.mainFrame.location.href;
                 } else {
                     return window.location.href;
                 }
             }
 
-        }
+        };
 
     };
 

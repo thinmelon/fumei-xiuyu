@@ -41,7 +41,7 @@ function BarModule() {
     };
 
     this.focusOn = function () {
-        //console.info('bar.module.js ==> focusOn | focusPos: ' + this.focusPos);
+        // console.info('bar.module.js ==> focusOn | focusPos: ' + this.focusPos);
         document.getElementById('bar-item-wrapper-' + this.focusPos).style.background =
             'url(../images/bar/highlight.png) center no-repeat';
         document.getElementById('bar-item-' + this.focusPos).style.color = '#FFF';
@@ -52,7 +52,7 @@ function BarModule() {
         document.getElementById('bar-item-' + this.focusPos).style.color = '#000';
     };
 
-    this.moveX = function (direction) {
+    this.moveX = function (direction, postfix) {
         this.focusPos += direction;
         if (this.focusPos >= 0 && this.focusPos < this.barItemArray.length) {
 
@@ -61,7 +61,12 @@ function BarModule() {
         } else {
             this.focusPos = 0;
         }
-        console.log(this.barItemArray[this.focusPos].url);
+        // console.log(this.barItemArray[this.focusPos].url);
+        // console.log(postfix);
+        document.getElementById('debug-message').innerHTML += '<br/>' + ' moveX: focusPos ==> ' + this.focusPos;
+        if (this.focusPos === 6 || this.focusPos === 7) {
+            GMObj.pathManager.setBackURL(this.barItemArray[this.focusPos].url, 'http://10.184.255.11/fumei-xiuyu/view/topic.html' + postfix, postfix);
+        }
         window.location.href = this.barItemArray[this.focusPos].url;
     };
 

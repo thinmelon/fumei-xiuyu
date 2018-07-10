@@ -11,16 +11,17 @@
 <div id="swiper" class="swiper"></div>
 <div class="button-intro"></div>
 <div id="cursor"></div>
+<div id="debug-message"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
+<script type="application/javascript" src="../cms/common.js"></script>
 <script type="application/javascript" src="../module/bar.module.js"></script>
 <script type="application/javascript" src="../wrapper/bar.wrapper.js"></script>
 <script type="application/javascript" src="../module/swiper.module.js"></script>
 <script type="application/javascript" src="../module/menu.module.js"></script>
 <script type="application/javascript" src="../module/cursor.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
-<div id="debug-message"></div>
 <script type="application/javascript">
     function MenuComponent() {
         MenuModule.call(this);
@@ -155,7 +156,18 @@
                     break;
                 case 5:         // 栏目
                     this.remove('PG-ONE');              // 清除同一级的路径记录
-                    this.cursor.bar.moveX(direction);
+                    params =
+                        {
+                            /**
+                             * 一级页面
+                             */
+                            'PG-ONE': {
+                                focusArea: this.cursor.focusArea,
+                                focusPos: this.cursor.bar.focusPos + 1
+                            }
+                        };
+                    postfix = this.package(params);
+                    this.cursor.bar.moveX(direction, postfix);
                     break;
                 case 6:         //  滚动图片
                     if (-1 === this.cursor.swiper.moveX(direction)) {

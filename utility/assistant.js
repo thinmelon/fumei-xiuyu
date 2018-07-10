@@ -23,7 +23,6 @@ var jsonUtils = {
             } else {
                 jStr += "'" + item + "':'" + json[item] + "'";
             }
-
         }
         jStr += " }";
 

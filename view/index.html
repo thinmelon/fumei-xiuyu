@@ -115,7 +115,18 @@
                     break;
                 case 5:         // 栏目
                     this.remove('PG-ONE');              // 清除同一级的路径记录
-                    this.cursor.bar.moveX(direction);
+                    params =
+                        {
+                            /**
+                             * 一级页面
+                             */
+                            'PG-ONE': {
+                                focusArea: this.cursor.focusArea,
+                                focusPos: this.cursor.bar.focusPos + 1
+                            }
+                        };
+                    postfix = this.package(params);
+                    this.cursor.bar.moveX(direction, postfix);
                     break;
                 case 6:         //  滚动图片
                     if (-1 === this.cursor.swiper.moveX(direction)) {
@@ -207,12 +218,10 @@
                                     focusArea: this.cursor.focusArea,
                                     focusPosX: this.cursor.menu.focusPosX,
                                     focusPosY: this.cursor.menu.focusPosY,
-//                                    resourceId: 698,
                                     assertId: 'OTHE0000000000814473'
                                 }
                             };
                         postfix = this.package(params);
-
                         window.location.href = 'video.html' + postfix;
                     } else {
                         this.cursor.menu.doSelect(postfix);

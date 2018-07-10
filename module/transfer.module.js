@@ -14,6 +14,70 @@ function TransferModule() {
     this.monitor = null;
 
     /**
+     *      模块初始化
+     */
+    this.init = function () {
+        var key,
+            rawData,
+            _url,
+            backURL = GMObj.pathManager.getBackURL(window.location.href),
+            backParams;
+        //  获取backParams
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  Location ====> ' + window.location.href;
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackURL ====> ' + backURL;
+        if ('' !== backURL && null !== backURL && 0 !== backURL) {
+            backParams = GMObj.pathManager.getBackParam(backURL);
+        } else {
+            backParams = GMObj.pathManager.getBackParam(window.location.href);
+        }
+        // 如果backParams不为空，跳转至对应地址
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackParams ====> ' + backParams;
+        if (typeof backParams !== 'undefined' && '' !== backParams && null !== backParams) {
+            window.location.href = backParams;
+        } else {
+            _url = window.location.search;
+            document.getElementById('debug-message').innerHTML += '<br/>' + 'search: ' + decodeURIComponent(_url);
+
+            if (_url.indexOf('?') !== -1) {
+                var _str = _url.substr(1);              // 对query参数进行分解, 去掉最开始的 ?
+                var _subStrs = _str.split('&');         // 以 & 符号作为分隔符
+                for (var i = 0; i < _subStrs.length; i++) {
+                    key = _subStrs[i].split('=')[0];
+                    rawData = decodeURIComponent(_subStrs[i].split('=')[1]);
+                    document.getElementById('debug-message').innerHTML += '<br/> ' + 'key: ' + key + ', rowData: ' + rawData;
+
+                    // 记录参数，以备后续跳转时使用
+                    this.record.push(jsonUtils.parse('{"' + key + '":"' + rawData + '"}'));
+                    /**
+                     *  光标定位
+                     */
+                    this.locatePageCursor(key, rawData);
+                    /**
+                     *   图文列表
+                     */
+                    this.setTextureModule(key, rawData);
+                    /**
+                     *   视频播放
+                     */
+                    this.setVideoModule(key, rawData);
+                    /**
+                     *  视频监控
+                     */
+                    this.setMonitorModule(key, rawData);
+                    /**
+                     *   更多内容
+                     */
+                    this.setMoreModule(key, rawData);
+                    /**
+                     *   侧边栏
+                     */
+                    this.setSidebarModule(key, rawData);
+                }   /** end of for */
+            }   /** end of if */
+        }
+    };
+
+    /**
      *  通过记录历史光标位置进行定位
      * @param key
      * @param rawData
@@ -231,64 +295,10 @@ function TransferModule() {
     };
 
     /**
-     *
-     *      模块初始化
-     *
+     * 打包URL参数
+     * @param data
+     * @returns {string}
      */
-    this.init = function () {
-        var key,
-            rawData,
-            _url;
-
-        _url = window.location.search;
-        document.getElementById('debug-message').innerHTML += '<br/> ' + 'search: ' + decodeURIComponent(_url);
-
-        if (_url.indexOf('?') !== -1) {
-            var _str = _url.substr(1);              // 对query参数进行分解, 去掉最开始的 ?
-            var _subStrs = _str.split('&');         // 以 & 符号作为分隔符
-            for (var i = 0; i < _subStrs.length; i++) {
-                key = _subStrs[i].split('=')[0];
-                rawData = decodeURIComponent(_subStrs[i].split('=')[1]);
-                document.getElementById('debug-message').innerHTML += '<br/> ' + 'key: ' + key + ', rowData: ' + rawData;
-
-                // 记录参数，以备后续跳转时使用
-                this.record.push(jsonUtils.parse('{"' + key + '":"' + rawData + '"}'));
-                /**
-                 *  光标定位
-                 */
-                this.locatePageCursor(key, rawData);
-
-                /**
-                 *   图文列表
-                 */
-                this.setTextureModule(key, rawData);
-
-                /**
-                 *   视频播放
-                 */
-                this.setVideoModule(key, rawData);
-
-
-                /**
-                 *  视频监控
-                 */
-                this.setMonitorModule(key, rawData);
-
-
-                /**
-                 *   更多内容
-                 */
-                this.setMoreModule(key, rawData);
-
-
-                /**
-                 *   侧边栏
-                 */
-                this.setSidebarModule(key, rawData);
-            }
-        }
-    };
-
     this.package = function (data) {
         var
             index,
@@ -320,15 +330,26 @@ function TransferModule() {
         return params;
     };
 
+    /**
+     * 返回地址
+     * @returns {string}
+     */
     this.backUrl = function () {
         return encodeURIComponent(window.location.protocol + '//' + window.location.host + window.location.pathname);
         //return encodeURIComponent(window.location.href);
     };
 
+    /**
+     * 清空记录
+     */
     this.empty = function () {
         this.record = [];
     };
 
+    /**
+     * 移除指定记录
+     * @param key
+     */
     this.remove = function (key) {
         var i,
             length,
@@ -343,8 +364,11 @@ function TransferModule() {
         }
     };
 
+    /**
+     * 显示 DEBUG　面板
+     */
     this.toggle = function () {
-        console.log('toggle')
+        console.log('toggle');
         if (document.getElementById('debug-message').style.display === 'block') {
             document.getElementById('debug-message').style.display = 'none';
         } else {
