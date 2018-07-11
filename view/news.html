@@ -19,7 +19,9 @@
 <div id="debug-message"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
+<script type="application/javascript" src="../utility/async.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
+<script type="application/javascript" src="../cms/cms.api.js"></script>
 <script type="application/javascript" src="../cms/common.js"></script>
 <script type="application/javascript" src="../module/bar.module.js"></script>
 <script type="application/javascript" src="../wrapper/bar.wrapper.js"></script>
@@ -28,7 +30,6 @@
 <script type="application/javascript" src="../module/list.module.js"></script>
 <script type="application/javascript" src="../module/cursor.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
-<!--<script type="application/javascript" src="../wrapper/transfer.wrapper.js"></script>-->
 <script type="application/javascript">
     function MenuComponent() {
         MenuModule.call(this);
@@ -42,7 +43,7 @@
                     width: 371,
                     height: 147,
                     bgImageSrc: 'url(../images/index/2.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[9].resourceId
+                    resourceId: 0
                 }
             ]
         }];
@@ -84,8 +85,8 @@
         this.itemMoreTop = 520;
         this.itemMoreWidth = 142;
         this.itemMoreHeight = 24;
-        this.listItemNum = 5;
-        this.resourceId = cmsConfig.indexResourceIdArray[3].resourceId;
+        this.listItemNum = 8;
+        this.resourceId = cmsConfig.newsResourceIdArray[1].resourceId;
 
         // 方法
     }
@@ -174,15 +175,47 @@
         this.doBack = function () {
             this.remove(this.cursor.fileName);
             this.package([]);
-//            var backURL = GMObj.pathManager.getBackURL(window.location.href);
-//            var backParams = GMObj.pathManager.getBackParam(backURL);
-//            console.info('From ' + window.location.href + ' To BackURL ====> ' + backURL);
-//            console.info('BackParam ====> ' + backParams);
-//            window.location.href = backURL;
+            window.location.href = 'index.html' + this.package([]);
         };
 
         this.doSelect = function () {
+            var
+                postfix = '',
+                params;
+
             this.remove(this.cursor.fileName);
+            switch (this.cursor.focusArea) {
+                case 2:         // 列表
+                    params = {
+                        'PG-ONE': {
+                            focusArea: this.cursor.focusArea,
+                            focusPos: this.cursor.list.focusPos
+                        }
+                    };
+                    if (this.cursor.list.listItemTitleArray[this.cursor.list.focusPos].flag === 0) {
+                        params.VIDEO = {
+                            backURL: this.backUrl(),
+                            focusArea: this.cursor.focusArea,
+                            focusPos: this.cursor.list.focusPos,
+                            assertId: this.cursor.list.listItemTitleArray[this.cursor.list.focusPos].assetID
+                        };
+                        postfix = this.package(params);
+                        window.location.href = 'video.html' + postfix;
+                    } else {
+                        params.PG_MORE = {
+                            resourceId: cmsConfig.newsResourceIdArray[1].resourceId,
+                            resourceType: 'video',
+                            backURL: 'news.html',
+                            logoImageSrc: '',
+                            pageIndex: 1
+                        };
+                        postfix = this.package(params);
+//                        window.location.href = 'more.html' + postfix;
+                    }
+                    break;
+                default:
+                    break;
+            }
         };
 
         this.turnPage = function (_direction) {

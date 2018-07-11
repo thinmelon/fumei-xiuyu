@@ -30,14 +30,14 @@ function MoreModule() {
 
         this.removeAllMoreItems();
         //var testData = [
-        //   {assetid: 111, img: "../images/post/post-2.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
-        //   {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
-        //   {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
-        //   {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
-        //   {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
-        //   {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
-        //   {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
-        //   {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21}
+        //    {assetid: 111, img: "../images/post/post-2.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+        //    {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+        //    {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+        //    {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+        //    {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+        //    {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+        //    {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21},
+        //    {assetid: 111, img: "../images/post/post-1.jpg", title: "我我我我我我我我我我我", flag: 0, id: 21}
         //];
         //this.pageIndex = pageIndex;
         //this.totalPages = 8;

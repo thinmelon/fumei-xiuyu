@@ -45,16 +45,16 @@ function Postman() {
          500: 服务器内部错误
          * */
         this.xhr.onreadystatechange = function () {
-            document.getElementById("debug-message").innerHTML += "<br/>" + "readyState ==> " + that.xhr.readyState + " status ==>  " + that.xhr.status;
+            //document.getElementById("debug-message").innerHTML += "<br/>" + "readyState ==> " + that.xhr.readyState + " status ==>  " + that.xhr.status;
             var
                 contentType = "";
 
             if (that.xhr.readyState === 4) {
                 if (that.xhr.status === 200) {
                     contentType = that.xhr.getResponseHeader("Content-type");
-                    document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  success ==> Content-Type: " + contentType + " ResponseType: " + that.xhr.responseType;
-                    document.getElementById("debug-message").innerHTML += "<br/>" + " responseXML: " + that.xhr.responseXML + " Type: " + typeof(that.xhr.responseXML);
-                    document.getElementById("debug-message").innerHTML += "<br/>" + " responseText: " + that.xhr.responseText + " Type: " + typeof(that.xhr.responseText);
+                    //document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  success ==> Content-Type: " + contentType + " ResponseType: " + that.xhr.responseType;
+                    //document.getElementById("debug-message").innerHTML += "<br/>" + " responseXML: " + that.xhr.responseXML + " Type: " + typeof(that.xhr.responseXML);
+                    //document.getElementById("debug-message").innerHTML += "<br/>" + " responseText: " + that.xhr.responseText + " Type: " + typeof(that.xhr.responseText);
                     if (contentType && contentType.indexOf("xml") >= 0) {
                         _successCallback(that.xhr.responseXML);
                     } else {
@@ -77,7 +77,7 @@ function Postman() {
     };
 
     this.sendRequest = function (_method, _url, _data) {
-        document.getElementById("debug-message").innerHTML += "<br/>" + "Postman    ==>    sendRequest";
+        //document.getElementById("debug-message").innerHTML += "<br/>" + "Postman    ==>    sendRequest";
         this.method = _method;
         // 规定请求的类型、URL 以及是否异步处理请求
         this.xhr.open(_method, _url, true);

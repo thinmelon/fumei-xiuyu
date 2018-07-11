@@ -13,7 +13,9 @@
 <div id="debug-message"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
+<script type="application/javascript" src="../utility/async.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
+<script type="application/javascript" src="../cms/cms.api.js"></script>
 <script type="application/javascript" src="../cms/common.js"></script>
 <script type="application/javascript" src="../module/bar.module.js"></script>
 <script type="application/javascript" src="../wrapper/bar.wrapper.js"></script>
@@ -34,7 +36,7 @@
                     width: 283,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/1.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[7].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 345,
@@ -42,7 +44,7 @@
                     width: 283,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/2.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[8].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 635,
@@ -50,7 +52,7 @@
                     width: 283,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/3.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[7].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 56,
@@ -58,7 +60,7 @@
                     width: 283,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/5.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[9].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 345,
@@ -66,7 +68,7 @@
                     width: 283,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/6.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[10].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 635,
@@ -74,7 +76,7 @@
                     width: 283,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/7.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[9].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 56,
@@ -82,7 +84,7 @@
                     width: 283,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/9.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[10].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 345,
@@ -90,7 +92,7 @@
                     width: 572,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/10.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[9].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 925,
@@ -98,7 +100,7 @@
                     width: 304,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/11.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[10].resourceId
+                    resourceId: 0
                 }
             ]
         }];
@@ -199,7 +201,7 @@
         this.doBack = function () {
             this.remove(this.cursor.fileName);
             this.package([]);
-//            window.location.href = 'index.html' + this.package([]);
+            window.location.href = 'index.html' + this.package([]);
         };
 
         this.doSelect = function () {

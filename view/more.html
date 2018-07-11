@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../style/common.css">
+    <title>更多内容</title>
+</head>
+<body>
+<div id="self-define-logo" class="self-define-logo">
+    <img src="" alt="logo"/>
+</div>
+<div id="content" class="more-page-content"></div>
+<div class="more-page-index-img">
+    <div id="more-page-index-text" class="more-page-index-text">
+    </div>
+</div>
+<div id="weather-forecast"></div>
+<div id="intro-btn-usage"></div>
+<div id="cursor"></div>
+<div id="debug-message"></div>
+</body>
+<script type="application/javascript" src="../utility/assistant.js"></script>
+<script type="application/javascript" src="../utility/async.js"></script>
+<script type="application/javascript" src="../cms/cms.config.js"></script>
+<script type="application/javascript" src="../cms/cms.api.js"></script>
+<script type="application/javascript" src="../module/cursor.module.js"></script>
+<script type="application/javascript" src="../module/more.module.js"></script>
+<script type="application/javascript" src="../module/pager.module.js"></script>
+<script type="application/javascript" src="../module/transfer.module.js"></script>
+<script>
+    function MoreComponent() {
+        MoreModule.call(this);
+    }
+
+    function CursorComponent(more) {
+        CursorModule.call(this);
+
+        // 属性
+        this.focusArea = 4;
+        this.more = more;
+        this.fileName = 'PG_MORE';
+
+        // 方法
+        this.moveX = function (direction) {
+            this.focusOut();
+            this.more.moveX(direction);
+            this.focusOn();
+        };
+
+        this.moveY = function (direction) {
+            this.focusOut();
+            this.more.moveY(direction);
+            this.focusOn();
+        };
+
+        this.changePage = function (direction) {
+            var that = this;
+
+            this.more.changePage(direction, function () {
+                that.focusOn()
+            });
+        }
+    }
+
+    function TransferComponent(cursor, more) {
+        var that = this;
+
+        TransferModule.call(this);
+        // 属性
+        this.cursor = cursor;
+
+        // 方法
+        this.doBack = function () {
+            this.remove(this.cursor.fileName);
+            window.location.href = this.cursor.more.backURL + this.package([]);
+        };
+
+        this.doSelect = function () {
+            var
+                postfix,
+                params;
+
+            this.remove(this.cursor.fileName);
+            params = {
+                "PG_MORE": {
+                    focusArea: this.cursor.focusArea,
+                    focusPosX: this.cursor.more.focusPosX,
+                    focusPosY: this.cursor.more.focusPosY,
+                    resourceId: this.cursor.more.resourceId,
+                    resourceType: this.cursor.more.resourceType,
+                    backURL: this.cursor.more.backURL,
+                    logoImageSrc: this.cursor.more.logoImageSrc,
+                    pageIndex: this.cursor.more.pageIndex
+                }
+            };
+            switch (this.cursor.more.resourceType) {
+                case "textures":
+                    params.PG_TEXT = {
+                        resourceId: this.cursor.more.moreItemArray[this.cursor.more.focusPosY][this.cursor.more.focusPosX].id,
+                        isShowGraphics: 'show',
+                        backURL: 'more.html',
+                        logoImageSrc: this.cursor.more.logoImageSrc
+                    };
+                    postfix = this.package(params);
+                    window.location.href = 'detail.html' + postfix;
+                    break;
+                case "video":
+                    params.VIDEO = {
+                        backURL: this.backUrl(),
+                        focusArea: this.cursor.focusArea,
+                        focusPosX: this.cursor.more.focusPosX,
+                        focusPosY: this.cursor.more.focusPosY,
+                        assertId: this.cursor.more.moreItemArray[this.cursor.more.focusPosY][this.cursor.more.focusPosX].assetid
+                    };
+                    postfix = this.package(params);
+                    window.location.href = 'video.html' + postfix;
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.onKeyDown = function (event) {
+            var code = getKeyCode(event);
+
+            switch (code) {
+                case "KEY_NUMBER1":
+                    that.toggle();
+                    return false;
+                case "KEY_UP":
+                    that.cursor.moveY(-1);
+                    return false;
+                case "KEY_DOWN":
+                    that.cursor.moveY(1);
+                    return false;
+                case "KEY_LEFT":
+                    that.cursor.moveX(-1);
+                    return false;
+                case "KEY_RIGHT":
+                    that.cursor.moveX(1);
+                    return false;
+                case "KEY_PAGE_UP":
+                    that.cursor.changePage(-1);
+                    return false;
+                case "KEY_PAGE_DOWN":
+                    that.cursor.changePage(1);
+                    return false;
+                case "KEY_SELECT":
+                    that.doSelect();
+                    return false;
+                case "KEY_EXIT":
+                case "KEY_BACK":
+                    that.doBack();
+                    return false;
+                default:
+                    break;
+            }
+        }
+    }
+
+    window.onload = function () {
+        var
+            moreComponent = new MoreComponent(),
+            cursorComponent = new CursorComponent(moreComponent),
+            transferComponent = new TransferComponent(cursorComponent, moreComponent);
+
+        transferComponent.init();
+        moreComponent.init(moreComponent.pageIndex, function () {
+            cursorComponent.focusOn();
+        });
+
+        document.onkeydown = transferComponent.onKeyDown;
+    }
+</script>
+</html>

@@ -72,8 +72,10 @@ function TransferModule() {
                      *   侧边栏
                      */
                     this.setSidebarModule(key, rawData);
-                }   /** end of for */
-            }   /** end of if */
+                }
+                /** end of for */
+            }
+            /** end of if */
         }
     };
 
@@ -144,8 +146,8 @@ function TransferModule() {
         var value;
 
         if (this.cursor.textures && key === this.cursor.fileName) {
+            document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  setTextureModule';
             value = jsonUtils.parse(rawData);
-            console.dir(value);
 
             // 是否显示图片
             if (value.hasOwnProperty('isShowGraphics')) {

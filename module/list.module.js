@@ -36,35 +36,35 @@ function ListModule() {
     this.resourceId = "";
 
     this.init = function (callback) {
-        var test = [
-         {assetID: 611, title: '城厢区是福建省莆田市辖区，亦称...', img: '', flag: 0, id: 111},
-         {assetID: 611, title: '仙游县地处福建东南沿海中部，湄...', img: '1', flag: 0, id: 111},
-         {assetID: 611, title: '荔城区位于福建东南沿海中部，北...', img: '1', flag: 0, id: 111},
-         {assetID: 611, title: '城厢区是福建省莆田市辖区，亦称...', img: '1', flag: 0, id: 111},
-         {assetID: 611, title: '涵江区位于福建省莆田市东部沿海...', flag: 0, id: 111},
-         {assetID: 611, title: '秀屿区位于福建东南沿海中部，与...', flag: 0, id: 111},
-         {assetID: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111},
-         {assetID: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111},
-         {assetID: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111}
-
-        ];
-        this.addListItem(test);
+        //var test = [
+        //    {assetid: 611, title: '城厢区是福建省莆田市辖区，亦称...', img: '', flag: 0, id: 111},
+        //    {assetid: 611, title: '仙游县地处福建东南沿海中部，湄...', img: '1', flag: 0, id: 111},
+        //    {assetid: 611, title: '荔城区位于福建东南沿海中部，北...', img: '1', flag: 0, id: 111},
+        //    {assetid: 611, title: '城厢区是福建省莆田市辖区，亦称...', img: '1', flag: 0, id: 111},
+        //    {assetid: 611, title: '涵江区位于福建省莆田市东部沿海...', flag: 0, id: 111},
+        //    {assetid: 611, title: '秀屿区位于福建东南沿海中部，与...', flag: 0, id: 111},
+        //    {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111},
+        //    {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111},
+        //    {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111}
+        //
+        //];
+        //this.addListItem(test);
 
         var that = this,
             noticesBoard,
             noticesBoardBar;
 
-        // if (this.resourceId !== "") {
-        //     cmsApi.getListItems(this.resourceId, this.listItemNum + 1, 1, function (response) {
-        //         if (response.hasOwnProperty("code")) {
-        //             if ("1" === response.code || 1 === response.code) {
-        //                 that.addListItem(response.dataArray);
-        //             }
-        //         }
-        //
-        //         callback();
-        //     });
-        // }
+        if (this.resourceId !== "") {
+            cmsApi.getListItems(this.resourceId, this.listItemNum + 1, 1, function (response) {
+                if (response.hasOwnProperty("code")) {
+                    if ("1" === response.code || 1 === response.code) {
+                        that.addListItem(response.dataArray);
+                    }
+                }
+
+                callback();
+            });
+        }
 
         noticesBoard = document.getElementById("notices_board");
         noticesBoard.style.left = this.boardLeft + 'px';
@@ -77,7 +77,7 @@ function ListModule() {
         noticesBoardBar.style.width = this.noticesBoardBarWidth + "px";
         noticesBoardBar.style.height = this.noticesBoardBarHeight + "px";
 
-        callback();
+        //callback();
     };
 
     this.removeAllListItem = function () {
@@ -95,32 +95,30 @@ function ListModule() {
         this.removeAllListItem();
 
         for (j = 0, length = array.length; (j < length) && (j < this.listItemNum); j++) {
-            if (array[j].flag === "0" || array[j].flag === 0) {
-                newListItem = document.createElement('div');
-                newListItem.className = 'list_item';
-                newListItem.style.width = (this.itemWidth - 10) + 'px';
-                newListItem.style.top = this.listItemTop + (j * this.interval) + 'px';
-                newListItemText = document.createElement('div');
-                newListItemText.id = 'list_item_text_' + j;
-                newListItemText.className = 'list_item_text';
-                newListItemText.innerHTML = array[j].title;
-                newListItemText.style.color = "#000000";
-                newListItemText.style.width = (this.itemWidth - 20) + 'px';
-                newListItem.appendChild(newListItemText);
-                document.getElementById('notices_board').appendChild(newListItem);
+            newListItem = document.createElement('div');
+            newListItem.className = 'list_item';
+            newListItem.style.width = (this.itemWidth - 10) + 'px';
+            newListItem.style.top = this.listItemTop + (j * this.interval) + 'px';
+            newListItemText = document.createElement('div');
+            newListItemText.id = 'list_item_text_' + j;
+            newListItemText.className = 'list_item_text';
+            newListItemText.innerHTML = array[j].title;
+            newListItemText.style.color = "#000000";
+            newListItemText.style.width = (this.itemWidth - 20) + 'px';
+            newListItem.appendChild(newListItemText);
+            document.getElementById('notices_board').appendChild(newListItem);
 
-                this.listItemTitleArray.push({
-                    assetID: array[j].assetid,
-                    title: array[j].title,
-                    img: array[j].img,
-                    flag: parseInt(array[j].flag),
-                    id: array[j].id,
-                    left: this.itemLeft,
-                    top: this.itemTop + (j * this.interval),
-                    width: this.itemWidth,
-                    height: this.itemHeight
-                });
-            }
+            this.listItemTitleArray.push({
+                assetID: array[j].assetid,
+                title: array[j].title,
+                img: array[j].img,
+                flag: 0,
+                id: array[j].id,
+                left: this.itemLeft,
+                top: this.itemTop + (j * this.interval),
+                width: this.itemWidth,
+                height: this.itemHeight
+            });
         }
 
         if (array.length > this.listItemNum) {

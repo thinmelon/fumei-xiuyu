@@ -6,6 +6,9 @@
     <title>详情页</title>
 </head>
 <body>
+<div class="title">
+    <img id="title-img" src="">
+</div>
 <div id="content" class="textures">
     <div id="textures-title" class="textures-title"></div>
     <div id="textures-trapper">
@@ -17,24 +20,30 @@
 <div id="debug-message"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
+<script type="application/javascript" src="../utility/async.js"></script>
+<script type="application/javascript" src="../cms/cms.config.js"></script>
+<script type="application/javascript" src="../cms/cms.api.js"></script>
 <script type="application/javascript" src="../module/swiper.module.js"></script>
 <script type="application/javascript" src="../module/textures.module.js"></script>
 <script type="application/javascript" src="../module/pager.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
 <script type="application/javascript">
+    function CursorComponent(textures) {
+        this.fileName = 'PG_TEXT';
+        this.textures = textures;
+    }
 
-    function TransferComponent(textures) {
+    function TransferComponent(cursor) {
         var that = this;
 
         TransferModule.call(this);
         // 属性
-        this.textures = textures;
+        this.cursor = cursor;
 
         // 方法
         this.doBack = function () {
-            console.info(this.textures.backURL);
-            this.remove(this.fileName);
-            window.location.href = this.textures.backURL + this.package([]);
+            this.remove('PG_TEXT');
+            window.location.href = this.cursor.textures.backURL + this.package([]);
         };
 
         this.onKeyDown = function (event) {
@@ -44,16 +53,16 @@
                     that.toggle();
                     return false;
                 case 'KEY_LEFT':
-                    that.textures.pager.turn(document.getElementById('textures-text'), document.getElementById('textures-pager'), -1);
+                    that.cursor.textures.pager.turn(document.getElementById('textures-text'), document.getElementById('textures-pager'), -1);
                     return false;
                 case 'KEY_RIGHT':
-                    that.textures.pager.turn(document.getElementById('textures-text'), document.getElementById('textures-pager'), 1);
+                    that.cursor.textures.pager.turn(document.getElementById('textures-text'), document.getElementById('textures-pager'), 1);
                     return false;
                 case 'KEY_PAGE_UP':
-                    that.textures.pager.turn(document.getElementById('textures-text'), document.getElementById('textures-pager'), -1);
+                    that.cursor.textures.pager.turn(document.getElementById('textures-text'), document.getElementById('textures-pager'), -1);
                     return false;
                 case 'KEY_PAGE_DOWN':
-                    that.textures.pager.turn(document.getElementById('textures-text'), document.getElementById('textures-pager'), 1);
+                    that.cursor.textures.pager.turn(document.getElementById('textures-text'), document.getElementById('textures-pager'), 1);
                     return false;
                 case 'KEY_EXIT':
                 case 'KEY_BACK':
@@ -68,42 +77,37 @@
     window.onload = function () {
         var
             texturesModule = new TexturesModule(),
-            transferComponent = new TransferComponent(texturesModule);
+            cursorComponent = new CursorComponent(texturesModule),
+            transferComponent = new TransferComponent(cursorComponent);
 
-        texturesModule.init();
         transferComponent.init();
 
-        var data = {
-            title: '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试',
-            content: '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试',
-            imgArr: [
-                {
-                    img: 'url(../images/chengxiang/1.jpg)'
-                },
-                {
-                    img: 'url(../images/chengxiang/2.jpg)'
-                },
-                {
-                    img: 'url(../images/chengxiang/3.jpg)'
-                }
-            ]
-        };
-        texturesModule.render(data);
-
-//        cmsApi.getListItemDetails(texturesComponent.id, function (response) {
-//            if (response.hasOwnProperty("code")) {
-//                if ("1" === response.code || 1 === response.code) {
-//                    texturesComponent.render(response);
-//                    /**
-//                     * 数据以异步形式加载
-//                     * 等待数据完全加载成功后再渲染
-//                     */
-//                    setTimeout(function () {
-//                        pagerComponent.setParameters();
-//                    }, 500);
+//        var data = {
+//            title: '莆田市教育局简介',
+//            content: '      莆田市教育局是莆田市人民政府主管全市教育事业的职能部门，和中共莆田市委教育工作委员会合署办公。      主要职责: 1、贯彻执行党和国家、省委、省政府有关教育工作的方针、政策和法规，以及市委、市政府有关教育工作的实施意见，落实教育发展战略和发展规划。' +
+//            ' 2、研究拟订全市教育事业的发展规划，指导、协调发展规划的实施。' +
+//            ' 3、根据《中国教育改革和发展纲要》，党中央、国务院《关于深化教育改革全面推进素质教育的决定》，国务院《关于基础教育改革与发展的决定》，省委、省政府《关于加快实施科教兴省战略的决定》以及市委、市政府《关于加快实施科教兴市战略的决定》的要求，指导协调全市教育改革。' +
+//            '      莆田市教育局是莆田市人民政府主管全市教育事业的职能部门，和中共莆田市委教育工作委员会合署办公。      主要职责: 1、贯彻执行党和国家、省委、省政府有关教育工作的方针、政策和法规，以及市委、市政府有关教育工作的实施意见，落实教育发展战略和发展规划。' +
+//            ' 2、研究拟订全市教育事业的发展规划，指导、协调发展规划的实施。' +
+//            ' 3、根据《中国教育改革和发展纲要》，党中央、国务院《关于深化教育改革全面推进素质教育的决定》，国务院《关于基础教育改革与发展的决定》，省委、省政府《关于加快实施科教兴省战略的决定》以及市委、市政府《关于加快实施科教兴市战略的决定》的要求，指导协调全市教育改革。',
+//            imgArr: [
+//                {
+//                    img: 'url(../images/apartment/2.jpg)'
+//                },
+//                {
+//                    img: 'url(../images/apartment/3.jpg)'
 //                }
-//            }
-//        });
+//            ]
+//        };
+//        texturesModule.render(data);
+
+        cmsApi.getListItemDetails(texturesModule.resourceId, function (response) {
+            if (response.hasOwnProperty("code")) {
+                if ("1" === response.code || 1 === response.code) {
+                    texturesModule.render(response);
+                }
+            }
+        });
 
         document.onkeydown = transferComponent.onKeyDown;
     };

@@ -18,7 +18,9 @@
 <div id="debug-message"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
+<script type="application/javascript" src="../utility/async.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
+<script type="application/javascript" src="../cms/cms.api.js"></script>
 <script type="application/javascript" src="../cms/common.js"></script>
 <script type="application/javascript" src="../module/bar.module.js"></script>
 <script type="application/javascript" src="../wrapper/bar.wrapper.js"></script>
@@ -40,7 +42,7 @@
                     width: 423,
                     height: 221,
                     bgImageSrc: 'url(../images/service/1.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[9].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 56,
@@ -48,7 +50,7 @@
                     width: 423,
                     height: 223,
                     bgImageSrc: 'url(../images/service/2.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[9].resourceId
+                    resourceId: 0
                 },
                 {
                     left: 858,
@@ -56,7 +58,7 @@
                     width: 371,
                     height: 147,
                     bgImageSrc: 'url(../images/index/2.jpg) no-repeat',
-                    resourceId: cmsConfig.buildingResourceIdArray[9].resourceId
+                    resourceId: 0
                 }
             ]
         }];
@@ -99,7 +101,7 @@
         this.itemMoreWidth = 121;
         this.itemMoreHeight = 24;
         this.listItemNum = 5;
-        this.resourceId = cmsConfig.indexResourceIdArray[3].resourceId;
+        this.resourceId = cmsConfig.serviceResourceIdArray[1].resourceId;
 
         // 方法
     }
@@ -217,11 +219,39 @@
         this.doBack = function () {
             this.remove(this.cursor.fileName);
             this.package([]);
-//            window.location.href = 'index.html' + this.package([]);
+            window.location.href = 'index.html' + this.package([]);
         };
 
         this.doSelect = function () {
+            var
+                postfix = '',
+                params;
+
             this.remove(this.cursor.fileName);
+            switch (this.cursor.focusArea) {
+                case 2:         // 列表
+                    params =
+                        {
+                            /**
+                             * 一级页面
+                             */
+                            'PG-ONE': {
+                                focusArea: this.cursor.focusArea,
+                                focusPos: this.cursor.list.focusPos
+                            },
+                            'PG_TEXT': {
+                                resourceId: this.cursor.list.listItemTitleArray[this.cursor.list.focusPos].id,
+                                isShowGraphics: 'show',
+                                backURL: 'service.html',
+                                logoImageSrc: ''
+                            }
+                        };
+                    postfix = this.package(params);
+                    window.location.href = 'detail.html' + postfix;
+                    break;
+                default:
+                    break;
+            }
         };
 
         this.turnPage = function (_direction) {

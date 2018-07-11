@@ -14,10 +14,10 @@ function VideoModule() {
     this.account = GlobalVarManager.getItemStr('account');
     this.client = CAManager.cardSerialNumber;
 
-    // this.ip = '10.215.0.12';
-    // this.port = '8080';
-    // this.account = '8350310392603009';
-    // this.client = '8350310392603009';
+    //this.ip = '10.215.0.12';
+    //this.port = '8080';
+    //this.account = '8350310392603009';
+    //this.client = '8350310392603009';
 
 
     // 方法
