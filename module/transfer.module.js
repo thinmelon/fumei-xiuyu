@@ -20,16 +20,21 @@ function TransferModule() {
         var key,
             rawData,
             _url,
-            backURL = GMObj.pathManager.getBackURL(window.location.href),
+            backURL,
             backParams;
-        //  获取backParams
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  Location ====> ' + window.location.href;
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackURL ====> ' + backURL;
-        if ('' !== backURL && null !== backURL && 0 !== backURL) {
-            backParams = GMObj.pathManager.getBackParam(backURL);
-        } else {
-            backParams = GMObj.pathManager.getBackParam(window.location.href);
+
+        if (cmsConfig.environment === 'PRODUCT') {
+            backURL = GMObj.pathManager.getBackURL(window.location.href);
+            //  获取backParams
+            document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  Location ====> ' + window.location.href;
+            document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackURL ====> ' + backURL;
+            if ('' !== backURL && null !== backURL && 0 !== backURL) {
+                backParams = GMObj.pathManager.getBackParam(backURL);
+            } else {
+                backParams = GMObj.pathManager.getBackParam(window.location.href);
+            }
         }
+
         // 如果backParams不为空，跳转至对应地址
         document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackParams ====> ' + backParams;
         if (typeof backParams !== 'undefined' && '' !== backParams && null !== backParams) {

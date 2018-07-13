@@ -9,16 +9,18 @@ function VideoModule() {
     this.resourceId = '';
     this.assertId = '';
     this.backURL = '';
-    this.ip = GlobalVarManager.getItemStr('ip');
-    this.port = GlobalVarManager.getItemStr('port');
-    this.account = GlobalVarManager.getItemStr('account');
-    this.client = CAManager.cardSerialNumber;
 
-    //this.ip = '10.215.0.12';
-    //this.port = '8080';
-    //this.account = '8350310392603009';
-    //this.client = '8350310392603009';
-
+    if (cmsConfig.environment === 'DEBUG') {
+        this.ip = '10.215.0.12';
+        this.port = '8080';
+        this.account = '8350310392603009';
+        this.client = '8350310392603009';
+    } else {
+        this.ip = GlobalVarManager.getItemStr('ip');
+        this.port = GlobalVarManager.getItemStr('port');
+        this.account = GlobalVarManager.getItemStr('account');
+        this.client = CAManager.cardSerialNumber;
+    }
 
     // 方法
     this.init = function () {

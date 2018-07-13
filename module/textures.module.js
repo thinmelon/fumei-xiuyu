@@ -49,16 +49,5 @@ function TexturesModule() {
         setTimeout(function () {
             that.pager.setParameters();
         }, 500);
-
-        //showTitleForMarquee(data.title, document.getElementById('textures-title'), this.marqueeCount);
-        //document.getElementById('textures-text').innerHTML = data.content;
-        //setTimeout(function () {
-        //    that.pager.setParameters();
-        //}, 500);
-        //if ('show' === this.isShowGraphics) {
-        //    // 加载滚动图片
-        //    this.swiper.album = data.imgArr;
-        //    this.swiper.init();
-        //}
     };
 }

@@ -33,51 +33,53 @@ function ListModule() {
     this.noticesBoardBarHeight = 40;
     this.noticesBoardBarBgSrc = 'url(../images/list/list-item-bar.png) no-repeat';
 
-    this.resourceId = "";
+    this.resourceId = '';
 
     this.init = function (callback) {
-        //var test = [
-        //    {assetid: 611, title: '城厢区是福建省莆田市辖区，亦称...', img: '', flag: 0, id: 111},
-        //    {assetid: 611, title: '仙游县地处福建东南沿海中部，湄...', img: '1', flag: 0, id: 111},
-        //    {assetid: 611, title: '荔城区位于福建东南沿海中部，北...', img: '1', flag: 0, id: 111},
-        //    {assetid: 611, title: '城厢区是福建省莆田市辖区，亦称...', img: '1', flag: 0, id: 111},
-        //    {assetid: 611, title: '涵江区位于福建省莆田市东部沿海...', flag: 0, id: 111},
-        //    {assetid: 611, title: '秀屿区位于福建东南沿海中部，与...', flag: 0, id: 111},
-        //    {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111},
-        //    {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111},
-        //    {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111}
-        //
-        //];
-        //this.addListItem(test);
-
         var that = this,
             noticesBoard,
             noticesBoardBar;
 
-        if (this.resourceId !== "") {
-            cmsApi.getListItems(this.resourceId, this.listItemNum + 1, 1, function (response) {
-                if (response.hasOwnProperty("code")) {
-                    if ("1" === response.code || 1 === response.code) {
-                        that.addListItem(response.dataArray);
+        if (cmsConfig.environment === 'DEBUG') {
+            var test = [
+                {assetid: 611, title: '城厢区是福建省莆田市辖区，亦称...', img: '', flag: 0, id: 111},
+                {assetid: 611, title: '仙游县地处福建东南沿海中部，湄...', img: '1', flag: 0, id: 111},
+                {assetid: 611, title: '荔城区位于福建东南沿海中部，北...', img: '1', flag: 0, id: 111},
+                {assetid: 611, title: '城厢区是福建省莆田市辖区，亦称...', img: '1', flag: 0, id: 111},
+                {assetid: 611, title: '涵江区位于福建省莆田市东部沿海...', flag: 0, id: 111},
+                {assetid: 611, title: '秀屿区位于福建东南沿海中部，与...', flag: 0, id: 111},
+                {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111},
+                {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111},
+                {assetid: 611, title: '湄洲湾北岸经济开发区是经国家发... 副本 2', img: '1', flag: 0, id: 111}
+
+            ];
+            this.addListItem(test);
+        } else {
+            if (this.resourceId !== '') {
+                cmsApi.getListItems(this.resourceId, this.listItemNum + 1, 1, function (response) {
+                    if (response.hasOwnProperty('code')) {
+                        if ('1' === response.code || 1 === response.code) {
+                            that.addListItem(response.dataArray);
+                        }
                     }
-                }
-
-                callback();
-            });
+                    callback();
+                });
+            }
         }
-
-        noticesBoard = document.getElementById("notices_board");
+        noticesBoard = document.getElementById('notices_board');
         noticesBoard.style.left = this.boardLeft + 'px';
         noticesBoard.style.top = this.boardTop + 'px';
         noticesBoard.style.width = this.boardWidth + 'px';
         noticesBoard.style.height = this.boardHeight + 'px';
 
-        noticesBoardBar = document.getElementById("notices_board_bar");
+        noticesBoardBar = document.getElementById('notices_board_bar');
         noticesBoardBar.style.background = this.noticesBoardBarBgSrc;
-        noticesBoardBar.style.width = this.noticesBoardBarWidth + "px";
-        noticesBoardBar.style.height = this.noticesBoardBarHeight + "px";
+        noticesBoardBar.style.width = this.noticesBoardBarWidth + 'px';
+        noticesBoardBar.style.height = this.noticesBoardBarHeight + 'px';
 
-        //callback();
+        if (cmsConfig.environment === 'DEBUG') {
+            callback();
+        }
     };
 
     this.removeAllListItem = function () {
@@ -103,7 +105,7 @@ function ListModule() {
             newListItemText.id = 'list_item_text_' + j;
             newListItemText.className = 'list_item_text';
             newListItemText.innerHTML = array[j].title;
-            newListItemText.style.color = "#000000";
+            newListItemText.style.color = '#000000';
             newListItemText.style.width = (this.itemWidth - 20) + 'px';
             newListItem.appendChild(newListItemText);
             document.getElementById('notices_board').appendChild(newListItem);
@@ -124,8 +126,8 @@ function ListModule() {
         if (array.length > this.listItemNum) {
             this.listItemTitleArray.push({
                 assetID: 0,
-                title: "",
-                img: "",
+                title: '',
+                img: '',
                 flag: -1,
                 id: 0,
                 left: this.itemMoreLeft,
@@ -140,24 +142,24 @@ function ListModule() {
 
         if (this.listItemTitleArray.length > 0 &&
             this.focusPos < this.listItemTitleArray.length) {
-            cursor.style.visibility = "visible";
-            cursor.style.left = this.listItemTitleArray[this.focusPos].left + "px";
-            cursor.style.top = this.listItemTitleArray[this.focusPos].top + "px";
-            cursor.style.width = this.listItemTitleArray[this.focusPos].width + "px";
-            cursor.style.height = this.listItemTitleArray[this.focusPos].height + "px";
+            cursor.style.visibility = 'visible';
+            cursor.style.left = this.listItemTitleArray[this.focusPos].left + 'px';
+            cursor.style.top = this.listItemTitleArray[this.focusPos].top + 'px';
+            cursor.style.width = this.listItemTitleArray[this.focusPos].width + 'px';
+            cursor.style.height = this.listItemTitleArray[this.focusPos].height + 'px';
 
-            var _focusListItem = document.getElementById("list_item_text_" + this.focusPos);
-            if ((typeof(_focusListItem) !== "undefined") && (this.listItemTitleArray[this.focusPos].flag === 0)) {
+            var _focusListItem = document.getElementById('list_item_text_' + this.focusPos);
+            if ((typeof(_focusListItem) !== 'undefined') && (this.listItemTitleArray[this.focusPos].flag === 0)) {
                 showTitleForMarquee(this.listItemTitleArray[this.focusPos].title, _focusListItem, this.marqueeCount);
             }
         }
     };
 
     this.focusOut = function (cursor) {
-        var _focusListItem = document.getElementById("list_item_text_" + this.focusPos);
+        var _focusListItem = document.getElementById('list_item_text_' + this.focusPos);
 
-        cursor.style.visibility = "hidden";
-        if ((typeof (_focusListItem) !== "undefined") && (that.listItemTitleArray[that.focusPos].flag === 0)) {
+        cursor.style.visibility = 'hidden';
+        if ((typeof (_focusListItem) !== 'undefined') && (that.listItemTitleArray[that.focusPos].flag === 0)) {
             _focusListItem.innerHTML = that.listItemTitleArray[that.focusPos].title;
         }
     };
