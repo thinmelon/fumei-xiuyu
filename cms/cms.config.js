@@ -11,6 +11,7 @@ var cmsConfig = {
     imgUrl: 'http://10.184.255.10:8080/manage/',
     backUrl: '',
     index_back_url: '',
+    //environment: 'DEBUG',
     environment: 'PRODUCT',
 
     /**

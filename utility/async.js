@@ -9,7 +9,7 @@ function Postman() {
     this.createXmlHttpRequest = function (_successCallback, _failedCallback) {
         var that = this;
 
-        // document.getElementById("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
+         document.getElementById("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
         if (this.xhr !== null) {
             this.abortRequest();
         } else {
@@ -45,7 +45,7 @@ function Postman() {
          500: 服务器内部错误
          * */
         this.xhr.onreadystatechange = function () {
-            //document.getElementById("debug-message").innerHTML += "<br/>" + "readyState ==> " + that.xhr.readyState + " status ==>  " + that.xhr.status;
+            document.getElementById("debug-message").innerHTML += "<br/>" + "readyState ==> " + that.xhr.readyState + " status ==>  " + that.xhr.status;
             var
                 contentType = "";
 
@@ -77,7 +77,7 @@ function Postman() {
     };
 
     this.sendRequest = function (_method, _url, _data) {
-        //document.getElementById("debug-message").innerHTML += "<br/>" + "Postman    ==>    sendRequest";
+        document.getElementById("debug-message").innerHTML += "<br/>" + "Postman    ==>    sendRequest";
         this.method = _method;
         // 规定请求的类型、URL 以及是否异步处理请求
         this.xhr.open(_method, _url, true);

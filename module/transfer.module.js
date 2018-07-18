@@ -23,65 +23,67 @@ function TransferModule() {
             backURL,
             backParams;
 
-        if (cmsConfig.environment === 'PRODUCT') {
-            backURL = GMObj.pathManager.getBackURL(window.location.href);
-            //  获取backParams
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  Location ====> ' + window.location.href;
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackURL ====> ' + backURL;
-            if ('' !== backURL && null !== backURL && 0 !== backURL) {
-                backParams = GMObj.pathManager.getBackParam(backURL);
-            } else {
-                backParams = GMObj.pathManager.getBackParam(window.location.href);
-            }
-        }
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  Location ====> ' + window.location.href;
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  environment ====> ' + cmsConfig.environment;
+        //if (cmsConfig.environment === 'PRODUCT') {
+        //backURL = GMObj.pathManager.getBackURL(window.location.href);
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackURL ====> ' + backURL;
+        //  获取backParams
+
+        //if ('' !== backURL && null !== backURL && 0 !== backURL) {
+        //    backParams = GMObj.pathManager.getBackParam(backURL);
+        //} else {
+        //    backParams = GMObj.pathManager.getBackParam(window.location.href);
+        //}
+        //}
 
         // 如果backParams不为空，跳转至对应地址
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackParams ====> ' + backParams;
-        if (typeof backParams !== 'undefined' && '' !== backParams && null !== backParams) {
-            window.location.href = backParams;
-        } else {
-            _url = window.location.search;
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'search: ' + decodeURIComponent(_url);
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  BackParams ====> ' + backParams;
+        //if (typeof backParams !== 'undefined' && '' !== backParams && null !== backParams && backParams !== 'undefined') {
+        //    window.location.href = backParams;
+        //} else {
+        _url = window.location.search;
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'search: ' + decodeURIComponent(_url);
 
-            if (_url.indexOf('?') !== -1) {
-                var _str = _url.substr(1);              // 对query参数进行分解, 去掉最开始的 ?
-                var _subStrs = _str.split('&');         // 以 & 符号作为分隔符
-                for (var i = 0; i < _subStrs.length; i++) {
-                    key = _subStrs[i].split('=')[0];
-                    rawData = decodeURIComponent(_subStrs[i].split('=')[1]);
-                    document.getElementById('debug-message').innerHTML += '<br/> ' + 'key: ' + key + ', rowData: ' + rawData;
+        if (_url.indexOf('?') !== -1) {
+            var _str = _url.substr(1);              // 对query参数进行分解, 去掉最开始的 ?
+            var _subStrs = _str.split('&');         // 以 & 符号作为分隔符
+            for (var i = 0; i < _subStrs.length; i++) {
+                key = _subStrs[i].split('=')[0];
+                rawData = decodeURIComponent(_subStrs[i].split('=')[1]);
+                document.getElementById('debug-message').innerHTML += '<br/> ' + 'key: ' + key + ', rowData: ' + rawData;
 
-                    // 记录参数，以备后续跳转时使用
-                    this.record.push(jsonUtils.parse('{"' + key + '":"' + rawData + '"}'));
-                    /**
-                     *  光标定位
-                     */
-                    this.locatePageCursor(key, rawData);
-                    /**
-                     *   图文列表
-                     */
-                    this.setTextureModule(key, rawData);
-                    /**
-                     *   视频播放
-                     */
-                    this.setVideoModule(key, rawData);
-                    /**
-                     *  视频监控
-                     */
-                    this.setMonitorModule(key, rawData);
-                    /**
-                     *   更多内容
-                     */
-                    this.setMoreModule(key, rawData);
-                    /**
-                     *   侧边栏
-                     */
-                    this.setSidebarModule(key, rawData);
-                }
-                /** end of for */
+                // 记录参数，以备后续跳转时使用
+                this.record.push(jsonUtils.parse('{"' + key + '":"' + rawData + '"}'));
+                /**
+                 *  光标定位
+                 */
+                this.locatePageCursor(key, rawData);
+                /**
+                 *   图文列表
+                 */
+                this.setTextureModule(key, rawData);
+                /**
+                 *   视频播放
+                 */
+                this.setVideoModule(key, rawData);
+                /**
+                 *  视频监控
+                 */
+                this.setMonitorModule(key, rawData);
+                /**
+                 *   更多内容
+                 */
+                this.setMoreModule(key, rawData);
+                /**
+                 *   侧边栏
+                 */
+                this.setSidebarModule(key, rawData);
             }
-            /** end of if */
+            /** end of for */
         }
+        /** end of if */
+        //}
     };
 
     /**
