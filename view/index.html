@@ -20,7 +20,6 @@
 <script type="application/javascript" src="../utility/async.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
 <script type="application/javascript" src="../cms/cms.api.js"></script>
-<script type="application/javascript" src="../cms/common.js"></script>
 <script type="application/javascript" src="../module/bar.module.js"></script>
 <script type="application/javascript" src="../wrapper/bar.wrapper.js"></script>
 <script type="application/javascript" src="../module/swiper.module.js"></script>
@@ -184,14 +183,8 @@
             this.remove(this.cursor.fileName);
             this.package([]);
 
-            var backUrl = GMObj.pathManager.getBackURL(window.location.href);
-            if ('' !== backUrl && null !== backUrl && 0 !== backUrl) {
-                window.location.href = backUrl;
-            } else {
-                //UI 2.0 portal
-                if ('undefined' !== typeof(GlobalVarManager)) {
-                    window.location.href = GlobalVarManager.getItemStr('tvPortalUrl');
-                }
+            if ('undefined' !== typeof(GlobalVarManager)) {
+                window.location.href = GlobalVarManager.getItemStr('tvPortalUrl');
             }
         };
 
@@ -233,13 +226,6 @@
             }
         };
 
-        this.turnPage = function (_direction) {
-            if (0 === this.cursor.menu.turnPage(_direction)) {
-                this.cursor.menu.destroy();
-                this.cursor.menu.init();
-            }
-        };
-
         this.onKeyDown = function (event) {
             var code = getKeyCode(event);
 
@@ -266,12 +252,6 @@
                 case 'KEY_BACK':
                     that.doBack();
                     return false;
-                case 'KEY_PAGE_UP':
-                    that.turnPage(-1);
-                    break;
-                case 'KEY_PAGE_DOWN':
-                    that.turnPage(1);
-                    break;
                 default:
                     break;
             }

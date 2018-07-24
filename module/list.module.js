@@ -26,7 +26,7 @@ function ListModule() {
     this.itemMoreHeight = 42;
 
     this.listItemTop = 50;
-    this.interval = 35;
+    this.interval = 42;
     this.marqueeCount = 13;
 
     this.noticesBoardBarWidth = 380;

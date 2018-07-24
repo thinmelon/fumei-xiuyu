@@ -63,10 +63,10 @@ function BarModule() {
         }
         // console.log(this.barItemArray[this.focusPos].url);
         // console.log(postfix);
-        document.getElementById('debug-message').innerHTML += '<br/>' + ' moveX: focusPos ==> ' + this.focusPos;
-        if (this.focusPos === 6 || this.focusPos === 7) {
-            GMObj.pathManager.setBackURL(this.barItemArray[this.focusPos].url, 'http://10.184.255.11/fumei-xiuyu/view/topic.html' + postfix, postfix);
-        }
+        //document.getElementById('debug-message').innerHTML += '<br/>' + ' moveX: focusPos ==> ' + this.focusPos;
+        //if (this.focusPos === 6 || this.focusPos === 7) {
+        //    GMObj.pathManager.setBackURL(this.barItemArray[this.focusPos].url, 'http://10.184.255.11/fumei-xiuyu/view/topic.html' + postfix, postfix);
+        //}
         window.location.href = this.barItemArray[this.focusPos].url;
     };
 

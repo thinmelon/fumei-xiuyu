@@ -47,7 +47,8 @@ function BarComponent() {
         {
             title: '智慧党建',
             resourceId: 0,
-            url: 'http://10.215.0.39/fujiandangjianNew/index2.html',
+            //url: 'http://10.215.0.39/fujiandangjianNew/index2.html',
+            url: 'party.html',
             left: 803,
             width: 120
         },
