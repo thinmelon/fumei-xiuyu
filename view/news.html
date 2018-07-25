@@ -194,6 +194,7 @@
                     if (this.cursor.list.listItemTitleArray[this.cursor.list.focusPos].flag === 0) {
                         params.VIDEO = {
                             backURL: this.backUrl(),
+                            fileName: this.cursor.fileName,
                             focusArea: this.cursor.focusArea,
                             focusPos: this.cursor.list.focusPos,
                             assertId: this.cursor.list.listItemTitleArray[this.cursor.list.focusPos].assetID
@@ -209,7 +210,7 @@
                             pageIndex: 1
                         };
                         postfix = this.package(params);
-//                        window.location.href = 'more.html' + postfix;
+                        window.location.href = 'more.html' + postfix;
                     }
                     break;
                 default:

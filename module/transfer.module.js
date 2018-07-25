@@ -202,7 +202,21 @@ function TransferModule() {
                     && value.hasOwnProperty('focusArea')
                     && value.hasOwnProperty('focusPos')) {
                     backUrl += '?' + value.fileName + '=' + encodeURIComponent('{focusArea:' + value.focusArea + ',focusPos:' + value.focusPos + '}');
-                } else if (value.hasOwnProperty('fileName')
+                }
+                //  针对 更多内容 页面
+                else if (value.hasOwnProperty('fileName')
+                    && value.hasOwnProperty('focusArea')
+                    && value.hasOwnProperty('focusPosX')
+                    && value.hasOwnProperty('focusPosY')
+                    && value.hasOwnProperty('resourceId')
+                    && value.hasOwnProperty('resourceType')
+                    && value.hasOwnProperty('morePageBackURL')
+                    && value.hasOwnProperty('pageIndex')) {
+                    backUrl += '?' + value.fileName + '='
+                        + encodeURIComponent('{focusArea:' + value.focusArea + ',focusPosX:' + value.focusPosX + ',focusPosY:' + value.focusPosY
+                            + ',resourceId:' + value.resourceId + ',resourceType:\'' + value.resourceType + '\',backURL:\'' + value.morePageBackURL + '\',pageIndex:' + value.pageIndex + '}');
+                }
+                else if (value.hasOwnProperty('fileName')
                     && value.hasOwnProperty('focusArea')
                     && value.hasOwnProperty('focusPosX')
                     && value.hasOwnProperty('focusPosY')) {

@@ -32,14 +32,14 @@ function MoreModule() {
 
         if (cmsConfig.environment === 'DEBUG') {
             var testData = [
-                {assetid: 111, img: '../images/post/post-2.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
-                {assetid: 111, img: '../images/post/post-1.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
-                {assetid: 111, img: '../images/post/post-1.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
-                {assetid: 111, img: '../images/post/post-1.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
-                {assetid: 111, img: '../images/post/post-1.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
-                {assetid: 111, img: '../images/post/post-1.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
-                {assetid: 111, img: '../images/post/post-1.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
-                {assetid: 111, img: '../images/post/post-1.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21}
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
             ];
             this.pageIndex = pageIndex;
             this.totalPages = 8;
@@ -81,7 +81,6 @@ function MoreModule() {
             parent = document.getElementById('content'),
             children = parent.childNodes;
 
-        console.info('more.module.js ==>  removeAllMoreItems');
         //每页最多显示两行
         this.moreItemArray[0] = [];
         this.moreItemArray[1] = [];
@@ -99,7 +98,6 @@ function MoreModule() {
             cardImage,
             cardText;
 
-        console.info('more.module.js ==> addMoreItem | image src' + this.logoImageSrc);
         document.getElementById('self-define-logo').children[0].src = this.logoImageSrc;
 
         for (i = 0, length = data.length; i < length && i < maxItems; i++) {
@@ -107,7 +105,12 @@ function MoreModule() {
             card.className = 'more-page-item';
 
             cardImage = document.createElement('img');
-            cardImage.src = cmsConfig.imgUrl + data[i].img;
+            if (cmsConfig.environment === 'DEBUG') {
+                cardImage.src = data[i].img;
+            } else {
+                cardImage.src = cmsConfig.imgUrl + data[i].img;
+            }
+
 
             cardText = document.createElement('div');
             cardText.id = 'more-page-item-text-' + i;

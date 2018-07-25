@@ -57,9 +57,9 @@
             var that = this;
 
             this.more.changePage(direction, function () {
-                that.focusOn()
+                that.focusOn();
             });
-        }
+        };
     }
 
     function TransferComponent(cursor, more) {
@@ -78,23 +78,22 @@
         this.doSelect = function () {
             var
                 postfix,
-                params;
+                params = {};
 
             this.remove(this.cursor.fileName);
-            params = {
-                "PG_MORE": {
-                    focusArea: this.cursor.focusArea,
-                    focusPosX: this.cursor.more.focusPosX,
-                    focusPosY: this.cursor.more.focusPosY,
-                    resourceId: this.cursor.more.resourceId,
-                    resourceType: this.cursor.more.resourceType,
-                    backURL: this.cursor.more.backURL,
-                    logoImageSrc: this.cursor.more.logoImageSrc,
-                    pageIndex: this.cursor.more.pageIndex
-                }
-            };
+
             switch (this.cursor.more.resourceType) {
-                case "textures":
+                case 'textures':
+                    params.PG_MORE = {
+                        focusArea: this.cursor.focusArea,
+                        focusPosX: this.cursor.more.focusPosX,
+                        focusPosY: this.cursor.more.focusPosY,
+                        resourceId: this.cursor.more.resourceId,
+                        resourceType: this.cursor.more.resourceType,
+                        backURL: this.cursor.more.backURL,
+                        logoImageSrc: this.cursor.more.logoImageSrc,
+                        pageIndex: this.cursor.more.pageIndex
+                    };
                     params.PG_TEXT = {
                         resourceId: this.cursor.more.moreItemArray[this.cursor.more.focusPosY][this.cursor.more.focusPosX].id,
                         isShowGraphics: 'show',
@@ -104,12 +103,17 @@
                     postfix = this.package(params);
                     window.location.href = 'detail.html' + postfix;
                     break;
-                case "video":
+                case 'video':
                     params.VIDEO = {
                         backURL: this.backUrl(),
+                        fileName: this.cursor.fileName,
                         focusArea: this.cursor.focusArea,
                         focusPosX: this.cursor.more.focusPosX,
                         focusPosY: this.cursor.more.focusPosY,
+                        resourceId: this.cursor.more.resourceId,
+                        resourceType: this.cursor.more.resourceType,
+                        morePageBackURL: this.cursor.more.backURL,
+                        pageIndex: this.cursor.more.pageIndex,
                         assertId: this.cursor.more.moreItemArray[this.cursor.more.focusPosY][this.cursor.more.focusPosX].assetid
                     };
                     postfix = this.package(params);
@@ -124,38 +128,38 @@
             var code = getKeyCode(event);
 
             switch (code) {
-                case "KEY_NUMBER1":
+                case 'KEY_NUMBER1':
                     that.toggle();
                     return false;
-                case "KEY_UP":
+                case 'KEY_UP':
                     that.cursor.moveY(-1);
                     return false;
-                case "KEY_DOWN":
+                case 'KEY_DOWN':
                     that.cursor.moveY(1);
                     return false;
-                case "KEY_LEFT":
+                case 'KEY_LEFT':
                     that.cursor.moveX(-1);
                     return false;
-                case "KEY_RIGHT":
+                case 'KEY_RIGHT':
                     that.cursor.moveX(1);
                     return false;
-                case "KEY_PAGE_UP":
+                case 'KEY_PAGE_UP':
                     that.cursor.changePage(-1);
                     return false;
-                case "KEY_PAGE_DOWN":
+                case 'KEY_PAGE_DOWN':
                     that.cursor.changePage(1);
                     return false;
-                case "KEY_SELECT":
+                case 'KEY_SELECT':
                     that.doSelect();
                     return false;
-                case "KEY_EXIT":
-                case "KEY_BACK":
+                case 'KEY_EXIT':
+                case 'KEY_BACK':
                     that.doBack();
                     return false;
                 default:
                     break;
             }
-        }
+        };
     }
 
     window.onload = function () {
@@ -170,6 +174,6 @@
         });
 
         document.onkeydown = transferComponent.onKeyDown;
-    }
+    };
 </script>
 </html>

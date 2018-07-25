@@ -50,8 +50,9 @@ function VideoModule() {
         //
         cmsApi.fetchVideoDetails(that.ip, that.port, that.assertId, that.client, that.account, function (response) {
             var
-                _data = parseDom(response);
+                _data;
 
+            _data = parseDom(response);
             document.getElementById('debug-message').innerHTML += '<br/>' + '  0 ==> ' + jsonUtils.stringify(_data.ItemData[0].SelectableItem[0]);
             document.getElementById('debug-message').innerHTML += '<br/>' + '  0.1 ==> ' + _data.ItemData[0].SelectableItem[0].serviceId;
             document.getElementById('debug-message').innerHTML += '<br/>' + '  0.2 ==> ' + jsonUtils.stringify(_data.ItemData[0].SelectableItem[0].RentalInfo[0]);
