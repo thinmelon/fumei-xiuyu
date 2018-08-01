@@ -105,12 +105,10 @@
             this.cursor.focusOut();
             switch (this.cursor.focusArea) {
                 case 0:         // 菜单
-                    if (this.cursor.menu.moveX(direction) === -1) {
-                        if (direction < 0) {
-                            this.cursor.menu.focusPosX = 1;
-                        } else {
-                            this.cursor.menu.focusPosX = 0;
-                        }
+                    if (this.cursor.menu.focusPosX === 0) {
+                        this.cursor.focusArea = 6;
+                    } else {
+                        this.cursor.menu.moveX(direction)
                     }
                     break;
                 case 5:         // 栏目
@@ -146,7 +144,6 @@
             switch (this.cursor.focusArea) {
                 case 0:         // 菜单
                     if (-1 === this.cursor.menu.moveY(direction)) {
-                        console.log(this.cursor.menu.focusPosX);
                         if (this.cursor.menu.focusPosX === 0) {
                             this.cursor.focusArea = 5;
                         } else if (this.cursor.menu.focusPosX === 1) {
@@ -163,12 +160,13 @@
                     this.cursor.menu.focusPosX = 0;
                     break;
                 case 6:         //  滚动图片
-                    if (-1 === this.cursor.swiper.moveY()) {
+                    if (-1 === this.cursor.swiper.moveY(direction)) {
                         this.cursor.swiper.triggerTimer();
                         if (direction < 0) {
                             this.cursor.focusArea = 5;
                         } else {
                             this.cursor.focusArea = 0;
+                            this.cursor.menu.focusPosX = 1;
                         }
 
                     }

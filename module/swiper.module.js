@@ -82,8 +82,17 @@ function SwiperModule() {
      *  纵向移动光标
      * @returns {number}
      */
-    this.moveY = function () {
-        return -1;
+    this.moveY = function (direction) {
+        this.position += direction;
+        if (this.position >= 0 && this.position < this.album.length) {
+            return 0;
+        } else if (this.position < 0) {
+            this.position = 0;
+            return -1;
+        } else {
+            this.position = this.album.length - 1;
+            return -1;
+        }
     };
 
     /**
