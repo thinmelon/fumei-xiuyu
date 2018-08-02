@@ -98,7 +98,7 @@ function MoreModule() {
             cardImage,
             cardText;
 
-        document.getElementById('self-define-logo').children[0].src = this.logoImageSrc;
+        // document.getElementById('self-define-logo').children[0].src = this.logoImageSrc;
 
         for (i = 0, length = data.length; i < length && i < maxItems; i++) {
             card = document.createElement('div');

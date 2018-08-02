@@ -26,18 +26,16 @@ function VideoModule() {
     this.init = function () {
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Resource ID ==> ' + this.resourceId;
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Assert ID ==> ' + this.assertId;
-        if (this.resourceId !== '') {
-            //
-            // 获取视频assetId
-            //
+        if (this.assertId !== '') {
+            this.play();
+        } else if (this.resourceId !== '') {
+            //  获取视频assetId
             cmsApi.fetchVideoAssetId(this.resourceId, function (json) {
                 if ('1' === json.code || 1 === json.code) {
                     that.assertId = json.dataArray[0].assetid;
                     that.play();
                 }
             });
-        } else if (this.assertId !== '') {
-            this.play();
         }
     };
     /** end of init */
