@@ -55,7 +55,7 @@ function BarComponent() {
         {
             title: '美丽莆田',
             resourceId: 0,
-            url: 'http://10.184.255.11/portal2/cypt.html',
+            url: 'putian.html',
             left: 935,
             width: 120
         },

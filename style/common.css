@@ -92,6 +92,16 @@ body {
     /*display: inline;*/
 }
 
+/* ----  内部栏  ---- */
+.subBar {
+    position: absolute;
+    width: 1175px;
+    height: 49px;
+    top: 164px;
+    left: 56px;
+    background: url(../images/party/12.jpg);
+}
+
 /* ----  公告栏  ---- */
 .notices_board {
     position: absolute;

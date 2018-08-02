@@ -63,19 +63,25 @@
         this.swiperHeight = 300;
         this.album = [
             {
-                img: 'url(../images/index/3.jpg)'
+                img: 'url(../images/index/3.jpg)',
+                resourceId: cmsConfig.indexResourceIdArray[3].resourceId
+
             },
             {
-                img: 'url(../images/index/4.jpg)'
+                img: 'url(../images/index/4.jpg)',
+                resourceId: cmsConfig.indexResourceIdArray[4].resourceId
             },
             {
-                img: 'url(../images/index/5.jpg)'
+                img: 'url(../images/index/5.jpg)',
+                resourceId: cmsConfig.indexResourceIdArray[5].resourceId
             },
             {
-                img: 'url(../images/index/6.jpg)'
+                img: 'url(../images/index/6.jpg)',
+                resourceId: cmsConfig.indexResourceIdArray[6].resourceId
             },
             {
-                img: 'url(../images/index/7.jpg)'
+                img: 'url(../images/index/7.jpg)',
+                resourceId: cmsConfig.indexResourceIdArray[7].resourceId
             }
         ];
     }
@@ -108,7 +114,7 @@
                     if (this.cursor.menu.focusPosX === 0) {
                         this.cursor.focusArea = 6;
                     } else {
-                        this.cursor.menu.moveX(direction)
+                        this.cursor.menu.moveX(direction);
                     }
                     break;
                 case 5:         // 栏目
@@ -216,9 +222,25 @@
                             };
                         postfix = this.package(params);
                         window.location.href = 'video.html' + postfix;
-                    } else {
-                        this.cursor.menu.doSelect(postfix);
                     }
+                    break;
+                case 6:
+                    params =
+                        {
+                            /**
+                             * 一级页面
+                             */
+                            'PG-ONE': {
+                                focusArea: this.cursor.focusArea
+                            },
+                            'VIDEO': {
+                                backURL: this.backUrl(),
+                                focusArea: this.cursor.focusArea,
+                                resourceId: this.cursor.swiper.album[this.cursor.swiper.position].resourceId
+                            }
+                        };
+                    postfix = this.package(params);
+                    window.location.href = 'video.html' + postfix;
                     break;
                 default:
                     break;

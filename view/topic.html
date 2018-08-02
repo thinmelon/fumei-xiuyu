@@ -36,7 +36,7 @@
                     width: 580,
                     height: 354,
                     bgImageSrc: 'url(../images/topic/1.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[1].resourceId
                 },
                 {
                     left: 640,
@@ -44,7 +44,7 @@
                     width: 273,
                     height: 352,
                     bgImageSrc: 'url(../images/topic/2.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[2].resourceId
                 },
                 {
                     left: 56,
@@ -52,7 +52,7 @@
                     width: 133,
                     height: 95,
                     bgImageSrc: 'url(../images/topic/3.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[3].resourceId
                 },
                 {
                     left: 195,
@@ -60,7 +60,7 @@
                     width: 136,
                     height: 95,
                     bgImageSrc: 'url(../images/topic/4.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[4].resourceId
                 },
                 {
                     left: 338,
@@ -68,7 +68,7 @@
                     width: 140,
                     height: 95,
                     bgImageSrc: 'url(../images/topic/5.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[5].resourceId
                 },
                 {
                     left: 485,
@@ -76,7 +76,7 @@
                     width: 139,
                     height: 95,
                     bgImageSrc: 'url(../images/topic/6.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[6].resourceId
                 },
                 {
                     left: 631,
@@ -84,7 +84,7 @@
                     width: 140,
                     height: 95,
                     bgImageSrc: 'url(../images/topic/7.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[7].resourceId
                 },
                 {
                     left: 778,
@@ -92,7 +92,7 @@
                     width: 139,
                     height: 95,
                     bgImageSrc: 'url(../images/topic/8.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[8].resourceId
                 },
                 {
                     left: 918,
@@ -100,7 +100,7 @@
                     width: 311,
                     height: 157,
                     bgImageSrc: 'url(../images/index/2.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.topicResourceIdArray[8].resourceId
                 }
             ]
         }];
@@ -229,6 +229,37 @@
 
         this.doSelect = function () {
             this.remove(this.cursor.fileName);
+
+            switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    var i,
+                        _num = 0;
+
+                    for (i = 0; i < this.cursor.menu.focusPosY; i++) {
+                        _num += this.cursor.menu.itemsPerLine[i];
+                    }
+                    _num += this.cursor.menu.focusPosX;
+
+                    params = {
+                        'PG-ONE': {
+                            focusArea: this.cursor.focusArea,
+                            focusPosX: this.cursor.menu.focusPosX,
+                            focusPosY: this.cursor.menu.focusPosY
+                        }
+                    };
+                    params.PG_MORE = {
+                        resourceId: this.cursor.menu.menuItemArray[_num].resourceId,
+                        resourceType: 'video',
+                        backURL: 'topic.html',
+                        logoImageSrc: '',
+                        pageIndex: 1
+                    };
+                    postfix = this.package(params);
+                    window.location.href = 'more.html' + postfix;
+                    break;
+                default:
+                    break;
+            }
         };
 
         this.onKeyDown = function (event) {
