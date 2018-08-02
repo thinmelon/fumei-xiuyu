@@ -11,8 +11,8 @@ var cmsConfig = {
     imgUrl: 'http://10.184.255.10:8080/manage/',
     backUrl: '',
     index_back_url: '',
-    // environment: 'DEBUG',
-    environment: 'PRODUCT',
+     environment: 'DEBUG',
+    //environment: 'PRODUCT',
 
     /**
      * 富美秀屿
@@ -23,10 +23,11 @@ var cmsConfig = {
 
 
         // ---------------  海报（播放视频）  ---------------  //
-        {title: '左侧海报', resourceId: '768'},
+        {title: '左侧海报', resourceId: '831'},
         {title: '右下海报', resourceId: '0'},
 
         // ---------------  滚动页  ---------------  //
+        {title: '第一张', resourceId: '762'},
         {title: '第一张', resourceId: '819'},
         {title: '第二张', resourceId: '820'},
         {title: '第三张', resourceId: '821'},

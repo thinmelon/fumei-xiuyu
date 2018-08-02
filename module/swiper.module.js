@@ -14,11 +14,55 @@ function SwiperModule() {
     this.interval = 3000;           //  图片滚动的时间间隔
     this.timerId = 0;               //  timer ID
     this.remoteImage = false;       //  图片是否存在CMS上
+    this.resourceId = 0;            //  资源 ID
+    this.maxCount = 5;              //  海报上限
 
     /**
      *  初始化
      */
     this.init = function () {
+        var that = this;
+
+        if (cmsConfig.environment === 'DEBUG') {
+            this.album = [
+                {
+                    img: 'url(../images/index/3.jpg)',
+                    resourceId: cmsConfig.indexResourceIdArray[4].resourceId
+
+                },
+                {
+                    img: 'url(../images/index/4.jpg)',
+                    resourceId: cmsConfig.indexResourceIdArray[5].resourceId
+                },
+                {
+                    img: 'url(../images/index/5.jpg)',
+                    resourceId: cmsConfig.indexResourceIdArray[6].resourceId
+                },
+                {
+                    img: 'url(../images/index/6.jpg)',
+                    resourceId: cmsConfig.indexResourceIdArray[7].resourceId
+                },
+                {
+                    img: 'url(../images/index/7.jpg)',
+                    resourceId: cmsConfig.indexResourceIdArray[8].resourceId
+                }
+            ];
+            this.render();
+        } else {
+            if (this.resourceId !== 0) {
+                cmsApi.getListItems(this.resourceId, this.maxCount, 1, function (response) {
+                    if (response.hasOwnProperty('code') && ('1' === response.code || 1 === response.code)) {
+                        document.getElementById("debug-message").innerHTML += "<br/>" + response;
+                        that.render();
+                    }
+                });
+            }
+        }
+
+
+    };
+
+    this.render = function () {
         var swiper = document.getElementById('swiper');
         // 初始化滑块视图容器
         swiper.style.top = this.swiperTop + 'px';
