@@ -27,12 +27,13 @@ function SwiperModule() {
             this.album = [
                 {
                     img: 'url(../images/index/3.jpg)',
-                    resourceId: cmsConfig.indexResourceIdArray[4].resourceId
-
+                    resourceId: cmsConfig.indexResourceIdArray[4].resourceId,
+                    assertId: 111
                 },
                 {
                     img: 'url(../images/index/4.jpg)',
-                    resourceId: cmsConfig.indexResourceIdArray[5].resourceId
+                    resourceId: cmsConfig.indexResourceIdArray[5].resourceId,
+                    assertId: 111
                 },
                 {
                     img: 'url(../images/index/5.jpg)',
@@ -52,14 +53,19 @@ function SwiperModule() {
             if (this.resourceId !== 0) {
                 cmsApi.getListItems(this.resourceId, this.maxCount, 1, function (response) {
                     if (response.hasOwnProperty('code') && ('1' === response.code || 1 === response.code)) {
-                        document.getElementById("debug-message").innerHTML += "<br/>" + response;
+                        document.getElementById('debug-message').innerHTML += '<br/>' + response;
+                        that.remoteImage = true;        //  显示服务器上的图片
+                        for (var j = 0, length = response.dataArray.length; (j < length) && (j < that.maxCount); j++) {
+                            that.album.push({
+                                img: response.dataArray[j].img,
+                                assertId: response.dataArray[j].assetid
+                            });
+                        }
                         that.render();
                     }
                 });
             }
         }
-
-
     };
 
     this.render = function () {
@@ -91,7 +97,7 @@ function SwiperModule() {
      */
     this.focusOn = function () {
         clearInterval(this.timerId);
-        document.getElementById("swiper").style.backgroundImage =
+        document.getElementById('swiper').style.backgroundImage =
             this.remoteImage ? cmsConfig.imgUrl + this.album[this.position].img : this.album[this.position].img;
         document.getElementById('swiper-index-' + this.position).style.backgroundColor = '#13934F';
         document.getElementById('swiper-index-' + this.position).style.borderColor = '#FFFF00';
@@ -144,14 +150,14 @@ function SwiperModule() {
      */
     this.triggerTimer = function () {
         var that = this;
-        document.getElementById("swiper").style.backgroundImage =
+        document.getElementById('swiper').style.backgroundImage =
             this.remoteImage ? cmsConfig.imgUrl + this.album[this.position].img : this.album[this.position].img;
         document.getElementById('swiper-index-' + this.position).style.backgroundColor = '#13934F';
 
         this.timerId = setInterval(function () {
             document.getElementById('swiper-index-' + that.position).style.backgroundColor = '';
             that.position = (that.position + 1) % that.album.length;
-            document.getElementById("swiper").style.backgroundImage =
+            document.getElementById('swiper').style.backgroundImage =
                 that.remoteImage ? cmsConfig.imgUrl + that.album[that.position].img : that.album[that.position].img;
             document.getElementById('swiper-index-' + that.position).style.backgroundColor = '#13934F';
         }, that.interval);

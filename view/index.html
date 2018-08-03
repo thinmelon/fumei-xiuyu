@@ -194,7 +194,6 @@
                                     focusArea: this.cursor.focusArea,
                                     focusPosX: this.cursor.menu.focusPosX,
                                     focusPosY: this.cursor.menu.focusPosY,
-//                                    assertId: 'OTHE0000000000814473'
                                     resourceId: cmsConfig.indexResourceIdArray[1].resourceId
                                 }
                             };
@@ -214,7 +213,7 @@
                             'VIDEO': {
                                 backURL: this.backUrl(),
                                 focusArea: this.cursor.focusArea,
-                                resourceId: this.cursor.swiper.album[this.cursor.swiper.position].resourceId
+                                assertId: this.cursor.swiper.album[this.cursor.swiper.position].assertId
                             }
                         };
                     postfix = this.package(params);
