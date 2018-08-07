@@ -32,92 +32,114 @@
             itemsPerLine: [5, 2, 2, 2],           // 每行所包含的元素数量
             menuItemArray: [
                 {
+                    name: '党的声音',
                     left: 81,
                     top: 177,
                     width: 92,
                     height: 23,
                     bgImageSrc: 'url(../images/party/1.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/shipinhuiyi/ddsy.html?cId=783&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '秀屿先锋',
                     left: 200,
                     top: 177,
                     width: 92,
                     height: 23,
                     bgImageSrc: 'url(../images/party/2.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/shipinhuiyi/ddsy.html?cId=784&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '十九大学习',
                     left: 316,
                     top: 177,
                     width: 113,
                     height: 23,
                     bgImageSrc: 'url(../images/party/3.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: ''
                 },
                 {
+                    name: '文化生活',
                     left: 456,
                     top: 177,
                     width: 92,
                     height: 23,
                     bgImageSrc: 'url(../images/party/4.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/whsh1.html?cId=786&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '两学一做',
                     left: 578,
                     top: 177,
                     width: 92,
                     height: 23,
                     bgImageSrc: 'url(../images/party/5.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/lxyz.html?cId=787&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '全国党员远教',
                     left: 678,
                     top: 224,
                     width: 246,
                     height: 124,
                     bgImageSrc: 'url(../images/party/6.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/shipinhuiyi/qgdyyj/index.html?cId=788&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '地方党员远教',
                     left: 938,
                     top: 224,
                     width: 246,
                     height: 124,
                     bgImageSrc: 'url(../images/party/7.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/qgdyjy.html?cId=790&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '专题学习',
                     left: 678,
                     top: 355,
                     width: 246,
                     height: 124,
                     bgImageSrc: 'url(../images/party/8.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/qgdyjy.html?cId=793&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '评先评优',
                     left: 938,
                     top: 355,
                     width: 246,
                     height: 124,
                     bgImageSrc: 'url(../images/party/9.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/qgdyjy.html?cId=887&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '全程纪实',
                     left: 678,
                     top: 485,
                     width: 246,
                     height: 124,
                     bgImageSrc: 'url(../images/party/10.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/qgdyjy.html?cId=886&IP=192.168.12.139&port=8080'
                 },
                 {
+                    name: '通知公告',
                     left: 938,
                     top: 485,
                     width: 246,
                     height: 124,
                     bgImageSrc: 'url(../images/party/11.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.215.0.39/fujiandangjianNew/tzgg.html?cId=791&IP=192.168.12.139&port=8080'
                 }
             ]
         }];
@@ -207,9 +229,9 @@
                     break;
                 case 6:         //  滚动图片
                     this.cursor.swiper.triggerTimer();
-                        this.cursor.focusArea = 0;
-                        this.cursor.menu.focusPosX = 0;
-                        this.cursor.menu.focusPosY = 0;
+                    this.cursor.focusArea = 0;
+                    this.cursor.menu.focusPosX = 0;
+                    this.cursor.menu.focusPosY = 0;
                     break;
                 default:
                     break;
@@ -225,6 +247,21 @@
 
         this.doSelect = function () {
             this.remove(this.cursor.fileName);
+
+            switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    var i,
+                        _num = 0;
+
+                    for (i = 0; i < this.cursor.menu.focusPosY; i++) {
+                        _num += this.cursor.menu.itemsPerLine[i];
+                    }
+                    _num += this.cursor.menu.focusPosX;
+                    window.location.href = this.cursor.menu.menuItemArray[_num].url;
+                    break;
+                default:
+                    break;
+            }
         };
 
         this.onKeyDown = function (event) {

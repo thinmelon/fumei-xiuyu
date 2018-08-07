@@ -36,7 +36,8 @@
                     width: 218,
                     height: 221,
                     bgImageSrc: 'url(../images/putian/1.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.184.255.11//portal2/tm.htm?from=5&resourceId=149&backUrl=ptzz.html%3Farea%3D0%26m_pos%3D0'
                 },
                 {
                     left: 280,
@@ -44,7 +45,8 @@
                     width: 218,
                     height: 221,
                     bgImageSrc: 'url(../images/putian/2.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.184.255.11//portal2/tm.htm?from=2&resourceId=178&backUrl=pxyx.htm%3Farea%3D0%26m_pos%3D2'
                 },
                 {
                     left: 498,
@@ -52,7 +54,8 @@
                     width: 412,
                     height: 296,
                     bgImageSrc: 'url(../images/putian/3.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: 'http://10.184.255.11/portal2/pxyx.htm'
                 },
                 {
                     left: 56,
@@ -60,7 +63,8 @@
                     width: 218,
                     height: 225,
                     bgImageSrc: 'url(../images/putian/4.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: ''
                 },
                 {
                     left: 278,
@@ -68,7 +72,8 @@
                     width: 218,
                     height: 225,
                     bgImageSrc: 'url(../images/putian/5.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: ''
                 },
                 {
                     left: 498,
@@ -76,7 +81,8 @@
                     width: 412,
                     height: 147,
                     bgImageSrc: 'url(../images/putian/6.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: ''
                 },
                 {
                     left: 918,
@@ -84,7 +90,8 @@
                     width: 308,
                     height: 147,
                     bgImageSrc: 'url(../images/putian/7.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 0,
+                    url: ''
                 }
             ]
         }];
@@ -190,6 +197,22 @@
 
         this.doSelect = function () {
             this.remove(this.cursor.fileName);
+
+            switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    var i,
+                        _num = 0;
+
+                    for (i = 0; i < this.cursor.menu.focusPosY; i++) {
+                        _num += this.cursor.menu.itemsPerLine[i];
+                    }
+                    _num += this.cursor.menu.focusPosX;
+//                    console.log(this.cursor.menu.menuItemArray[_num].url)
+                    window.location.href = this.cursor.menu.menuItemArray[_num].url;
+                    break;
+                default:
+                    break;
+            }
         };
 
         this.onKeyDown = function (event) {
