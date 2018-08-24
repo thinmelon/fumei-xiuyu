@@ -12,6 +12,7 @@ function TransferModule() {
     this.textures = null;
     this.video = null;
     this.monitor = null;
+    this.timerId = 0;
 
     /**
      *      模块初始化
@@ -391,11 +392,20 @@ function TransferModule() {
      * 显示 DEBUG　面板
      */
     this.toggle = function () {
-        console.log('toggle');
         if (document.getElementById('debug-message').style.display === 'block') {
             document.getElementById('debug-message').style.display = 'none';
         } else {
             document.getElementById('debug-message').style.display = 'block';
         }
+    };
+
+    /**
+     * 十秒后自动跳转回首页
+     */
+    this.autoJumping = function () {
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(function () {
+            window.location.href = 'http://10.215.0.10:80/ui3/ui3/loading.htm?opk=4';
+        }, 10000);
     };
 }

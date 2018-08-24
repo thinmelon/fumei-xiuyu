@@ -39,7 +39,7 @@ function MoreModule() {
                 {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
                 {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
                 {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
-                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21},
+                {assetid: 111, img: '../images/news/3.jpg', title: '我我我我我我我我我我我', flag: 0, id: 21}
             ];
             this.pageIndex = pageIndex;
             this.totalPages = 8;
@@ -218,7 +218,6 @@ function MoreModule() {
             if (this.focusPosX > this.moreItemArray[this.focusPosY].length - 1) {
                 this.focusPosY = 0;
             }
-
         } else if (this.focusPosY < 0) {
             this.focusPosY = 0;
         } else {

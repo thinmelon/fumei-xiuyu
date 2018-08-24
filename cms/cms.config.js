@@ -11,7 +11,7 @@ var cmsConfig = {
     imgUrl: 'http://10.184.255.10:8080/manage/',
     backUrl: '',
     index_back_url: '',
-     // environment: 'DEBUG',
+    // environment: 'DEBUG',
     environment: 'PRODUCT',
 
     /**
@@ -48,7 +48,7 @@ var cmsConfig = {
         {title: '最新动态', resourceId: '769'},
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '819'}
+        {title: '右侧滚动页', resourceId: '855'}
     ],
 
     /**
@@ -71,7 +71,7 @@ var cmsConfig = {
         {title: '最新动态', resourceId: '769'},
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '819'}
+        {title: '右侧滚动页', resourceId: '856'}
     ],
 
     /**
@@ -87,7 +87,7 @@ var cmsConfig = {
         {title: '最新信息', resourceId: '770'},
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '819'}
+        {title: '右侧滚动页', resourceId: '857'}
     ],
 
 
@@ -105,7 +105,7 @@ var cmsConfig = {
         // ---------------  列表  ---------------  //
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '819'}
+        {title: '右侧滚动页', resourceId: '858'}
     ],
 
     /**
@@ -129,7 +129,7 @@ var cmsConfig = {
         // ---------------  列表  ---------------  //
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '819'}
+        {title: '右侧滚动页', resourceId: '859'}
     ],
 
     /**
@@ -145,7 +145,7 @@ var cmsConfig = {
         // ---------------  列表  ---------------  //
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '819'}
+        {title: '右侧滚动页', resourceId: '854'}
     ],
 
     /**
@@ -161,7 +161,7 @@ var cmsConfig = {
         // ---------------  列表  ---------------  //
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '819'}
+        {title: '右侧滚动页', resourceId: '861'}
     ],
 
     operator: '',

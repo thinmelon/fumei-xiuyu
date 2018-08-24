@@ -97,9 +97,9 @@ function SwiperModule() {
      */
     this.focusOn = function () {
         clearInterval(this.timerId);
-        document.getElementById('swiper').style.backgroundImage =
-            this.remoteImage ? cmsConfig.imgUrl + this.album[this.position].img : this.album[this.position].img;
-        document.getElementById('swiper-index-' + this.position).style.backgroundColor = '#13934F';
+        // document.getElementById('swiper').style.backgroundImage =
+        //     this.remoteImage ? cmsConfig.imgUrl + this.album[this.position].img : this.album[this.position].img;
+        this.setBackgroundImage();
         document.getElementById('swiper-index-' + this.position).style.borderColor = '#FFFF00';
     };
 
@@ -146,20 +146,29 @@ function SwiperModule() {
     };
 
     /**
+     * 设置背景图片
+     */
+    this.setBackgroundImage = function () {
+        var bgImage = this.remoteImage ? 'url(' + cmsConfig.imgUrl + this.album[this.position].img + ')' : this.album[this.position].img;
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'triggerTimer ==>  background image ====> ' + bgImage;
+        document.getElementById('swiper').style.backgroundImage = bgImage;
+        document.getElementById('swiper-index-' + this.position).style.backgroundColor = '#13934F';
+    };
+
+    /**
      *  依次显示图集内的图片
      */
     this.triggerTimer = function () {
         var that = this;
-        document.getElementById('swiper').style.backgroundImage =
-            this.remoteImage ? cmsConfig.imgUrl + this.album[this.position].img : this.album[this.position].img;
+
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'triggerTimer ==>  setBackgroundImage';
+        this.setBackgroundImage();
         document.getElementById('swiper-index-' + this.position).style.backgroundColor = '#13934F';
 
         this.timerId = setInterval(function () {
             document.getElementById('swiper-index-' + that.position).style.backgroundColor = '';
             that.position = (that.position + 1) % that.album.length;
-            document.getElementById('swiper').style.backgroundImage =
-                that.remoteImage ? cmsConfig.imgUrl + that.album[that.position].img : that.album[that.position].img;
-            document.getElementById('swiper-index-' + that.position).style.backgroundColor = '#13934F';
+            that.setBackgroundImage();
         }, that.interval);
     };
 }

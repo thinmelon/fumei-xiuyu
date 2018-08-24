@@ -9,7 +9,6 @@
 <div id="bar" class="bar"></div>
 <div id="menu"></div>
 <div id="swiper" class="swiper"></div>
-<div id="notification"></div>
 <div class="button-intro"></div>
 <div id="weather-forecast"></div>
 <div id="cursor"></div>
@@ -40,7 +39,7 @@
                     width: 792,
                     height: 446,
                     bgImageSrc: 'url(../images/index/1.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: cmsConfig.indexResourceIdArray[1].resourceId
                 },
                 {
                     left: 858,
@@ -61,7 +60,7 @@
         this.swiperLeft = 858;
         this.swiperWidth = 371;
         this.swiperHeight = 300;
-        this.resourceId = cmsConfig.indexResourceIdArray[3].resourceId
+        this.resourceId = cmsConfig.indexResourceIdArray[3].resourceId;
     }
 
     function CursorComponent(bar, swiper, menu) {
@@ -226,6 +225,7 @@
 
         this.onKeyDown = function (event) {
             var code = getKeyCode(event);
+            that.autoJumping();
 
             switch (code) {
                 case 'KEY_NUMBER1':
@@ -271,10 +271,26 @@
         menuComponent.init();
         cursorComponent.focusOn();
 
-        showTitleForMarquee(
-            '通知：莆田秀屿区召开文明城市常态化创建工作部署会议',
-            document.getElementById('notification'),
-            10);
+        if (cmsConfig.environment === 'PRODUCT') {
+            cmsApi.getListItems(cmsConfig.indexResourceIdArray[1].resourceId, 1, 1, function (response) {
+                if (response.hasOwnProperty('code')) {
+                    if ('1' === response.code || 1 === response.code) {
+                        if (response.dataArray.length > 0) {
+                            document.getElementById('debug-message').innerHTML += '<br/>' + '  IMAGE  ==> ' + response.dataArray[0].img;
+                            menuComponent.menuPageArray[0].menuItemArray[0].bgImageSrc =
+                                'url(' + cmsConfig.imgUrl + response.dataArray[0].img + ')';
+                            menuComponent.init();
+                        }
+                    }
+                }
+                transferComponent.autoJumping();
+            });
+        } else {
+            menuComponent.menuPageArray[0].menuItemArray[0].bgImageSrc = 'url(../images/index/1.jpg) no-repeat';
+            menuComponent.init();
+            transferComponent.autoJumping();
+        }
+
         document.onkeydown = transferComponent.onKeyDown;
 
         weatherModule.init(function () {
@@ -286,6 +302,9 @@
                     '&nbsp;&nbsp;&nbsp;' + weatherModule.windScale;
             }
         });
+
+        cmsApi.createMediaPlayer();
+        cmsApi.playSmallAV();
     };
 </script>
 </html>

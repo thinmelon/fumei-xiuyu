@@ -45,7 +45,7 @@ function Postman() {
          500: 服务器内部错误
          * */
         this.xhr.onreadystatechange = function () {
-            document.getElementById("debug-message").innerHTML += "<br/>" + "readyState ==> " + that.xhr.readyState + " status ==>  " + that.xhr.status;
+            // document.getElementById("debug-message").innerHTML += "<br/>" + "readyState ==> " + that.xhr.readyState + " status ==>  " + that.xhr.status;
             var
                 contentType = "";
 
