@@ -6,17 +6,19 @@
     <title>秀屿新闻</title>
 </head>
 <body>
-<div id="bar" class="bar"></div>
-<div id="menu"></div>
-<div id="swiper" class="swiper"></div>
-<div id="notices_board" class="notices_board">
-    <div id="notices_board_bar"></div>
-    <div class="list-item-more"></div>
+<div class="background">
+    <div id="bar" class="bar"></div>
+    <div id="menu"></div>
+    <div id="swiper" class="swiper"></div>
+    <div id="notices_board" class="notices_board">
+        <div id="notices_board_bar"></div>
+        <div class="list-item-more"></div>
+    </div>
+    <div class="weixin"></div>
+    <div class="button-intro"></div>
+    <div id="cursor"></div>
+    <div id="debug-message"></div>
 </div>
-<div class="weixin"></div>
-<div class="button-intro"></div>
-<div id="cursor"></div>
-<div id="debug-message"></div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
 <script type="application/javascript" src="../utility/async.js"></script>
@@ -55,7 +57,7 @@
         this.swiperLeft = 858;
         this.swiperWidth = 371;
         this.swiperHeight = 300;
-        this.resourceId = cmsConfig.newsResourceIdArray[2].resourceId
+        this.resourceId = cmsConfig.newsResourceIdArray[2].resourceId;
     }
 
     function ListComponent() {

@@ -1,5 +1,16 @@
+/* ----  背景  ---- */
+.index-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1280px;
+    height: 720px;
+    margin: 0;
+    background: url(../images/bg.png) no-repeat;
+    background-size: 100%;
+}
 
-body {
+.background {
     position: absolute;
     left: 0;
     top: 0;

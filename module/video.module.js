@@ -6,9 +6,15 @@ function VideoModule() {
     var that = this;
 
     // 属性
+    this.smallScreenPlay = false;                  //  对于 video.html 默认为全屏播放
     this.resourceId = '';
     this.assertId = '';
     this.backURL = '';
+    this.smallScreenLeft = 56;
+    this.smallScreenTop = 164;
+    this.smallScreenWidth = 792;
+    this.smallScreenHeight = 446;
+    this.mediaPlayer = null;
 
     if (cmsConfig.environment === 'DEBUG') {
         this.ip = '10.215.0.12';
@@ -26,6 +32,16 @@ function VideoModule() {
     this.init = function () {
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Resource ID ==> ' + this.resourceId;
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Assert ID ==> ' + this.assertId;
+        //  小屏播放，创建播放器对象
+        if (this.smallScreenPlay) {
+            this.mediaPlayer = cmsApi.createMediaPlayer(
+                this.smallScreenLeft,
+                this.smallScreenTop,
+                this.smallScreenWidth,
+                this.smallScreenHeight
+            );
+        }
+        //  视频地址来源
         if (this.assertId !== '') {
             this.play();
         } else if (this.resourceId !== '') {
@@ -73,19 +89,29 @@ function VideoModule() {
                             document.getElementById('debug-message').innerHTML += '<br/>' + '1  ==> ' + jsonUtils.stringify(stream.StartResponse[0]);
                             document.getElementById('debug-message').innerHTML += '<br/>' + '1.1  ==> ' + stream.StartResponse[0].rtsp;
                             if (typeof (stream) === 'object' && stream !== null) {
-                                //
-                                // 跳转至视频播放链接
-                                //
-                                cmsApi.playVideo(
-                                    stream.StartResponse[0].rtsp.split(';'),
-                                    stream.StartResponse[0].previewAssetId,
-                                    stream.StartResponse[0].startTime,
-                                    stream.StartResponse[0].purchaseToken,
-                                    that.assertId,
-                                    _data.ItemData[0].SelectableItem[0],
-                                    0,
-                                    that.backURL
-                                );
+                                if (that.smallScreenPlay) {
+                                    //
+                                    //  小屏播放
+                                    //
+                                    cmsApi.setSmallScreenVideo(
+                                        stream.StartResponse[0].rtsp.split(';'),
+                                        that.mediaPlayer
+                                    );
+                                } else {
+                                    //
+                                    // 跳转至视频播放链接（全屏）
+                                    //
+                                    cmsApi.playVideo(
+                                        stream.StartResponse[0].rtsp.split(';'),
+                                        stream.StartResponse[0].previewAssetId,
+                                        stream.StartResponse[0].startTime,
+                                        stream.StartResponse[0].purchaseToken,
+                                        that.assertId,
+                                        _data.ItemData[0].SelectableItem[0],
+                                        0,
+                                        that.backURL
+                                    );
+                                }
                             }
                         });
                 } else {
@@ -102,5 +128,13 @@ function VideoModule() {
 
             }
         });
+    };
+
+    this.autoPlaySmallVideo = function () {
+        cmsApi.playSmallScreenVideo(this.mediaPlayer);
+    };
+
+    this.stop = function () {
+        cmsApi.stopSmallScreenVideo(this.mediaPlayer);
     };
 }

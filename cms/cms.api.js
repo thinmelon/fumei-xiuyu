@@ -189,110 +189,181 @@ var cmsApi = {
         window.location.href = _link;
     },
 
+    /**
+     * 创建播放器对象
+     * @param left
+     * @param top
+     * @param width
+     * @param height
+     * @returns {MediaPlayer}
+     */
+    createMediaPlayer: function (left, top, width, height) {
+        var mediaPlayer = new MediaPlayer(),                    //  创建播放器
+            mediaID = mediaPlayer.getPlayerInstanceID(),        //   获取mediaID
+            flag = mediaPlayer.bindPlayerInstance(mediaID),     // 绑定
+            rectangle;
+
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> mediaID: ' + mediaID + ' | Flag: ' + flag;
+        if (flag === 0) {
+            rectangle = new Rectangle(left, top, width, height);
+            var displayArea = mediaPlayer.setVideoDisplayArea(rectangle);
+            var displayMode = mediaPlayer.setVideoDisplayMode(0);
+            var refresh = mediaPlayer.refresh();
+            document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> rectangle ==> LEFT ' + rectangle.left + ' | TOP: ' + rectangle.top + ' | WIDTH: ' + rectangle.width + ' | HEIGHT: ' + rectangle.height;
+            document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> displayArea: ' + displayArea + ' | displayMode: ' + displayMode + ' | refresh: ' + refresh;
+        }
+
+        return mediaPlayer;
+    },
+
+    /**
+     * 小屏播放
+     * @param rtsp
+     * @param mediaPlayer
+     */
+    setSmallScreenVideo: function (rtsp, mediaPlayer) {
+        // var
+        //     playUrl = rtsp[0] + ';' + rtsp[1] + ';' + rtsp[2] + ';areacode=' + VOD.areaCode + ';client=' + CAManager.cardSerialNumber;
+        var
+            serverId = rtsp[2].split(':'),
+            smallScreenPlayUrl = rtsp[0] + ';' + rtsp[1] + ';' + serverId[0] + ':8080' + ';areacode=' + VOD.areaCode + ';client=' + CAManager.cardSerialNumber;
+
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> smallScreenPlayUrl ==> ' + smallScreenPlayUrl;
+        GlobalVarManager.setItemStr('playType', 'VOD');
+        mediaPlayer.setMediaSource(smallScreenPlayUrl);
+
+    },
+
+    playSmallScreenVideo: function (mediaPlayer) {
+        if (mediaPlayer) {
+            document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> playSmallScreenVideo';
+            mediaPlayer.play();
+        }
+    },
+
+    /**
+     * 暂停小屏播放
+     * @param mediaPlayer
+     */
+    stopSmallScreenVideo: function (mediaPlayer) {
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> stopSmallScreenVideo';
+        if (mediaPlayer) {
+            var mediaID = mediaPlayer.getPlayerInstanceID();    //   获取mediaID
+            document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> stopSmallScreenVideo ==> mediaID: ' + mediaID;
+            mediaPlayer.stop();
+            mediaPlayer.unbindPlayerInstance(mediaID);          //MediaPlayer对象和当前播放器实例解除绑定，并释放播放器的相关资源。
+            mediaPlayer = null;
+        }
+    },
+
+    /**
+     * 天气预报
+     * @param response
+     */
     fetchWeatherReport: function (response) {
         var _url = 'http://10.215.0.36/weather/sy/PUTIAN.js';
 
         this.doGet2(_url, response);
-    },
-
-    mediaPlayer: null,
-    mediaID: null,
-    createPlayerSuccess: false,
-
-    /*首页版块小视屏相关  start*/
-    createMediaPlayer: function () {//创建播放器对象
-        document.getElementById('debug-message').innerHTML += '<br/>' + '!!!!!! createMediaPlayer !!!!!!';
-        this.mediaPlayer = new MediaPlayer();
-        this.mediaID = this.mediaPlayer.getPlayerInstanceID();
-        var flag = this.mediaPlayer.bindPlayerInstance(this.mediaID);
-        document.getElementById('debug-message').innerHTML += '<br/>' + '===> createMediaPlayer ===> FlAG: ' + flag;
-        this.createPlayerSuccess = (flag === 0);
-        if (this.createPlayerSuccess) {
-            var rect = new Rectangle(71, 142, 575, 325);
-            var flag1 = this.mediaPlayer.setVideoDisplayArea(rect);
-            var flag2 = this.mediaPlayer.setVideoDisplayMode(0);
-            var flag3 = this.mediaPlayer.refresh();
-            document.getElementById('debug-message').innerHTML += '<br/>' + '===> createMediaPlayer ===> New Rectangle ';
-            GlobalVarManager.setItemStr('playType', 'DVB');
-            GlobalVarManager.setItemStr('stopMode', '0');
-        }
-    },
-
-    stopSmallAV: function () {//停止播放小视屏
-        if (this.createPlayerSuccess) {
-            this.mediaPlayer.stop();
-        }
-    },
-
-    //播放小视屏，第一次进入则播放0频道，否则的话播放关机频道
-    playSmallAV: function () {
-        if (!this.createPlayerSuccess)
-            return;
-
-        document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV';
-        var filterArray = [1000, 1000];
-        var valueArray = [1, 2];
-        var channelList = ChannelManager.filter(filterArray, valueArray);
-        var currChannel = null;
-        var servcieId;
-        var location;
-
-        document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> Channel List Length:  ' + channelList.length;
-        if (channelList.length === 0) {
-            //$("AVTips").innerText = "无节目，请重新搜索";
-            //$("AVTips").style.visibility = "visible";
-            return;
-        }
-
-        var initPlayServiceId = GlobalVarManager.getItemStr('initPlayServiceId');
-
-        document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> initPlayServiceId: ' + initPlayServiceId;
-
-        for (var i = 0; i < channelList.length; i++) {
-            servcieId = channelList[i].getService().service_id;
-            if (servcieId === initPlayServiceId) {
-                currChannel = channelList[i];
-                break;
-            }
-        }
-
-        document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> currChannel: ' + currChannel;
-
-        if (currChannel) {
-            location = currChannel.getService().getLocation();
-            document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> location: ' + location;
-            this.mediaPlayer.setMediaSource(location);              //0频道不让编辑的，因此不用判断是否锁定
-            return;
-        }
-
-        currChannel = ChannelManager.getShutDownChannel(128);
-
-        document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> currChannel After getShutDownChannel: ' + currChannel;
-
-        if (!currChannel) {
-            currChannel = channelList[0];
-            document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> currChannel set as : channelList[0]: ' + currChannel;
-        }
-
-        if (currChannel.type === 0x02) {//广播频道
-            //$("musicImg").src = "audio_bg.jpg";
-            //$("musicBg").style.visibility = "visible";
-        }
-        else {
-            //$("musicBg").style.visibility = "hidden";
-        }
-        var tableID = DataAccess.getUserPropertyTable('userInfo');
-        var passwordEnable = DataAccess.getProperty(tableID, 'passwordEnable');
-
-        document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> tableID: ' + tableID + ' ==> passwordEnable' + passwordEnable;
-        if (passwordEnable && currChannel.isLocked) {//锁定的
-            this.mediaPlayer.stop();
-            //$("AVTips").style.visibility = "频道锁定";
-            //$("AVTips").style.visibility = "visible";
-        }
-        else {
-            location = currChannel.getService().getLocation();
-            this.mediaPlayer.setMediaSource(location);
-        }
     }
+
+    // mediaPlayer: null,
+    // mediaID: null,
+    // createPlayerSuccess: false,
+    //
+    // /*首页版块小视屏相关  start*/
+    // createMediaPlayer: function () {//创建播放器对象
+    //     document.getElementById('debug-message').innerHTML += '<br/>' + '!!!!!! createMediaPlayer !!!!!!';
+    //     this.mediaPlayer = new MediaPlayer();
+    //     this.mediaID = this.mediaPlayer.getPlayerInstanceID();
+    //     var flag = this.mediaPlayer.bindPlayerInstance(this.mediaID);
+    //     document.getElementById('debug-message').innerHTML += '<br/>' + '===> createMediaPlayer ===> FlAG: ' + flag;
+    //     this.createPlayerSuccess = (flag === 0);
+    //     if (this.createPlayerSuccess) {
+    //         var rect = new Rectangle(71, 142, 575, 325);
+    //         var flag1 = this.mediaPlayer.setVideoDisplayArea(rect);
+    //         var flag2 = this.mediaPlayer.setVideoDisplayMode(0);
+    //         var flag3 = this.mediaPlayer.refresh();
+    //         document.getElementById('debug-message').innerHTML += '<br/>' + '===> createMediaPlayer ===> New Rectangle ';
+    //         GlobalVarManager.setItemStr('playType', 'DVB');
+    //         GlobalVarManager.setItemStr('stopMode', '0');
+    //     }
+    // },
+    //
+    // stopSmallAV: function () {//停止播放小视屏
+    //     if (this.createPlayerSuccess) {
+    //         this.mediaPlayer.stop();
+    //     }
+    // },
+    //
+    // //播放小视屏，第一次进入则播放0频道，否则的话播放关机频道
+    // playSmallAV: function () {
+    //     if (!this.createPlayerSuccess)
+    //         return;
+    //
+    //     document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV';
+    //     var filterArray = [1000, 1000];
+    //     var valueArray = [1, 2];
+    //     var channelList = ChannelManager.filter(filterArray, valueArray);
+    //     var currChannel = null;
+    //     var servcieId;
+    //     var location;
+    //
+    //     document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> Channel List Length:  ' + channelList.length;
+    //     if (channelList.length === 0) {
+    //         //$("AVTips").innerText = "无节目，请重新搜索";
+    //         //$("AVTips").style.visibility = "visible";
+    //         return;
+    //     }
+    //
+    //     var initPlayServiceId = GlobalVarManager.getItemStr('initPlayServiceId');
+    //
+    //     document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> initPlayServiceId: ' + initPlayServiceId;
+    //
+    //     for (var i = 0; i < channelList.length; i++) {
+    //         servcieId = channelList[i].getService().service_id;
+    //         if (servcieId === initPlayServiceId) {
+    //             currChannel = channelList[i];
+    //             break;
+    //         }
+    //     }
+    //
+    //     document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> currChannel: ' + currChannel;
+    //
+    //     if (currChannel) {
+    //         location = currChannel.getService().getLocation();
+    //         document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> location: ' + location;
+    //         this.mediaPlayer.setMediaSource(location);              //0频道不让编辑的，因此不用判断是否锁定
+    //         return;
+    //     }
+    //
+    //     currChannel = ChannelManager.getShutDownChannel(128);
+    //
+    //     document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> currChannel After getShutDownChannel: ' + currChannel;
+    //
+    //     if (!currChannel) {
+    //         currChannel = channelList[0];
+    //         document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> currChannel set as : channelList[0]: ' + currChannel;
+    //     }
+    //
+    //     if (currChannel.type === 0x02) {//广播频道
+    //         //$("musicImg").src = "audio_bg.jpg";
+    //         //$("musicBg").style.visibility = "visible";
+    //     }
+    //     else {
+    //         //$("musicBg").style.visibility = "hidden";
+    //     }
+    //     var tableID = DataAccess.getUserPropertyTable('userInfo');
+    //     var passwordEnable = DataAccess.getProperty(tableID, 'passwordEnable');
+    //
+    //     document.getElementById('debug-message').innerHTML += '<br/>' + '===> playSmallAV ==> tableID: ' + tableID + ' ==> passwordEnable' + passwordEnable;
+    //     if (passwordEnable && currChannel.isLocked) {//锁定的
+    //         this.mediaPlayer.stop();
+    //         //$("AVTips").style.visibility = "频道锁定";
+    //         //$("AVTips").style.visibility = "visible";
+    //     }
+    //     else {
+    //         location = currChannel.getService().getLocation();
+    //         this.mediaPlayer.setMediaSource(location);
+    //     }
+    // }
 };

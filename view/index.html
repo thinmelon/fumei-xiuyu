@@ -5,17 +5,18 @@
     <link rel="stylesheet" href="../style/common.css">
     <title>富美秀屿</title>
 </head>
-<body>
-<div id="bar" class="bar"></div>
-<div id="menu"></div>
-<div id="swiper" class="swiper"></div>
-<div class="button-intro"></div>
-<div id="weather-forecast"></div>
-<div id="cursor"></div>
-<div id="debug-message"></div>
+<body bgcolor="transparent">
+<div class="index-bg">
+    <div id="bar" class="bar"></div>
+    <div id="menu"></div>
+    <div id="swiper" class="swiper"></div>
+    <div class="button-intro"></div>
+    <div id="weather-forecast"></div>
+    <div id="cursor"></div>
+    <div id="debug-message"></div>
+</div>
 </body>
 <script type="application/javascript" src="../utility/assistant.js"></script>
-<script type="application/javascript" src="../utility/async.js"></script>
 <script type="application/javascript" src="../utility/async.js"></script>
 <script type="application/javascript" src="../cms/cms.config.js"></script>
 <script type="application/javascript" src="../cms/cms.api.js"></script>
@@ -23,6 +24,7 @@
 <script type="application/javascript" src="../wrapper/bar.wrapper.js"></script>
 <script type="application/javascript" src="../module/swiper.module.js"></script>
 <script type="application/javascript" src="../module/menu.module.js"></script>
+<script type="application/javascript" src="../module/video.module.js"></script>
 <script type="application/javascript" src="../module/cursor.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
 <script type="application/javascript" src="../module/weather.module.js"></script>
@@ -31,16 +33,16 @@
         MenuModule.call(this);
 
         this.menuPageArray = [{
-            itemsPerLine: [2],           // 每行所包含的元素数量
+            itemsPerLine: [1],           // 每行所包含的元素数量
             menuItemArray: [
-                {
-                    left: 56,
-                    top: 164,
-                    width: 792,
-                    height: 446,
-                    bgImageSrc: 'url(../images/index/1.jpg) no-repeat',
-                    resourceId: cmsConfig.indexResourceIdArray[1].resourceId
-                },
+//                {
+//                    left: 56,
+//                    top: 164,
+//                    width: 792,
+//                    height: 446,
+//                    bgImageSrc: 'url(../images/index/1.jpg) no-repeat',
+//                    resourceId: cmsConfig.indexResourceIdArray[1].resourceId
+//                },
                 {
                     left: 858,
                     top: 468,
@@ -74,6 +76,13 @@
         this.fileName = 'PG-ONE';
     }
 
+    function VideoComponent() {
+        VideoModule.call(this);
+
+        this.smallScreenPlay = true;
+        this.resourceId = cmsConfig.indexResourceIdArray[1].resourceId;
+    }
+
     function TransferComponent(cursor) {
         var that = this,
             postfix = '',
@@ -88,11 +97,12 @@
             this.cursor.focusOut();
             switch (this.cursor.focusArea) {
                 case 0:         // 菜单
-                    if (this.cursor.menu.focusPosX === 0) {
-                        this.cursor.focusArea = 6;
-                    } else {
-                        this.cursor.menu.moveX(direction);
-                    }
+//                    if (this.cursor.menu.focusPosX === 0) {
+//                        this.cursor.focusArea = 6;
+//                    } else {
+//                        this.cursor.menu.moveX(direction);
+//                    }
+                    this.cursor.menu.moveX(direction);
                     break;
                 case 5:         // 栏目
                     this.remove('PG-ONE');              // 清除同一级的路径记录
@@ -127,20 +137,15 @@
             switch (this.cursor.focusArea) {
                 case 0:         // 菜单
                     if (-1 === this.cursor.menu.moveY(direction)) {
-                        if (this.cursor.menu.focusPosX === 0) {
+                        if (direction < 0) {
+                            this.cursor.focusArea = 6;
+                        } else {
                             this.cursor.focusArea = 5;
-                        } else if (this.cursor.menu.focusPosX === 1) {
-                            if (direction < 0) {
-                                this.cursor.focusArea = 6;
-                            } else {
-                                this.cursor.focusArea = 5;
-                            }
                         }
                     }
                     break;
                 case 5:         // 栏目
-                    this.cursor.focusArea = 0;
-                    this.cursor.menu.focusPosX = 0;
+                    this.cursor.focusArea = 6;
                     break;
                 case 6:         //  滚动图片
                     if (-1 === this.cursor.swiper.moveY(direction)) {
@@ -149,7 +154,6 @@
                             this.cursor.focusArea = 5;
                         } else {
                             this.cursor.focusArea = 0;
-                            this.cursor.menu.focusPosX = 1;
                         }
 
                     }
@@ -177,28 +181,28 @@
             this.remove(this.cursor.fileName);
             switch (this.cursor.focusArea) {
                 case 0:         // 菜单
-                    if (this.cursor.menu.focusPosX === 0 && this.cursor.menu.focusPosY === 0) {
-                        params =
-                            {
-                                /**
-                                 * 一级页面
-                                 */
-                                'PG-ONE': {
-                                    focusArea: this.cursor.focusArea,
-                                    focusPosX: this.cursor.menu.focusPosX,
-                                    focusPosY: this.cursor.menu.focusPosY
-                                },
-                                'VIDEO': {
-                                    backURL: this.backUrl(),
-                                    focusArea: this.cursor.focusArea,
-                                    focusPosX: this.cursor.menu.focusPosX,
-                                    focusPosY: this.cursor.menu.focusPosY,
-                                    resourceId: cmsConfig.indexResourceIdArray[1].resourceId
-                                }
-                            };
-                        postfix = this.package(params);
-                        window.location.href = 'video.html' + postfix;
-                    }
+//                    if (this.cursor.menu.focusPosX === 0 && this.cursor.menu.focusPosY === 0) {
+//                        params =
+//                            {
+//                                /**
+//                                 * 一级页面
+//                                 */
+//                                'PG-ONE': {
+//                                    focusArea: this.cursor.focusArea,
+//                                    focusPosX: this.cursor.menu.focusPosX,
+//                                    focusPosY: this.cursor.menu.focusPosY
+//                                },
+//                                'VIDEO': {
+//                                    backURL: this.backUrl(),
+//                                    focusArea: this.cursor.focusArea,
+//                                    focusPosX: this.cursor.menu.focusPosX,
+//                                    focusPosY: this.cursor.menu.focusPosY,
+//                                    resourceId: cmsConfig.indexResourceIdArray[1].resourceId
+//                                }
+//                            };
+//                        postfix = this.package(params);
+//                        window.location.href = 'video.html' + postfix;
+//                    }
                     break;
                 case 6:
                     params =
@@ -223,9 +227,8 @@
             }
         };
 
-        this.onKeyDown = function (event) {
+        this.grapKeyEvent = function (event) {
             var code = getKeyCode(event);
-            that.autoJumping();
 
             switch (code) {
                 case 'KEY_NUMBER1':
@@ -250,11 +253,29 @@
                 case 'KEY_BACK':
                     that.doBack();
                     return false;
+                    /*  小视频消息处理   */
+                case 5202:										// open success
+                case 13001:
+                    document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  autoPlaySmallVideo  ||||||||||||| ';
+                    videoComponent.autoPlaySmallVideo();
+                    return false;
+                case 'IPANEL_PLAY_END':
+                    document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  IPANEL_PLAY_END  ||||||||||||| ';
+                    videoComponent.stop();
+                    videoComponent.init();
+                    return false;
                 default:
                     break;
             }
         };
+
+        this.onKeyDown = function (event) {
+            that.autoJumping();
+            that.grapKeyEvent(event);
+        }
     }
+
+    var videoComponent = new VideoComponent();                  //  视频播放模块
 
     window.onload = function () {
         var
@@ -265,33 +286,37 @@
             transferComponent = new TransferComponent(cursorComponent),
             weatherModule = new WeatherModule();
 
+        document.onkeydown = transferComponent.onKeyDown;       //  按键事件处理
+        document.onkeypress = transferComponent.grapKeyEvent;
+        document.onirkeypress = transferComponent.grapKeyEvent;
+        document.onsystemevent = transferComponent.grapKeyEvent;
+
         transferComponent.init();
         barComponent.init();
         swiperComponent.init();
         menuComponent.init();
+        videoComponent.init();
         cursorComponent.focusOn();
 
-        if (cmsConfig.environment === 'PRODUCT') {
-            cmsApi.getListItems(cmsConfig.indexResourceIdArray[1].resourceId, 1, 1, function (response) {
-                if (response.hasOwnProperty('code')) {
-                    if ('1' === response.code || 1 === response.code) {
-                        if (response.dataArray.length > 0) {
-                            document.getElementById('debug-message').innerHTML += '<br/>' + '  IMAGE  ==> ' + response.dataArray[0].img;
-                            menuComponent.menuPageArray[0].menuItemArray[0].bgImageSrc =
-                                'url(' + cmsConfig.imgUrl + response.dataArray[0].img + ')';
-                            menuComponent.init();
-                        }
-                    }
-                }
-                transferComponent.autoJumping();
-            });
-        } else {
-            menuComponent.menuPageArray[0].menuItemArray[0].bgImageSrc = 'url(../images/index/1.jpg) no-repeat';
-            menuComponent.init();
-            transferComponent.autoJumping();
-        }
-
-        document.onkeydown = transferComponent.onKeyDown;
+//        if (cmsConfig.environment === 'PRODUCT') {
+//            cmsApi.getListItems(cmsConfig.indexResourceIdArray[1].resourceId, 1, 1, function (response) {
+//                if (response.hasOwnProperty('code')) {
+//                    if ('1' === response.code || 1 === response.code) {
+//                        if (response.dataArray.length > 0) {
+//                            document.getElementById('debug-message').innerHTML += '<br/>' + '  IMAGE  ==> ' + response.dataArray[0].img;
+//                            menuComponent.menuPageArray[0].menuItemArray[0].bgImageSrc =
+//                                'url(' + cmsConfig.imgUrl + response.dataArray[0].img + ')';
+//                            menuComponent.init();
+//                        }
+//                    }
+//                }
+//                transferComponent.autoJumping();
+//            });
+//        } else {
+//            menuComponent.menuPageArray[0].menuItemArray[0].bgImageSrc = 'url(../images/index/1.jpg) no-repeat';
+//            menuComponent.init();
+//            transferComponent.autoJumping();
+//        }
 
         weatherModule.init(function () {
             if (weatherModule.temperature !== '') {
@@ -302,9 +327,10 @@
                     '&nbsp;&nbsp;&nbsp;' + weatherModule.windScale;
             }
         });
+    };
 
-        cmsApi.createMediaPlayer();
-        cmsApi.playSmallAV();
+    window.onunload = function () {
+        videoComponent.stop();
     };
 </script>
 </html>
