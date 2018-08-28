@@ -287,8 +287,8 @@
             weatherModule = new WeatherModule();
 
         document.onkeydown = transferComponent.onKeyDown;       //  按键事件处理
-        document.onkeypress = transferComponent.grapKeyEvent;
-        document.onirkeypress = transferComponent.grapKeyEvent;
+//        document.onkeypress = transferComponent.grapKeyEvent;
+//        document.onirkeypress = transferComponent.grapKeyEvent;
         document.onsystemevent = transferComponent.grapKeyEvent;
 
         transferComponent.init();
@@ -297,6 +297,7 @@
         menuComponent.init();
         videoComponent.init();
         cursorComponent.focusOn();
+        transferComponent.autoJumping();
 
 //        if (cmsConfig.environment === 'PRODUCT') {
 //            cmsApi.getListItems(cmsConfig.indexResourceIdArray[1].resourceId, 1, 1, function (response) {
