@@ -11,9 +11,9 @@ var cmsConfig = {
     imgUrl: 'http://10.184.255.10:8080/manage/',
     backUrl: '',
     index_back_url: '',
-    //environment: 'DEBUG',
+    // environment: 'DEBUG',
     environment: 'PRODUCT',
-
+    //
     /**
      * 富美秀屿
      */
@@ -114,8 +114,8 @@ var cmsConfig = {
     topicResourceIdArray: [
         {title: '专题专栏', resourceId: '0'},
         // ---------------  菜单  ---------------  //
-        {title: '海报一', resourceId: '0'},
-        {title: '海报二', resourceId: '0'},
+        {title: '海报一', resourceId: '875'},
+        {title: '海报二', resourceId: '876'},
         {title: '人文秀屿', resourceId: '822'},
         {title: '平安秀屿', resourceId: '823'},
         {title: '教育卫生', resourceId: '824'},

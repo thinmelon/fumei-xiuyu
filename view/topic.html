@@ -37,7 +37,7 @@
                     top: 164,
                     width: 580,
                     height: 354,
-                    bgImageSrc: 'url(../images/topic/1.jpg) no-repeat',
+                    bgImageSrc: '',
                     resourceId: cmsConfig.topicResourceIdArray[1].resourceId
                 },
                 {
@@ -45,7 +45,7 @@
                     top: 164,
                     width: 273,
                     height: 352,
-                    bgImageSrc: 'url(../images/topic/2.jpg) no-repeat',
+                    bgImageSrc: '',
                     resourceId: cmsConfig.topicResourceIdArray[2].resourceId
                 },
                 {
@@ -232,22 +232,41 @@
                     }
                     _num += this.cursor.menu.focusPosX;
 
-                    params = {
-                        'PG-ONE': {
-                            focusArea: this.cursor.focusArea,
-                            focusPosX: this.cursor.menu.focusPosX,
-                            focusPosY: this.cursor.menu.focusPosY
-                        }
-                    };
-                    params.PG_MORE = {
-                        resourceId: this.cursor.menu.menuItemArray[_num].resourceId,
-                        resourceType: 'video',
-                        backURL: 'topic.html',
-                        logoImageSrc: '',
-                        pageIndex: 1
-                    };
-                    postfix = this.package(params);
-                    window.location.href = 'more.html' + postfix;
+                    console.log(_num);
+                    if (_num < 2) {             // 中间两个海报关联的是视频资源
+                        params =
+                            {
+                                'PG-ONE': {
+                                    focusArea: this.cursor.focusArea,
+                                    focusPosX: this.cursor.menu.focusPosX,
+                                    focusPosY: this.cursor.menu.focusPosY
+                                },
+                                'VIDEO': {
+                                    backURL: this.backUrl(),
+                                    focusArea: this.cursor.focusArea,
+                                    resourceId: this.cursor.menu.menuItemArray[_num].resourceId
+                                }
+                            };
+                        postfix = this.package(params);
+                        window.location.href = 'video.html' + postfix;
+                    } else {
+                        params = {
+                            'PG-ONE': {
+                                focusArea: this.cursor.focusArea,
+                                focusPosX: this.cursor.menu.focusPosX,
+                                focusPosY: this.cursor.menu.focusPosY
+                            }
+                        };
+                        params.PG_MORE = {
+                            resourceId: this.cursor.menu.menuItemArray[_num].resourceId,
+                            resourceType: 'video',
+                            backURL: 'topic.html',
+                            logoImageSrc: '',
+                            pageIndex: 1
+                        };
+                        postfix = this.package(params);
+                        window.location.href = 'more.html' + postfix;
+                    }
                     break;
                 default:
                     break;
@@ -300,6 +319,20 @@
         menuComponent.init();
         cursorComponent.focusOn();
         document.onkeydown = transferComponent.onKeyDown;
+
+        cmsApi.fetchServerImage(
+            menuComponent,
+            cmsConfig.topicResourceIdArray[1].resourceId,
+            menuComponent.menuPageArray[0].menuItemArray[0],
+            'url(../images/topic/1.jpg) no-repeat'
+        );
+
+        cmsApi.fetchServerImage(
+            menuComponent,
+            cmsConfig.topicResourceIdArray[2].resourceId,
+            menuComponent.menuPageArray[0].menuItemArray[1],
+            'url(../images/topic/2.jpg) no-repeat'
+        );
     };
 </script>
 </html>

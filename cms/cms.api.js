@@ -264,6 +264,32 @@ var cmsApi = {
         var _url = 'http://10.215.0.36/weather/sy/PUTIAN.js';
 
         this.doGet2(_url, response);
+    },
+
+    /**
+     *  获取服务器上的图片，并更新模块
+     * @param component
+     * @param resourceId
+     * @param element
+     * @param options
+     */
+    fetchServerImage: function (component, resourceId, element, options) {
+        if (cmsConfig.environment === 'PRODUCT') {
+            cmsApi.getListItems(resourceId, 1, 1, function (response) {
+                if (response.hasOwnProperty('code')) {
+                    if ('1' === response.code || 1 === response.code) {
+                        if (response.dataArray.length > 0) {
+                            document.getElementById('debug-message').innerHTML += '<br/>' + '  IMAGE  ==> ' + response.dataArray[0].img;
+                            element.bgImageSrc = 'url(' + cmsConfig.imgUrl + response.dataArray[0].img + ')';
+                            component.init();
+                        }
+                    }
+                }
+            });
+        } else {
+            element.bgImageSrc = options;
+            component.init();
+        }
     }
 
     // mediaPlayer: null,

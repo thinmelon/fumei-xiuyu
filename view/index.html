@@ -299,26 +299,6 @@
         cursorComponent.focusOn();
         transferComponent.autoJumping();
 
-//        if (cmsConfig.environment === 'PRODUCT') {
-//            cmsApi.getListItems(cmsConfig.indexResourceIdArray[1].resourceId, 1, 1, function (response) {
-//                if (response.hasOwnProperty('code')) {
-//                    if ('1' === response.code || 1 === response.code) {
-//                        if (response.dataArray.length > 0) {
-//                            document.getElementById('debug-message').innerHTML += '<br/>' + '  IMAGE  ==> ' + response.dataArray[0].img;
-//                            menuComponent.menuPageArray[0].menuItemArray[0].bgImageSrc =
-//                                'url(' + cmsConfig.imgUrl + response.dataArray[0].img + ')';
-//                            menuComponent.init();
-//                        }
-//                    }
-//                }
-//                transferComponent.autoJumping();
-//            });
-//        } else {
-//            menuComponent.menuPageArray[0].menuItemArray[0].bgImageSrc = 'url(../images/index/1.jpg) no-repeat';
-//            menuComponent.init();
-//            transferComponent.autoJumping();
-//        }
-
         weatherModule.init(function () {
             if (weatherModule.temperature !== '') {
                 document.getElementById('weather-forecast').innerHTML =
