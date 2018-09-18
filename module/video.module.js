@@ -24,7 +24,7 @@ function VideoModule() {
     } else {
         this.ip = GlobalVarManager.getItemStr('ip');
         this.port = GlobalVarManager.getItemStr('port');
-        this.account = GlobalVarManager.getItemStr('account');
+        this.account = GlobalVarManager.getItemStr('account') || CAManager.cardSerialNumber;
         this.client = CAManager.cardSerialNumber;
     }
 

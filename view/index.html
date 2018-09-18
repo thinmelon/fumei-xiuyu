@@ -179,11 +179,12 @@
         this.doBack = function () {
             this.remove(this.cursor.fileName);
             this.package([]);
-
-//            if ('undefined' !== typeof(GlobalVarManager)) {
-//                window.location.href = GlobalVarManager.getItemStr('tvPortalUrl');
-//            }
             window.location.href = 'http://10.215.0.10:80/ui3/ui3/loading.htm?opk=4';
+//            if ("undefined" !== typeof(GlobalVarManager)) {
+//                window.location.href = GlobalVarManager.getItemStr("tvPortalUrl");
+//            } else {
+//                window.location.href = 'http://10.215.0.10:80/ui3/ui3/loading.htm?opk=4';
+//            }
         };
 
         this.doSelect = function () {
@@ -252,7 +253,7 @@
             }
         };
 
-        this.grapKeyEvent = function (event) {
+        this.onKeyDown = function (event) {
             var code = getKeyCode(event);
 
             switch (code) {
@@ -294,10 +295,25 @@
             }
         };
 
-        this.onKeyDown = function (event) {
-//            that.autoJumping();
-            that.grapKeyEvent(event);
-        };
+        this.videoPlayHandler = function (event) {
+            var code = getKeyCode(event);
+
+            switch (code) {
+                    /*  小视频消息处理   */
+                case 5202:										// open success
+                case 13001:
+                    document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  autoPlaySmallVideo  ||||||||||||| ';
+                    videoComponent.autoPlaySmallVideo();
+                    return false;
+                case 'IPANEL_PLAY_END':
+                    document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  IPANEL_PLAY_END  ||||||||||||| ';
+                    videoComponent.stop();
+                    videoComponent.init();
+                    return false;
+                default:
+                    break;
+            }
+        }
     }
 
     var videoComponent = new VideoComponent();                  //  视频播放模块
@@ -311,10 +327,10 @@
             transferComponent = new TransferComponent(cursorComponent),
             weatherModule = new WeatherModule();
 
-        document.onkeydown = transferComponent.onKeyDown;       //  按键事件处理
-//        document.onkeypress = transferComponent.grapKeyEvent;
-//        document.onirkeypress = transferComponent.grapKeyEvent;
-        document.onsystemevent = transferComponent.grapKeyEvent;
+        document.onkeydown = transferComponent.onKeyDown;           //  按键事件处理
+        document.onkeypress = transferComponent.videoPlayHandler;
+        document.onirkeypress = transferComponent.videoPlayHandler;
+        document.onsystemevent = transferComponent.videoPlayHandler;
 
         transferComponent.init();
         barComponent.init();

@@ -25,6 +25,7 @@
 <script type="application/javascript" src="../module/menu.module.js"></script>
 <script type="application/javascript" src="../module/cursor.module.js"></script>
 <script type="application/javascript" src="../module/transfer.module.js"></script>
+<script type="application/javascript" src="../cms/common.js"></script>
 <script type="application/javascript">
     function MenuComponent() {
         MenuModule.call(this);
@@ -210,6 +211,10 @@
                     }
                     _num += this.cursor.menu.focusPosX;
 //                    console.log(this.cursor.menu.menuItemArray[_num].url)
+                    if (GMObj) {
+//                        console.log(window.location.href);
+                        GMObj.pathManager.setBackURL(this.cursor.menu.menuItemArray[_num].url, window.location.href, null);
+                    }
                     window.location.href = this.cursor.menu.menuItemArray[_num].url;
                     break;
                 default:
@@ -256,13 +261,13 @@
             menuComponent = new MenuComponent(),
             cursorComponent = new CursorComponent(barComponent, swiperComponent, menuComponent),
             transferComponent = new TransferComponent(cursorComponent);
+        document.onkeydown = transferComponent.onKeyDown;
 
         transferComponent.init();
         barComponent.init();
         swiperComponent.init();
         menuComponent.init();
         cursorComponent.focusOn();
-        document.onkeydown = transferComponent.onKeyDown;
     };
 </script>
 </html>
