@@ -50,6 +50,7 @@ function MenuModule() {
             _num += this.itemsPerLine[i];
         }
         _num += this.focusPosX;
+        console.info('menu.module.js | focusX:' + this.focusPosX + ' focusY:' + this.focusPosY + ' num:' + _num);
 
         cursor.style.visibility = 'visible';
         cursor.style.left = this.menuItemArray[_num].left + 'px';

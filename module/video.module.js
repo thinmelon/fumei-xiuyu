@@ -24,7 +24,7 @@ function VideoModule() {
     } else {
         this.ip = GlobalVarManager.getItemStr('ip');
         this.port = GlobalVarManager.getItemStr('port');
-        this.account = GlobalVarManager.getItemStr('account');
+        this.account = GlobalVarManager.getItemStr('account') || CAManager.cardSerialNumber;
         this.client = CAManager.cardSerialNumber;
     }
 
@@ -32,51 +32,29 @@ function VideoModule() {
     this.init = function () {
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Resource ID ==> ' + this.resourceId;
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Assert ID ==> ' + this.assertId;
-        if (cmsConfig.environment === 'PRODUCT') {
-            //  小屏播放，创建播放器对象
-            if (this.smallScreenPlay) {
-                this.mediaPlayer = cmsApi.createMediaPlayer(
-                    this.smallScreenLeft,
-                    this.smallScreenTop,
-                    this.smallScreenWidth,
-                    this.smallScreenHeight
-                );
-            }
-            //  视频地址来源
-            if (this.assertId !== '') {
-                this.play();
-            } else if (this.resourceId !== '') {
-                //  获取视频assetId
-                cmsApi.fetchVideoAssetId(this.resourceId, function (json) {
-                    if ('1' === json.code || 1 === json.code) {
-                        that.assertId = json.dataArray[0].assetid;
-                        that.play();
-                    }
-                });
-            }
+        //  小屏播放，创建播放器对象
+        if (this.smallScreenPlay) {
+            this.mediaPlayer = cmsApi.createMediaPlayer(
+                this.smallScreenLeft,
+                this.smallScreenTop,
+                this.smallScreenWidth,
+                this.smallScreenHeight
+            );
+        }
+        //  视频地址来源
+        if (this.assertId !== '') {
+            this.play();
+        } else if (this.resourceId !== '') {
+            //  获取视频assetId
+            cmsApi.fetchVideoAssetId(this.resourceId, function (json) {
+                if ('1' === json.code || 1 === json.code) {
+                    that.assertId = json.dataArray[0].assetid;
+                    that.play();
+                }
+            });
         }
     };
     /** end of init */
-
-    this.focusOn = function (cursor) {
-        cursor.style.visibility = 'visible';
-        cursor.style.left = this.smallScreenLeft + 'px';
-        cursor.style.top = this.smallScreenTop + 'px';
-        cursor.style.width = this.smallScreenWidth + 'px';
-        cursor.style.height = this.smallScreenHeight + 'px';
-    };
-
-    this.focusOut = function (cursor) {
-        cursor.style.visibility = 'hidden';
-    };
-
-    this.moveX = function (_direction) {
-        return -1;
-    };
-
-    this.moveY = function (_direction) {
-        return -1;
-    };
 
     this.play = function () {
         var that = this;

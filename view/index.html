@@ -7,7 +7,6 @@
 </head>
 <body bgcolor="transparent">
 <div class="index-bg">
-    <div class="title-logo"></div>
     <div id="bar" class="bar"></div>
     <div id="menu"></div>
     <div id="swiper" class="swiper"></div>
@@ -66,7 +65,7 @@
         this.resourceId = cmsConfig.indexResourceIdArray[3].resourceId;
     }
 
-    function CursorComponent(bar, swiper, menu, video) {
+    function CursorComponent(bar, swiper, menu) {
         CursorModule.call(this);
 
         // 属性
@@ -74,7 +73,6 @@
         this.bar = bar;
         this.swiper = swiper;
         this.menu = menu;
-        this.video = video;
         this.fileName = 'PG-ONE';
     }
 
@@ -104,7 +102,7 @@
 //                    } else {
 //                        this.cursor.menu.moveX(direction);
 //                    }
-                    this.cursor.focusArea = 7;
+                    this.cursor.menu.moveX(direction);
                     break;
                 case 5:         // 栏目
                     this.remove('PG-ONE');              // 清除同一级的路径记录
@@ -124,16 +122,9 @@
                 case 6:         //  滚动图片
                     if (-1 === this.cursor.swiper.moveX(direction)) {
                         this.cursor.swiper.triggerTimer();
-                        if (direction < 0) {
-                            this.cursor.focusArea = 7;
-                        } else {
-                            this.cursor.focusArea = 0;
-                            this.cursor.menu.focusPosX = 0;
-                        }
+                        this.cursor.focusArea = 0;
+                        this.cursor.menu.focusPosX = 0;
                     }
-                    break;
-                case 7:
-                    this.cursor.focusArea = 6;
                     break;
                 default:
                     break;
@@ -154,7 +145,7 @@
                     }
                     break;
                 case 5:         // 栏目
-                    this.cursor.focusArea = 7;
+                    this.cursor.focusArea = 6;
                     break;
                 case 6:         //  滚动图片
                     if (-1 === this.cursor.swiper.moveY(direction)) {
@@ -167,9 +158,6 @@
 
                     }
                     break;
-                case 7:
-                    this.cursor.focusArea = 5;
-                    break;
                 default:
                     break;
             }
@@ -179,10 +167,6 @@
         this.doBack = function () {
             this.remove(this.cursor.fileName);
             this.package([]);
-
-//            if ('undefined' !== typeof(GlobalVarManager)) {
-//                window.location.href = GlobalVarManager.getItemStr('tvPortalUrl');
-//            }
             window.location.href = 'http://10.215.0.10:80/ui3/ui3/loading.htm?opk=4';
         };
 
@@ -220,6 +204,9 @@
                 case 6:
                     params =
                         {
+                            /**
+                             * 一级页面
+                             */
                             'PG-ONE': {
                                 focusArea: this.cursor.focusArea
                             },
@@ -232,28 +219,15 @@
                     postfix = this.package(params);
                     window.location.href = 'video.html' + postfix;
                     break;
-                case 7:
-                    params =
-                        {
-                            'PG-ONE': {
-                                focusArea: this.cursor.focusArea
-                            },
-                            'VIDEO': {
-                                backURL: this.backUrl(),
-                                focusArea: this.cursor.focusArea,
-                                resourceId: cmsConfig.indexResourceIdArray[1].resourceId
-                            }
-                        };
-                    postfix = this.package(params);
-                    window.location.href = 'video.html' + postfix;
-                    break;
                 default:
                     break;
             }
         };
 
-        this.grapKeyEvent = function (event) {
+        this.onKeyDown = function (event) {
             var code = getKeyCode(event);
+
+            that.autoJumping();
 
             switch (code) {
                 case 'KEY_NUMBER1':
@@ -294,10 +268,25 @@
             }
         };
 
-        this.onKeyDown = function (event) {
-//            that.autoJumping();
-            that.grapKeyEvent(event);
-        };
+        this.videoPlayHandler = function (event) {
+            var code = getKeyCode(event);
+
+            switch (code) {
+                    /*  小视频消息处理   */
+                case 5202:										// open success
+                case 13001:
+                    document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  autoPlaySmallVideo  ||||||||||||| ';
+                    videoComponent.autoPlaySmallVideo();
+                    return false;
+                case 'IPANEL_PLAY_END':
+                    document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  IPANEL_PLAY_END  ||||||||||||| ';
+                    videoComponent.stop();
+                    videoComponent.init();
+                    return false;
+                default:
+                    break;
+            }
+        }
     }
 
     var videoComponent = new VideoComponent();                  //  视频播放模块
@@ -307,14 +296,14 @@
             barComponent = new BarComponent(),
             swiperComponent = new SwiperComponent(),
             menuComponent = new MenuComponent(),
-            cursorComponent = new CursorComponent(barComponent, swiperComponent, menuComponent, videoComponent),
+            cursorComponent = new CursorComponent(barComponent, swiperComponent, menuComponent),
             transferComponent = new TransferComponent(cursorComponent),
             weatherModule = new WeatherModule();
 
-        document.onkeydown = transferComponent.onKeyDown;       //  按键事件处理
-//        document.onkeypress = transferComponent.grapKeyEvent;
-//        document.onirkeypress = transferComponent.grapKeyEvent;
-        document.onsystemevent = transferComponent.grapKeyEvent;
+        document.onkeydown = transferComponent.onKeyDown;           //  按键事件处理
+        document.onkeypress = transferComponent.videoPlayHandler;
+        document.onirkeypress = transferComponent.videoPlayHandler;
+        document.onsystemevent = transferComponent.videoPlayHandler;
 
         transferComponent.init();
         barComponent.init();
@@ -322,7 +311,7 @@
         menuComponent.init();
         videoComponent.init();
         cursorComponent.focusOn();
-//        transferComponent.autoJumping();
+        transferComponent.autoJumping();
 
         weatherModule.init(function () {
             if (weatherModule.temperature !== '') {
