@@ -32,28 +32,27 @@ function VideoModule() {
     this.init = function () {
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Resource ID ==> ' + this.resourceId;
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Assert ID ==> ' + this.assertId;
-        if (cmsConfig.environment === 'PRODUCT') {
-            //  小屏播放，创建播放器对象
-            if (this.smallScreenPlay) {
-                this.mediaPlayer = cmsApi.createMediaPlayer(
-                    this.smallScreenLeft,
-                    this.smallScreenTop,
-                    this.smallScreenWidth,
-                    this.smallScreenHeight
-                );
-            }
-            //  视频地址来源
-            if (this.assertId !== '') {
-                this.play();
-            } else if (this.resourceId !== '') {
-                //  获取视频assetId
-                cmsApi.fetchVideoAssetId(this.resourceId, function (json) {
-                    if ('1' === json.code || 1 === json.code) {
-                        that.assertId = json.dataArray[0].assetid;
-                        that.play();
-                    }
-                });
-            }
+
+        //  小屏播放，创建播放器对象
+        if (this.smallScreenPlay) {
+            this.mediaPlayer = cmsApi.createMediaPlayer(
+                this.smallScreenLeft,
+                this.smallScreenTop,
+                this.smallScreenWidth,
+                this.smallScreenHeight
+            );
+        }
+        //  视频地址来源
+        if (this.assertId !== '') {
+            this.play();
+        } else if (this.resourceId !== '') {
+            //  获取视频assetId
+            cmsApi.fetchVideoAssetId(this.resourceId, function (json) {
+                if ('1' === json.code || 1 === json.code) {
+                    that.assertId = json.dataArray[0].assetid;
+                    that.play();
+                }
+            });
         }
     };
     /** end of init */
@@ -152,7 +151,22 @@ function VideoModule() {
         });
     };
 
+    /**
+     * 在这里如果加上setTimeout，想要延迟播放
+     * 不知道是通过that.mediaPlayer获取到的mediaPlayer对象有问题，
+     * 还是说在收到系统发来的 【小视频消息处理】 事件，要立即处理，
+     * 导致视频无法播放成功
+     *
+     * 另外，如果不理会【小视频消息处理】 事件，初始化组件后，直接播放视频是可以的，但是会全屏播放，达不到效果
+     */
     this.autoPlaySmallVideo = function () {
+        //var that = this;
+        //
+        //setTimeout(function () {
+        //    document.getElementById('debug-message').innerHTML += '<br/>' + 'autoPlaySmallVideo ===> setTimeout';
+        //    document.getElementById('debug-message').innerHTML += '<br/>' + that.mediaPlayer;
+        //    that.mediaPlayer.play();
+        //}, 3000);
         cmsApi.playSmallScreenVideo(this.mediaPlayer);
     };
 
