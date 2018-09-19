@@ -13,35 +13,35 @@ function BarComponent() {
             title: '秀屿新闻',
             resourceId: 0,
             url: 'news.html',
-            left: 132,
+            left: 152,
             width: 120
         },
         {
             title: '乡镇风采',
             resourceId: 0,
             url: 'xiuyu.html',
-            left: 260,
+            left: 300,
             width: 120
         },
         {
             title: '部门荟萃',
             resourceId: 0,
             url: 'apartment.html',
-            left: 393,
+            left: 450,
             width: 120
         },
         {
             title: '便民服务',
             resourceId: 0,
             url: 'service.html',
-            left: 525,
+            left: 608,
             width: 120
         },
         {
             title: '专题专栏',
             resourceId: 0,
             url: 'topic.html',
-            left: 663,
+            left: 754,
             width: 120
         },
         {
@@ -49,14 +49,14 @@ function BarComponent() {
             resourceId: 0,
             //url: 'http://10.215.0.39/fujiandangjianNew/index2.html',
             url: 'party.html',
-            left: 803,
+            left: 905,
             width: 120
         },
         {
             title: '美丽莆田',
             resourceId: 0,
             url: 'putian.html',
-            left: 935,
+            left: 1044,
             width: 120
         }
         // {
