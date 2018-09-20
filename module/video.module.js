@@ -179,37 +179,38 @@ function VideoModule() {
     this.checkOnceAgain = function () {
         var that = this;
 
-        cmsApi.checkAuthentication(this.ip, this.port, this.client, function (rawData) {
-            var
-                authentication = parseDom(rawData);
+        if (!this.isAutoPlaying) {
+            document.getElementById('debug-message').innerHTML += '<br/>' + '===>   checkOnceAgain';
 
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> authentication' + authentication;
+            cmsApi.checkAuthentication(this.ip, this.port, this.client, function (rawData) {
+                var
+                    authentication = parseDom(rawData);
 
-            if ('NavServerResponse' in authentication) {
-                var message = authentication.NavServerResponse[0].message;
-                var code = authentication.NavServerResponse[0].code;
+                if ('NavServerResponse' in authentication) {
+                    var message = authentication.NavServerResponse[0].message;
+                    var code = authentication.NavServerResponse[0].code;
 
-                document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> message' + message;
-                document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> code' + code;
-            }
-
-            if ('NavCheckResult' in authentication) {
-                var account = authentication.NavCheckResult[0].account;
-                document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> account:' + account;
-
-                GlobalVarManager.setItemStr("account", account);
-                var vodAjaxInfo = that.ip + "&" + that.port + "&" + account;
-                var vodAjaxInfoObj = '{"vodAjaxInfo":"' + vodAjaxInfo + '"}';
-                setDataAccessProperty("info", "vodAjaxInfo", vodAjaxInfoObj, true);
-
-                var frequency = authentication.NavCheckResult[0].ZoneFreqInfo[0].frequency;
-                document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> frequency:' + frequency;
-                if (typeof frequency !== "undefined" && frequency !== "undefined" && frequency !== "") {
-                    GlobalVarManager.setItemStr("frequency", frequency);
-                    VOD.searchParams("IPQAMPointList=" + frequency + ",0;END");
+                    document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> message' + message;
+                    document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> code' + code;
                 }
-            }
 
-        })
+                if ('NavCheckResult' in authentication) {
+                    var account = authentication.NavCheckResult[0].account;
+                    document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> account:' + account;
+
+                    GlobalVarManager.setItemStr("account", account);
+                    var vodAjaxInfo = that.ip + "&" + that.port + "&" + account;
+                    var vodAjaxInfoObj = '{"vodAjaxInfo":"' + vodAjaxInfo + '"}';
+                    setDataAccessProperty("info", "vodAjaxInfo", vodAjaxInfoObj, true);
+
+                    var frequency = authentication.NavCheckResult[0].ZoneFreqInfo[0].frequency;
+                    document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> frequency:' + frequency;
+                    if (typeof frequency !== "undefined" && frequency !== "undefined" && frequency !== "") {
+                        GlobalVarManager.setItemStr("frequency", frequency);
+                        VOD.searchParams("IPQAMPointList=" + frequency + ",0;END");
+                    }
+                }
+            });
+        }
     }
 }

@@ -289,9 +289,8 @@ function parseDom(frag) {
 
     //document.getElementById("debug-message").innerHTML += "<br/>" + " ==>     parseDom";
     if (attrs !== null) {
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'parseDom ==>   ';
         for (i = 0; i < attrs.length; i++) {
-            document.getElementById('debug-message').innerHTML += 'KEY: ' + attrs[i].nodeName + '  VALUE:  ' + attrs[i].nodeValue;
+            //document.getElementById('debug-message').innerHTML += 'KEY: ' + attrs[i].nodeName + '  VALUE:  ' + attrs[i].nodeValue;
             obj[attrs[i].nodeName] = attrs[i].nodeValue;
         }
     }

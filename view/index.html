@@ -334,15 +334,15 @@
         document.onirkeypress = transferComponent.videoPlayHandler;
         document.onsystemevent = transferComponent.videoPlayHandler;
 
+        setTimeout(function () {
+            videoComponent.checkOnceAgain();
+        }, 5000);
+
         transferComponent.init();
         barComponent.init();
         swiperComponent.init();
         menuComponent.init();
-//        videoComponent.init();
-        cursorComponent.focusOn();
-        videoComponent.checkOnceAgain();
-//        transferComponent.autoJumping();
-
+        videoComponent.init();
         weatherModule.init(function () {
             if (weatherModule.temperature !== '') {
                 document.getElementById('weather-forecast').innerHTML =
@@ -352,6 +352,9 @@
                     '&nbsp;&nbsp;&nbsp;' + weatherModule.windScale;
             }
         });
+
+        cursorComponent.focusOn();
+//        transferComponent.autoJumping();
     };
 
     window.onunload = function () {
