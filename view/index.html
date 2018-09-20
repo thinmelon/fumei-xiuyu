@@ -282,18 +282,8 @@
                 case 'KEY_BACK':
                     that.doBack();
                     return false;
-                    /*  小视频消息处理   */
-                case 5202:										// open success
-                case 13001:
-                    document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  autoPlaySmallVideo  ||||||||||||| ';
-                    videoComponent.autoPlaySmallVideo();
-                    return false;
-                case 'IPANEL_PLAY_END':
-                    document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  IPANEL_PLAY_END  ||||||||||||| ';
-                    videoComponent.stop();
-                    videoComponent.init();
-                    return false;
                 default:
+                    that.videoPlayHandler(event);
                     break;
             }
         };
@@ -302,6 +292,15 @@
             var code = getKeyCode(event);
 
             switch (code) {
+                    /*  开机认证的消息处理   */
+                case 22201:
+                    document.getElementById('debug-message').innerHTML += '<br/>' + '+++++++++++++ 认证成功  +++++++++++++';
+                    videoComponent.stop();
+                    videoComponent.init();
+                    return false;
+                case 22202:
+                    document.getElementById('debug-message').innerHTML += '<br/>' + '+++++++++++++ 认证失败  +++++++++++++';
+                    return false;
                     /*  小视频消息处理   */
                 case 5202:										// open success
                 case 13001:
@@ -339,8 +338,9 @@
         barComponent.init();
         swiperComponent.init();
         menuComponent.init();
-        videoComponent.init();
+//        videoComponent.init();
         cursorComponent.focusOn();
+        videoComponent.checkOnceAgain();
 //        transferComponent.autoJumping();
 
         weatherModule.init(function () {

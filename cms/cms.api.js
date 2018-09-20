@@ -264,6 +264,26 @@ var cmsApi = {
     },
 
     /**
+     * 开机认证
+     * @param ip
+     * @param port
+     * @param client
+     * @param response
+     */
+    checkAuthentication: function (ip, port, client, response) {
+        var url,
+            data;
+
+        url = 'http://' + ip + ':' + port + '/NavCheck';
+        data = "<?xml version='1.0' encoding='UTF-8'?><NavCheck portalId='1' client='" + client + "' userType='0'/>";
+
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'checkAuthentication    ==>   URL ==> ' + url;
+        document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
+
+        this.doPost(url, data, response);
+    },
+
+    /**
      * 天气预报
      * @param response
      */
