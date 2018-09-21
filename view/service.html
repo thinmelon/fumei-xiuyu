@@ -243,6 +243,21 @@
                     postfix = this.package(params);
                     window.location.href = 'detail.html' + postfix;
                     break;
+                case 6:     //  滚动页
+                    params =
+                        {
+                            'PG-ONE': {
+                                focusArea: this.cursor.focusArea
+                            },
+                            'VIDEO': {
+                                backURL: this.backUrl(),
+                                focusArea: this.cursor.focusArea,
+                                assertId: this.cursor.swiper.album[this.cursor.swiper.position].assertId
+                            }
+                        };
+                    postfix = this.package(params);
+                    window.location.href = 'video.html' + postfix;
+                    break;
                 default:
                     break;
             }
