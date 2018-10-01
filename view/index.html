@@ -334,9 +334,10 @@
         document.onirkeypress = transferComponent.videoPlayHandler;
         document.onsystemevent = transferComponent.videoPlayHandler;
 
-        setTimeout(function () {
-            videoComponent.checkOnceAgain();
-        }, 5000);
+//        setTimeout(function () {
+//            videoComponent.checkOnceAgain();
+//        }, 5000);
+        document.getElementById('debug-message').innerHTML += '<br/>' + '======================  启动初始化  ======================';
 
         transferComponent.init();
         barComponent.init();
