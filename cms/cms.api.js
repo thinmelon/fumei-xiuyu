@@ -6,7 +6,7 @@ var cmsApi = {
         postman.createXmlHttpRequest(
             function (result) {
                 var json = eval('(' + result + ')');
-                document.getElementById('debug-message').innerHTML += '<br/>' + ' Response:' + result;
+                //document.getElementById('debug-message').innerHTML += '<br/>' + ' Response:' + result;
                 response(json);
             },
             function (err) {
@@ -209,8 +209,8 @@ var cmsApi = {
             var displayArea = mediaPlayer.setVideoDisplayArea(rectangle);
             var displayMode = mediaPlayer.setVideoDisplayMode(0);
             var refresh = mediaPlayer.refresh();
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> rectangle ==> LEFT ' + rectangle.left + ' | TOP: ' + rectangle.top + ' | WIDTH: ' + rectangle.width + ' | HEIGHT: ' + rectangle.height;
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> displayArea: ' + displayArea + ' | displayMode: ' + displayMode + ' | refresh: ' + refresh;
+            //document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> rectangle ==> LEFT ' + rectangle.left + ' | TOP: ' + rectangle.top + ' | WIDTH: ' + rectangle.width + ' | HEIGHT: ' + rectangle.height;
+            //document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> displayArea: ' + displayArea + ' | displayMode: ' + displayMode + ' | refresh: ' + refresh;
         }
 
         return mediaPlayer;
