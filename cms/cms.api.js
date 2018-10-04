@@ -123,7 +123,7 @@ var cmsApi = {
                 + '\' languageCode=\'Zh-CN\' profile=\'1\'/>';
 
         document.getElementById('debug-message').innerHTML += '<br/>' + 'fetchVideoDetails  ==>  URL ==> ' + url;
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
 
         this.doPost(url, data, response);
     },
@@ -150,7 +150,7 @@ var cmsApi = {
             + '\' serviceId=\'' + serviceId + '\'/>';
 
         document.getElementById('debug-message').innerHTML += '<br/>' + 'fetchRtspStream    ==>   URL ==> ' + url;
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
 
         this.doPost(url, data, response);
     },
@@ -278,7 +278,7 @@ var cmsApi = {
         data = "<?xml version='1.0' encoding='UTF-8'?><NavCheck portalId='1' client='" + client + "' userType='0'/>";
 
         document.getElementById('debug-message').innerHTML += '<br/>' + 'checkAuthentication    ==>   URL ==> ' + url;
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
 
         this.doPost(url, data, response);
     },
