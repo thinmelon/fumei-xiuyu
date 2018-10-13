@@ -1,4 +1,10 @@
 var cmsApi = {
+    /**
+     * GET 请求
+     * @param url
+     * @param response
+     * @returns {Postman}
+     */
     doGet: function (url, response) {
         var postman = new Postman();
 
@@ -18,12 +24,16 @@ var cmsApi = {
             url,
             null
         );
+
+        return postman;
     },
 
     /**
+     * GET 请求
      * 不对返回结果作JSON化处理
      * @param url
      * @param response
+     * @returns {Postman}
      */
     doGet2: function (url, response) {
         var postman = new Postman();
@@ -43,8 +53,17 @@ var cmsApi = {
             url,
             null
         );
+
+        return postman;
     },
 
+    /**
+     * POST 请求
+     * @param url
+     * @param data
+     * @param response
+     * @returns {Postman}
+     */
     doPost: function (url, data, response) {
         var postman = new Postman();
 
@@ -61,6 +80,8 @@ var cmsApi = {
             'POST',
             url,
             data);
+
+        return postman;
     },
 
     /**
@@ -92,10 +113,10 @@ var cmsApi = {
     },
 
     /**
-     * CMS后台管理系统
      * 获取视频播放的AssetId
      * @param resourceId
      * @param response
+     * @returns {*|Postman}
      */
     fetchVideoAssetId: function (resourceId, response) {
         var url = cmsConfig.serverUrl +
@@ -103,7 +124,7 @@ var cmsApi = {
 
         document.getElementById('debug-message').innerHTML += '<br/>' + 'fetchVideoAssetId  ==>  URL ==> ' + url;
 
-        this.doGet(url, response);
+        return this.doGet(url, response);
     },
 
     /**
@@ -114,6 +135,7 @@ var cmsApi = {
      * @param client
      * @param account
      * @param response
+     * @returns {*|Postman}
      */
     fetchVideoDetails: function (ip, port, assetId, client, account, response) {
         var url = 'http://' + ip + ':' + port + '/GetItemData',
@@ -125,7 +147,7 @@ var cmsApi = {
         document.getElementById('debug-message').innerHTML += '<br/>' + 'fetchVideoDetails  ==>  URL ==> ' + url;
         //document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
 
-        this.doPost(url, data, response);
+        return this.doPost(url, data, response);
     },
 
     /**
@@ -137,6 +159,7 @@ var cmsApi = {
      * @param account
      * @param serviceId
      * @param response
+     * @returns {*|Postman}
      */
     fetchRtspStream: function (ip, port, assetId, client, account, serviceId, response) {
         var url,
@@ -152,7 +175,7 @@ var cmsApi = {
         document.getElementById('debug-message').innerHTML += '<br/>' + 'fetchRtspStream    ==>   URL ==> ' + url;
         //document.getElementById('debug-message').innerHTML += '<br/>' + 'Data ==> ' + encodeURI(data);
 
-        this.doPost(url, data, response);
+        return this.doPost(url, data, response);
     },
 
     /**
@@ -203,7 +226,7 @@ var cmsApi = {
             flag = mediaPlayer.bindPlayerInstance(mediaID),     // 绑定
             rectangle;
 
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> mediaID: ' + mediaID + ' | Flag: ' + flag;
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'createMediaPlayer ==> mediaID: ' + mediaID + ' | Flag: ' + flag;
         if (flag === 0) {
             rectangle = new Rectangle(left, top, width, height);
             var displayArea = mediaPlayer.setVideoDisplayArea(rectangle);
@@ -243,7 +266,7 @@ var cmsApi = {
 
     playSmallScreenVideo: function (mediaPlayer) {
         if (mediaPlayer) {
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> playSmallScreenVideo';
+            //document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> playSmallScreenVideo';
             mediaPlayer.play();
         }
     },
@@ -253,10 +276,12 @@ var cmsApi = {
      * @param mediaPlayer
      */
     stopSmallScreenVideo: function (mediaPlayer) {
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> stopSmallScreenVideo';
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> stopSmallScreenVideo => stop and close media AV';
+        //media.AV.stop();
+        //media.AV.close();
         if (mediaPlayer) {
             var mediaID = mediaPlayer.getPlayerInstanceID();    //   获取mediaID
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> stopSmallScreenVideo ==> mediaID: ' + mediaID;
+            //document.getElementById('debug-message').innerHTML += '<br/>' + 'cms.api.js ==> stopSmallScreenVideo ==> mediaID: ' + mediaID;
             mediaPlayer.stop();
             mediaPlayer.unbindPlayerInstance(mediaID);          //MediaPlayer对象和当前播放器实例解除绑定，并释放播放器的相关资源。
             mediaPlayer = null;
@@ -306,7 +331,7 @@ var cmsApi = {
                 if (response.hasOwnProperty('code')) {
                     if ('1' === response.code || 1 === response.code) {
                         if (response.dataArray.length > 0) {
-                            document.getElementById('debug-message').innerHTML += '<br/>' + '  IMAGE  ==> ' + response.dataArray[0].img;
+                            //document.getElementById('debug-message').innerHTML += '<br/>' + '  IMAGE  ==> ' + response.dataArray[0].img;
                             element.bgImageSrc = 'url(' + cmsConfig.imgUrl + response.dataArray[0].img + ')';
                             component.init();
                         }

@@ -9,7 +9,7 @@ function Postman() {
     this.createXmlHttpRequest = function (_successCallback, _failedCallback) {
         var that = this;
 
-         // document.getElementById("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
+        // document.getElementById("debug-message").innerHTML += "<br />" + "postman    ==>    createXmlHttpRequest";
         if (this.xhr !== null) {
             this.abortRequest();
         } else {
@@ -66,10 +66,10 @@ function Postman() {
                         }
                     }
                 } else if (that.xhr.status === 404) {
-                    document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  failed";
+                    //document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  failed";
                     _failedCallback("资源未找到");
                 } else {
-                    document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  failed";
+                    //document.getElementById("debug-message").innerHTML += "<br/>" + " ==>  failed";
                     _failedCallback("错误");
                 }
             }
@@ -96,8 +96,9 @@ function Postman() {
 
     this.abortRequest = function () {
         if (this.xhr !== null) {
-            // document.getElementById("debug-message").innerHTML += "<br/>" + "postman    ==>    abortRequest";
+            //document.getElementById("debug-message").innerHTML += "<br/>" + "postman    ==>    abortRequest";
             this.xhr.abort();        // 中止异步请求
+            this.xhr = null;
         }
     }
 }

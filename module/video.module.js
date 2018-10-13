@@ -16,6 +16,10 @@ function VideoModule() {
     this.smallScreenWidth = 792;
     this.smallScreenHeight = 446;
     this.mediaPlayer = null;
+    this.rtsp = '';
+    this.requestVideoAssetId = null;
+    this.requestVideoDetails = null;
+    this.requestRtspStream = null;
 
     if (cmsConfig.environment === 'DEBUG') {
         this.ip = '10.215.0.12';
@@ -30,6 +34,10 @@ function VideoModule() {
     }
 
     // 方法
+
+    /**
+     * 初始化
+     */
     this.init = function () {
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Resource ID ==> ' + this.resourceId;
         document.getElementById('debug-message').innerHTML += '<br/>' + '  Assert ID ==> ' + this.assertId;
@@ -48,7 +56,7 @@ function VideoModule() {
             this.play();
         } else if (this.resourceId !== '') {
             //  获取视频assetId
-            cmsApi.fetchVideoAssetId(this.resourceId, function (json) {
+            this.requestVideoAssetId = cmsApi.fetchVideoAssetId(this.resourceId, function (json) {
                 if ('1' === json.code || 1 === json.code) {
                     that.assertId = json.dataArray[0].assetid;
                     that.play();
@@ -56,7 +64,22 @@ function VideoModule() {
             });
         }
     };
-    /** end of init */
+
+    /**
+     * 销毁 AJAX 对象
+     */
+    this.destroy = function () {
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'video.module ==> destroy';
+        if (this.requestVideoAssetId) {
+            this.requestVideoAssetId.abortRequest();
+        }
+        if (this.requestVideoDetails) {
+            this.requestVideoDetails.abortRequest();
+        }
+        if (this.requestRtspStream) {
+            this.requestRtspStream.abortRequest();
+        }
+    };
 
     this.focusOn = function (cursor) {
         cursor.style.visibility = 'visible';
@@ -78,26 +101,29 @@ function VideoModule() {
         return -1;
     };
 
+    /**
+     * 播放视频
+     */
     this.play = function () {
         var that = this;
 
         //
         // 获取视频播放参数
         //
-        cmsApi.fetchVideoDetails(that.ip, that.port, that.assertId, that.client, that.account, function (response) {
+        this.requestVideoDetails = cmsApi.fetchVideoDetails(that.ip, that.port, that.assertId, that.client, that.account, function (response) {
             var
                 _data;
 
             _data = parseDom(response);
-            document.getElementById('debug-message').innerHTML += '<br/>' + '  0 ==> ' + jsonUtils.stringify(_data.ItemData[0].SelectableItem[0]);
-            document.getElementById('debug-message').innerHTML += '<br/>' + '  0.1 ==> ' + _data.ItemData[0].SelectableItem[0].serviceId;
-            document.getElementById('debug-message').innerHTML += '<br/>' + '  0.2 ==> ' + jsonUtils.stringify(_data.ItemData[0].SelectableItem[0].RentalInfo[0]);
+            //document.getElementById('debug-message').innerHTML += '<br/>' + '  0 ==> ' + jsonUtils.stringify(_data.ItemData[0].SelectableItem[0]);
+            //document.getElementById('debug-message').innerHTML += '<br/>' + '  0.1 ==> ' + _data.ItemData[0].SelectableItem[0].serviceId;
+            //document.getElementById('debug-message').innerHTML += '<br/>' + '  0.2 ==> ' + jsonUtils.stringify(_data.ItemData[0].SelectableItem[0].RentalInfo[0]);
             if (typeof (_data) === 'object' && _data !== null) {
                 if ('ItemData' in _data) {
                     //
                     // 获取rtsp流
                     //
-                    cmsApi.fetchRtspStream(
+                    that.requestRtspStream = cmsApi.fetchRtspStream(
                         that.ip,
                         that.port,
                         that.assertId,
@@ -108,15 +134,16 @@ function VideoModule() {
                             var
                                 stream = parseDom(rawData);
 
-                            document.getElementById('debug-message').innerHTML += '<br/>' + '1  ==> ' + jsonUtils.stringify(stream.StartResponse[0]);
-                            document.getElementById('debug-message').innerHTML += '<br/>' + '1.1  ==> ' + stream.StartResponse[0].rtsp;
+                            //document.getElementById('debug-message').innerHTML += '<br/>' + '1  ==> ' + jsonUtils.stringify(stream.StartResponse[0]);
+                            //document.getElementById('debug-message').innerHTML += '<br/>' + '1.1  ==> ' + stream.StartResponse[0].rtsp;
                             if (typeof (stream) === 'object' && stream !== null) {
                                 if (that.smallScreenPlay) {
+                                    that.rtsp = stream.StartResponse[0].rtsp;
                                     //
                                     //  小屏播放
                                     //
                                     cmsApi.setSmallScreenVideo(
-                                        stream.StartResponse[0].rtsp.split(';'),
+                                        that.rtsp.split(';'),
                                         that.mediaPlayer
                                     );
 
@@ -146,7 +173,6 @@ function VideoModule() {
                     if ('NavServerResponse' in _data) {
                         var _message = _data.NavServerResponse[0].debug,
                             _errorCode = _data.NavServerResponse[0].code;
-
                         document.getElementById('debug-message').innerHTML += '<br/>' + 'Error - ' + _errorCode + ', message:' + _message;
                     } else {
                         document.getElementById('debug-message').innerHTML += '<br/>' + '获取数据失败';
@@ -155,6 +181,17 @@ function VideoModule() {
 
             }
         });
+    };
+
+    /**
+     * 循环轮播
+     */
+    this.loopSmallVideo = function () {
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'loopSmallVideo ==> rtsp: ' + this.rtsp;
+        cmsApi.setSmallScreenVideo(
+            this.rtsp.split(';'),
+            this.mediaPlayer
+        );
     };
 
     /**
@@ -177,10 +214,16 @@ function VideoModule() {
         cmsApi.playSmallScreenVideo(this.mediaPlayer);
     };
 
+    /**
+     * 销毁小视频
+     */
     this.stop = function () {
         cmsApi.stopSmallScreenVideo(this.mediaPlayer);
     };
 
+    /**
+     * 再次认证
+     */
     this.checkOnceAgain = function () {
         var that = this;
 
@@ -194,13 +237,13 @@ function VideoModule() {
                     var message = authentication.NavServerResponse[0].message;
                     var code = authentication.NavServerResponse[0].code;
 
-                    document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> message' + message;
-                    document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> code' + code;
+                    //document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> message' + message;
+                    //document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> code' + code;
                 }
 
                 if ('NavCheckResult' in authentication) {
                     var account = authentication.NavCheckResult[0].account;
-                    document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> account:' + account;
+                    //document.getElementById('debug-message').innerHTML += '<br/>' + 'checkOnceAgain ===> account:' + account;
 
                     GlobalVarManager.setItemStr("account", account);
                     var vodAjaxInfo = that.ip + "&" + that.port + "&" + account;

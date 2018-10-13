@@ -82,6 +82,7 @@
         VideoModule.call(this);
 
         this.smallScreenPlay = true;
+//        this.assertId = 'FFMZ0000000000045200';
         this.resourceId = cmsConfig.indexResourceIdArray[1].resourceId;
     }
 
@@ -177,8 +178,6 @@
         };
 
         this.doBack = function () {
-            this.remove(this.cursor.fileName);
-            this.package([]);
             window.location.href = 'http://10.215.0.10:80/ui3/ui3/loading.htm?opk=4';
 //            if ("undefined" !== typeof(GlobalVarManager)) {
 //                window.location.href = GlobalVarManager.getItemStr("tvPortalUrl");
@@ -295,8 +294,9 @@
                     /*  开机认证的消息处理   */
                 case 22201:
                     document.getElementById('debug-message').innerHTML += '<br/>' + '+++++++++++++ 认证成功  +++++++++++++';
-                    videoComponent.stop();
-                    videoComponent.init();
+//                    videoComponent.stop();
+//                    videoComponent.init();
+                    videoComponent.loopSmallVideo();
                     return false;
                 case 22202:
                     document.getElementById('debug-message').innerHTML += '<br/>' + '+++++++++++++ 认证失败  +++++++++++++';
@@ -309,8 +309,8 @@
                     return false;
                 case 'IPANEL_PLAY_END':
                     document.getElementById('debug-message').innerHTML += '<br/>' + '|||||||||||||  IPANEL_PLAY_END  ||||||||||||| ';
-                    videoComponent.stop();
-                    videoComponent.init();
+//                    videoComponent.stop();
+                    videoComponent.loopSmallVideo();
                     return false;
                 default:
                     break;
@@ -334,7 +334,7 @@
         document.onirkeypress = transferComponent.videoPlayHandler;
         document.onsystemevent = transferComponent.videoPlayHandler;
 
-        document.getElementById('debug-message').innerHTML += '<br/>' + '======================  启动初始化  ======================';
+//        document.getElementById('debug-message').innerHTML += '<br/>' + '======================  启动初始化  ======================';
 
         transferComponent.init();
         barComponent.init();
@@ -357,6 +357,7 @@
 
     window.onunload = function () {
         videoComponent.stop();
+        videoComponent.destroy();
     };
 </script>
 </html>

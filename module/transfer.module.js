@@ -44,7 +44,7 @@ function TransferModule() {
         //    window.location.href = backParams;
         //} else {
         _url = window.location.search;
-        document.getElementById('debug-message').innerHTML += '<br/>' + 'search: ' + decodeURIComponent(_url);
+        //document.getElementById('debug-message').innerHTML += '<br/>' + 'search: ' + decodeURIComponent(_url);
 
         if (_url.indexOf('?') !== -1) {
             var _str = _url.substr(1);              // 对query参数进行分解, 去掉最开始的 ?
@@ -52,7 +52,7 @@ function TransferModule() {
             for (var i = 0; i < _subStrs.length; i++) {
                 key = _subStrs[i].split('=')[0];
                 rawData = decodeURIComponent(_subStrs[i].split('=')[1]);
-                document.getElementById('debug-message').innerHTML += '<br/> ' + 'key: ' + key + ', rowData: ' + rawData;
+                //document.getElementById('debug-message').innerHTML += '<br/> ' + 'key: ' + key + ', rowData: ' + rawData;
 
                 // 记录参数，以备后续跳转时使用
                 this.record.push(jsonUtils.parse('{"' + key + '":"' + rawData + '"}'));
@@ -154,7 +154,7 @@ function TransferModule() {
         var value;
 
         if (this.cursor.textures && key === this.cursor.fileName) {
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  setTextureModule';
+            //document.getElementById('debug-message').innerHTML += '<br/>' + 'Transfer ==>  setTextureModule';
             value = jsonUtils.parse(rawData);
 
             // 是否显示图片
@@ -224,7 +224,7 @@ function TransferModule() {
                     backUrl += '?' + value.fileName + '=' + encodeURIComponent('{focusArea:' + value.focusArea + ',focusPosX:' + value.focusPosX + ',focusPosY:' + value.focusPosY + '}');
                 }
                 this.cursor.video.backURL = encodeURIComponent(backUrl);
-                document.getElementById('debug-message').innerHTML += '<br/> ' + 'backURL: ' + decodeURIComponent(this.cursor.video.backURL);
+                //document.getElementById('debug-message').innerHTML += '<br/> ' + 'backURL: ' + decodeURIComponent(this.cursor.video.backURL);
             }
         }
     };
@@ -243,7 +243,7 @@ function TransferModule() {
             console.dir(value);
             if (value.hasOwnProperty('assetid')) {
                 this.monitor.assetid = value.assetid;
-                document.getElementById('debug-message').innerHTML += '<br/> ' + 'assetid: ' + this.monitor.assetid;
+                //document.getElementById('debug-message').innerHTML += '<br/> ' + 'assetid: ' + this.monitor.assetid;
             }
             if (value.hasOwnProperty('backURL')) {
                 backUrl = decodeURIComponent(value.backURL);
@@ -253,7 +253,7 @@ function TransferModule() {
                     backUrl += '?' + value.fileName + '=' + encodeURIComponent('{focusArea:' + value.focusArea + ',focusPos:' + value.focusPos + '}');
                 }
                 this.monitor.backURL = encodeURIComponent(backUrl);
-                document.getElementById('debug-message').innerHTML += '<br/> ' + 'backURL: ' + decodeURIComponent(this.monitor.backURL);
+                //document.getElementById('debug-message').innerHTML += '<br/> ' + 'backURL: ' + decodeURIComponent(this.monitor.backURL);
             }
         }
     };
@@ -329,11 +329,11 @@ function TransferModule() {
             key,
             params = '?';
 
-        document.getElementById('debug-message').innerHTML += '<br/>' + '====>     package ';
+        //document.getElementById('debug-message').innerHTML += '<br/>' + '====>     package ';
         index = 0;
         for (var i = 0, length = this.record.length; i < length; i++) {
             for (key in this.record[i]) {
-                document.getElementById('debug-message').innerHTML += '<br/>' + 'KEY: ' + key + ' VALUE: ' + this.record[i][key];
+                //document.getElementById('debug-message').innerHTML += '<br/>' + 'KEY: ' + key + ' VALUE: ' + this.record[i][key];
                 if (index++ > 0) {
                     params += '&' + key + '=' + encodeURIComponent(this.record[i][key]);
                 } else {
@@ -343,7 +343,7 @@ function TransferModule() {
         }
 
         for (key in data) {
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'KEY: ' + key + ' VALUE: ' + jsonUtils.stringify(data[key]);
+            //document.getElementById('debug-message').innerHTML += '<br/>' + 'KEY: ' + key + ' VALUE: ' + jsonUtils.stringify(data[key]);
             if (index++ > 0) {
                 params += '&' + key + '=' + encodeURIComponent(jsonUtils.stringify(data[key]));
             } else {

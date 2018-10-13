@@ -52,7 +52,7 @@ function MoreModule() {
                         if (response.dataArray.length > 0) {
                             that.pageIndex = pageIndex;
                             that.totalPages = response.total_page;
-                            document.getElementById('debug-message').innerHTML += '<br/>' + 'Page index ==> ' + that.pageIndex + ' Total pages: ' + that.totalPages;
+                            //document.getElementById('debug-message').innerHTML += '<br/>' + 'Page index ==> ' + that.pageIndex + ' Total pages: ' + that.totalPages;
                             document.getElementById('more-page-index-text').innerHTML = that.pageIndex + ' / ' + that.totalPages;
                             that.addMoreItem(response.dataArray);
                             callback();
@@ -71,7 +71,7 @@ function MoreModule() {
             this.focusOut();
             this.focusPosX = 0;
             this.focusPosY = 0;
-            document.getElementById('debug-message').innerHTML += '<br/>' + 'changePage ==> direction = ' + direction + ' | page index = ' + index;
+            //document.getElementById('debug-message').innerHTML += '<br/>' + 'changePage ==> direction = ' + direction + ' | page index = ' + index;
             this.init(index, callback);
         }
     };
