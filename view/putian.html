@@ -10,7 +10,6 @@
     <div id="bar" class="bar"></div>
     <div id="menu"></div>
     <div id="swiper" class="swiper"></div>
-    <div class="button-intro"></div>
     <div id="cursor"></div>
     <div id="debug-message"></div>
 </div>
@@ -94,7 +93,7 @@
                     height: 147,
                     bgImageSrc: 'url(../images/putian/7.jpg) no-repeat',
                     resourceId: 0,
-                    url: ''
+                    url: 'http://10.184.255.11:80/ptmlxc/index.htm'
                 }
             ]
         }];
@@ -218,19 +217,20 @@
                     window.location.href = this.cursor.menu.menuItemArray[_num].url;
                     break;
                 case 6:     //  滚动页
-                    params =
-                        {
-                            'PG-ONE': {
-                                focusArea: this.cursor.focusArea
-                            },
-                            'VIDEO': {
-                                backURL: this.backUrl(),
-                                focusArea: this.cursor.focusArea,
-                                assertId: this.cursor.swiper.album[this.cursor.swiper.position].assertId
-                            }
-                        };
-                    postfix = this.package(params);
-                    window.location.href = 'video.html' + postfix;
+//                    params =
+//                        {
+//                            'PG-ONE': {
+//                                focusArea: this.cursor.focusArea
+//                            },
+//                            'VIDEO': {
+//                                backURL: this.backUrl(),
+//                                focusArea: this.cursor.focusArea,
+//                                assertId: this.cursor.swiper.album[this.cursor.swiper.position].assertId
+//                            }
+//                        };
+//                    postfix = this.package(params);
+//                    window.location.href = 'video.html' + postfix;
+                    window.location.href = 'http://10.184.255.11/portal2/ptzz.html';
                     break;
                 default:
                     break;
