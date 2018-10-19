@@ -11,7 +11,7 @@ var cmsConfig = {
     imgUrl: 'http://10.184.255.10:8080/manage/',
     backUrl: '',
     index_back_url: '',
-    //environment: 'DEBUG',
+    // environment: 'DEBUG',
     environment: 'PRODUCT',
     //
     /**
@@ -122,7 +122,7 @@ var cmsConfig = {
         {title: '三农在线', resourceId: '825'},
         {title: '旅游推介', resourceId: '826'},
         {title: '城市管理', resourceId: '827'},
-        {title: '海报三', resourceId: '0'},
+        {title: '海报三', resourceId: '1004'},
 
         // ---------------  海报（播放视频）  ---------------  //
 

@@ -58,7 +58,7 @@
                     width: 371,
                     height: 147,
                     bgImageSrc: 'url(../images/index/2.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 1003
                 }
             ]
         }];
@@ -218,10 +218,34 @@
         this.doSelect = function () {
             var
                 postfix = '',
-                params;
+                params,
+                i,
+                _num = 0;
 
             this.remove(this.cursor.fileName);
             switch (this.cursor.focusArea) {
+                case 0:         // 菜单
+                    for (i = 0; i < this.cursor.menu.focusPosY; i++) {
+                        _num += this.cursor.menu.itemsPerLine[i];
+                    }
+                    _num += this.cursor.menu.focusPosX;
+
+                    params =
+                        {
+                            'PG-ONE': {
+                                focusArea: this.cursor.focusArea,
+                                focusPosX: this.cursor.menu.focusPosX,
+                                focusPosY: this.cursor.menu.focusPosY
+                            },
+                            'VIDEO': {
+                                backURL: this.backUrl(),
+                                focusArea: this.cursor.focusArea,
+                                resourceId: this.cursor.menu.menuItemArray[_num].resourceId
+                            }
+                        };
+                    postfix = this.package(params);
+                    window.location.href = 'video.html' + postfix;
+                    break;
                 case 2:         // 列表
                     params =
                         {

@@ -101,7 +101,7 @@
                     width: 304,
                     height: 147,
                     bgImageSrc: 'url(../images/xiuyu/11.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 1001
                 }
             ]
         }];
@@ -199,12 +199,12 @@
         };
 
         this.doSelect = function () {
-            this.remove(this.cursor.fileName);
+            var i,
+                _num = 0;
 
+            this.remove(this.cursor.fileName);
             switch (this.cursor.focusArea) {
                 case 0:         // 菜单
-                    var i,
-                        _num = 0;
 
                     for (i = 0; i < this.cursor.menu.focusPosY; i++) {
                         _num += this.cursor.menu.itemsPerLine[i];
@@ -218,15 +218,25 @@
                             focusPosY: this.cursor.menu.focusPosY
                         }
                     };
-                    params.PG_MORE = {
-                        resourceId: this.cursor.menu.menuItemArray[_num].resourceId,
-                        resourceType: 'video',
-                        backURL: 'xiuyu.html',
-                        logoImageSrc: '',
-                        pageIndex: 1
-                    };
-                    postfix = this.package(params);
-                    window.location.href = 'more.html' + postfix;
+                    if (_num === 8) {
+                        params.VIDEO = {
+                            backURL: this.backUrl(),
+                            focusArea: this.cursor.focusArea,
+                            resourceId: this.cursor.menu.menuItemArray[_num].resourceId
+                        };
+                        postfix = this.package(params);
+                        window.location.href = 'video.html' + postfix;
+                    } else {
+                        params.PG_MORE = {
+                            resourceId: this.cursor.menu.menuItemArray[_num].resourceId,
+                            resourceType: 'video',
+                            backURL: 'xiuyu.html',
+                            logoImageSrc: '',
+                            pageIndex: 1
+                        };
+                        postfix = this.package(params);
+                        window.location.href = 'more.html' + postfix;
+                    }
                     break;
                 case 6:     //  滚动页
                     params =

@@ -50,7 +50,7 @@
                     width: 371,
                     height: 147,
                     bgImageSrc: 'url(../images/index/2.jpg) no-repeat',
-                    resourceId: 0
+                    resourceId: 1000
                 }
             ]
         }];
@@ -189,33 +189,33 @@
         this.doSelect = function () {
             var
                 postfix = '',
-                params;
+                params,
+                i,
+                _num = 0;
 
             this.remove(this.cursor.fileName);
             switch (this.cursor.focusArea) {
                 case 0:         // 菜单
-//                    if (this.cursor.menu.focusPosX === 0 && this.cursor.menu.focusPosY === 0) {
-//                        params =
-//                            {
-//                                /**
-//                                 * 一级页面
-//                                 */
-//                                'PG-ONE': {
-//                                    focusArea: this.cursor.focusArea,
-//                                    focusPosX: this.cursor.menu.focusPosX,
-//                                    focusPosY: this.cursor.menu.focusPosY
-//                                },
-//                                'VIDEO': {
-//                                    backURL: this.backUrl(),
-//                                    focusArea: this.cursor.focusArea,
-//                                    focusPosX: this.cursor.menu.focusPosX,
-//                                    focusPosY: this.cursor.menu.focusPosY,
-//                                    resourceId: cmsConfig.indexResourceIdArray[1].resourceId
-//                                }
-//                            };
-//                        postfix = this.package(params);
-//                        window.location.href = 'video.html' + postfix;
-//                    }
+                    for (i = 0; i < this.cursor.menu.focusPosY; i++) {
+                        _num += this.cursor.menu.itemsPerLine[i];
+                    }
+                    _num += this.cursor.menu.focusPosX;
+
+                    params =
+                        {
+                            'PG-ONE': {
+                                focusArea: this.cursor.focusArea,
+                                focusPosX: this.cursor.menu.focusPosX,
+                                focusPosY: this.cursor.menu.focusPosY
+                            },
+                            'VIDEO': {
+                                backURL: this.backUrl(),
+                                focusArea: this.cursor.focusArea,
+                                resourceId: this.cursor.menu.menuItemArray[_num].resourceId
+                            }
+                        };
+                    postfix = this.package(params);
+                    window.location.href = 'video.html' + postfix;
                     break;
                 case 5:
                     this.doBack();

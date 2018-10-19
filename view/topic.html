@@ -101,7 +101,7 @@
                     width: 311,
                     height: 157,
                     bgImageSrc: 'url(../images/topic/9.jpg) no-repeat',
-                    resourceId: cmsConfig.topicResourceIdArray[8].resourceId
+                    resourceId: cmsConfig.topicResourceIdArray[9].resourceId
                 }
             ]
         }];
@@ -219,20 +219,18 @@
         };
 
         this.doSelect = function () {
-            this.remove(this.cursor.fileName);
+            var i,
+                _num = 0;
 
+            this.remove(this.cursor.fileName);
             switch (this.cursor.focusArea) {
                 case 0:         // 菜单
-                    var i,
-                        _num = 0;
-
                     for (i = 0; i < this.cursor.menu.focusPosY; i++) {
                         _num += this.cursor.menu.itemsPerLine[i];
                     }
                     _num += this.cursor.menu.focusPosX;
 
-                    console.log(_num);
-                    if (_num < 2) {             // 中间两个海报关联的是视频资源
+                    if (_num < 2 || _num === 8) {             // 中间两个海报关联的是视频资源
                         params =
                             {
                                 'PG-ONE': {
