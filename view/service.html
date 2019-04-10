@@ -230,21 +230,23 @@
                     }
                     _num += this.cursor.menu.focusPosX;
 
-                    params =
-                        {
-                            'PG-ONE': {
-                                focusArea: this.cursor.focusArea,
-                                focusPosX: this.cursor.menu.focusPosX,
-                                focusPosY: this.cursor.menu.focusPosY
-                            },
-                            'VIDEO': {
-                                backURL: this.backUrl(),
-                                focusArea: this.cursor.focusArea,
-                                resourceId: this.cursor.menu.menuItemArray[_num].resourceId
-                            }
-                        };
-                    postfix = this.package(params);
-                    window.location.href = 'video.html' + postfix;
+                    if (_num === 2) {
+                        params =
+                            {
+                                'PG-ONE': {
+                                    focusArea: this.cursor.focusArea,
+                                    focusPosX: this.cursor.menu.focusPosX,
+                                    focusPosY: this.cursor.menu.focusPosY
+                                },
+                                'VIDEO': {
+                                    backURL: this.backUrl(),
+                                    focusArea: this.cursor.focusArea,
+                                    resourceId: this.cursor.menu.menuItemArray[_num].resourceId
+                                }
+                            };
+                        postfix = this.package(params);
+                        window.location.href = 'video.html' + postfix;
+                    }
                     break;
                 case 2:         // 列表
                     params =

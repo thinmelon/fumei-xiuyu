@@ -230,7 +230,7 @@
                     }
                     _num += this.cursor.menu.focusPosX;
 
-                    if (_num < 2 || _num === 8) {             // 中间两个海报关联的是视频资源
+                    if (_num === 0 || _num === 8) {             // 中间两个海报关联的是视频资源
                         params =
                             {
                                 'PG-ONE': {
@@ -246,7 +246,11 @@
                             };
                         postfix = this.package(params);
                         window.location.href = 'video.html' + postfix;
-                    } else {
+                    }
+                    else if (_num === 1) {
+                        window.location.href = 'http://10.184.255.11:80/cms/middle-school/view/index.html';
+                    }
+                    else {
                         params = {
                             'PG-ONE': {
                                 focusArea: this.cursor.focusArea,
