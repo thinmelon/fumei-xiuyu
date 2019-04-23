@@ -100,7 +100,7 @@
                     top: 470,
                     width: 304,
                     height: 147,
-                    bgImageSrc: 'url(../images/xiuyu/11.jpg) no-repeat',
+                    bgImageSrc: '',
                     resourceId: 1001
                 }
             ]
@@ -309,6 +309,14 @@
         menuComponent.init();
         swiperComponent.init();
         cursorComponent.focusOn();
+
+        cmsApi.fetchServerImage(
+            menuComponent,
+            cmsConfig.topicResourceIdArray[1].resourceId,
+            menuComponent.menuPageArray[0].menuItemArray[8],
+            'url(../images/xiuyu/11.jpg) no-repeat'
+        );
+
         document.onkeydown = transferComponent.onKeyDown;
     };
 </script>

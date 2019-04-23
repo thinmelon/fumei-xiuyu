@@ -42,7 +42,7 @@
                     top: 468,
                     width: 371,
                     height: 147,
-                    bgImageSrc: 'url(../images/index/2.jpg) no-repeat',
+                    bgImageSrc: '',
                     resourceId: 1005
                 }
             ]
@@ -299,6 +299,14 @@
         listComponent.init(function () {
             cursorComponent.focusOn();
         });
+
+        cmsApi.fetchServerImage(
+            menuComponent,
+            cmsConfig.topicResourceIdArray[1].resourceId,
+            menuComponent.menuPageArray[0].menuItemArray[0],
+            'url(../images/index/2.jpg) no-repeat'
+        );
+
         document.onkeydown = transferComponent.onKeyDown;
     };
 </script>

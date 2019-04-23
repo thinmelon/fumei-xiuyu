@@ -100,7 +100,7 @@
                     top: 468,
                     width: 311,
                     height: 157,
-                    bgImageSrc: 'url(../images/topic/9.jpg) no-repeat',
+                    bgImageSrc: '',
                     resourceId: cmsConfig.topicResourceIdArray[9].resourceId
                 }
             ]
@@ -348,6 +348,13 @@
             cmsConfig.topicResourceIdArray[2].resourceId,
             menuComponent.menuPageArray[0].menuItemArray[1],
             'url(../images/topic/2.jpg) no-repeat'
+        );
+
+        cmsApi.fetchServerImage(
+            menuComponent,
+            cmsConfig.topicResourceIdArray[1].resourceId,
+            menuComponent.menuPageArray[0].menuItemArray[8],
+            'url(../images/topic/9.jpg) no-repeat'
         );
     };
 </script>

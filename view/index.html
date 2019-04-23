@@ -49,7 +49,7 @@
                     top: 468,
                     width: 371,
                     height: 147,
-                    bgImageSrc: 'url(../images/index/2.jpg) no-repeat',
+                    bgImageSrc: '',
                     resourceId: 1000
                 }
             ]
@@ -341,18 +341,16 @@
         swiperComponent.init();
         menuComponent.init();
         videoComponent.init();
-//        weatherModule.init(function () {
-//            if (weatherModule.temperature !== '') {
-//                document.getElementById('weather-forecast').innerHTML =
-//                    '今日天气： ' +
-//                    '&nbsp;&nbsp;&nbsp;' + weatherModule.weather +
-//                    '&nbsp;&nbsp;&nbsp;' + weatherModule.temperature +
-//                    '&nbsp;&nbsp;&nbsp;' + weatherModule.windScale;
-//            }
-//        });
 
         cursorComponent.focusOn();
 //        transferComponent.autoJumping();
+
+        cmsApi.fetchServerImage(
+            menuComponent,
+            cmsConfig.topicResourceIdArray[1].resourceId,
+            menuComponent.menuPageArray[0].menuItemArray[0],
+            'url(../images/index/2.jpg) no-repeat'
+        );
     };
 
     window.onunload = function () {
