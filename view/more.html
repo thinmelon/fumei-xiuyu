@@ -45,7 +45,9 @@
         // 方法
         this.moveX = function (direction) {
             this.focusOut();
-            this.more.moveX(direction);
+            if (-1 === this.more.moveX(direction)) {
+                this.changePage(direction);
+            }
             this.focusOn();
         };
 

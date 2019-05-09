@@ -185,7 +185,7 @@ function MoreModule() {
     this.moveX = function (_direction) {
         this.focusPosX += _direction;
         if (this.focusPosX >= 0 && this.focusPosX < this.moreItemArray[this.focusPosY].length) {
-
+            return 0;
         } else if (this.focusPosX < 0) {
             if (this.focusPosY > 0) {
                 this.focusPosY--;
@@ -193,6 +193,7 @@ function MoreModule() {
             } else {
                 this.focusPosX = 0;
             }
+            return -1;
         } else {
             if (this.focusPosY === 0 && this.moreItemArray[1].length > 0) {
                 this.focusPosY++;
@@ -200,9 +201,8 @@ function MoreModule() {
             } else {
                 this.focusPosX = this.moreItemArray[this.focusPosY].length - 1;
             }
-
+            return -1;
         }
-        console.info('more.module.js    ==>     moveX | X: ' + this.focusPosX + ' Y: ' + this.focusPosY);
     };
 
     this.moveY = function (_direction) {

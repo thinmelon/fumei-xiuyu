@@ -24,7 +24,7 @@ var cmsConfig = {
 
         // ---------------  海报（播放视频）  ---------------  //
         {title: '左侧海报', resourceId: '831'},
-        {title: '右下海报', resourceId: '0'},
+        {title: '右下海报', resourceId: '1000'},
 
         // ---------------  滚动页  ---------------  //
         {title: '右侧滚动页', resourceId: '819'},
@@ -48,7 +48,8 @@ var cmsConfig = {
         {title: '最新动态', resourceId: '769'},
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '855'}
+        {title: '右侧滚动页', resourceId: '855'},
+        {title: '右下海报', resourceId: '1005'}
     ],
 
     /**
@@ -71,7 +72,8 @@ var cmsConfig = {
         {title: '最新动态', resourceId: '769'},
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '856'}
+        {title: '右侧滚动页', resourceId: '856'},
+        {title: '右下海报', resourceId: '1001'}
     ],
 
     /**
@@ -87,7 +89,8 @@ var cmsConfig = {
         {title: '最新信息', resourceId: '770'},
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '857'}
+        {title: '右侧滚动页', resourceId: '857'},
+        {title: '右下海报', resourceId: '1002'}
     ],
 
 
@@ -105,7 +108,8 @@ var cmsConfig = {
         // ---------------  列表  ---------------  //
 
         // ---------------  滚动页  ---------------  //
-        {title: '右侧滚动页', resourceId: '858'}
+        {title: '右侧滚动页', resourceId: '858'},
+        {title: '右下海报', resourceId: '1003'}
     ],
 
     /**
